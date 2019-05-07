@@ -2,11 +2,11 @@
 #include <iterator>
 
 
+
+
 Nitrade::PriceData::PriceData()
 {
-	_pLookbackBars = NULL;
 }
-
 
 Nitrade::PriceData::~PriceData()
 {
@@ -88,8 +88,9 @@ bool Nitrade::PriceData::updateCurrentBarFromBar(Bar* newInfo)
 
 }
 
-void Nitrade::PriceData::updateCurrentBarFromTick(float quote, bool isBid)
+bool Nitrade::PriceData::updateCurrentBarFromTick(float quote, bool isBid)
 {
+	return false;
 }
 
 void Nitrade::PriceData::addNewBar(Bar* newBar)

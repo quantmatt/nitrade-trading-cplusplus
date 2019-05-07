@@ -27,7 +27,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -168,6 +168,7 @@
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="IBinaryChunkReader.h" />
     <ClInclude Include="IController.h" />
+    <ClInclude Include="IPriceData.h" />
     <ClInclude Include="PriceData.h" />
     <ClInclude Include="Strategy.h" />
     <ClInclude Include="TradeManager.h" />

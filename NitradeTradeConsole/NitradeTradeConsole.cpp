@@ -11,8 +11,7 @@
 int main()
 {
     
-	
-	
+
 	//create a binary chunk reader for the eurusd asset
 	std::string filepath = "D:\\TickData\\EURUSD_m1.bin";
 	Nitrade::BinaryChunkReader bcr(filepath);

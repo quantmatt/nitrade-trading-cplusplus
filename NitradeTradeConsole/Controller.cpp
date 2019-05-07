@@ -25,6 +25,13 @@ void Nitrade::Controller::setBinaryReader(BinaryChunkReader* bReader)
 	_bReader = bReader;
 }
 
+bool Nitrade::Controller::hasBinaryReader()
+{
+	if (_bReader == NULL)
+		return false;
+	return true;
+}
+
 bool Nitrade::Controller::openFile()
 {
 	//throws an exception if it hasn't been assigned
@@ -66,14 +73,14 @@ void Nitrade::Controller::closeFile()
 
 }
 
-std::vector<Nitrade::PriceData>* Nitrade::Controller::getAssetData(std::string assetName)
+std::vector<Nitrade::IPriceData*>* Nitrade::Controller::getAssetData(std::string assetName)
 {
 	//TODO actual implementation
 	PriceData* pd = new PriceData();
 	pd->init(200, 60);
 
-	std::vector<Nitrade::PriceData>* priceData = new std::vector<Nitrade::PriceData>();
-	priceData->push_back(*pd);
+	std::vector<Nitrade::IPriceData*>* priceData = new std::vector<Nitrade::IPriceData*>();
+	priceData->push_back(pd);
 
 	return priceData;
 }

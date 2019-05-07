@@ -8,9 +8,6 @@ namespace Nitrade {
 
 	class BackTest
 	{
-	private:
-
-		IBinaryChunkReader* _bReader;
 
 	public:
 		BackTest();

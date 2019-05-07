@@ -14,6 +14,7 @@ namespace Nitrade {
 		void setBinaryReader(BinaryChunkReader* bReader);
 
 		//binary reader functions
+		bool hasBinaryReader();
 		bool openFile(); //returns the size in bytes of the file
 		bool eof(); //returns true if end of file
 		char* endChunk(); //pointer to last byte of the chunk
@@ -21,7 +22,7 @@ namespace Nitrade {
 		void closeFile(); //close the file
 
 		//price data functions
-		std::vector<PriceData>* getAssetData(std::string assetName);
+		std::vector<IPriceData*>* getAssetData(std::string assetName);
 
 	private:
 		void tryBinaryReader();

@@ -21,12 +21,16 @@ Nitrade::BackTest::~BackTest()
 
 void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 {
-	
+	//check we have a binaryReader attached to the controller
+	if (controller == NULL || !controller->hasBinaryReader())
+		throw std::invalid_argument("A valid IController must be passed that has a binaryChunkReader attached.");
+
 	//open the binary file containing the asset price data for chunk reading
-	controller->openFile();
+	if(!controller->openFile())
+		throw std::invalid_argument("Controllers binaryChunkReader failed to open file.");
 
 	//get a vector of PriceData objects (one for each timeframe)
-	std::vector<Nitrade::PriceData>* priceData = controller->getAssetData(assetName);	
+	std::vector<Nitrade::IPriceData*>* priceData = controller->getAssetData(assetName);	
 
 	//get a vector of strategies to run for this asset
 
@@ -44,9 +48,9 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 			Bar* bar = (Bar*)c;
 
 			//foreach pricedata object check if new bar or update current bar
-			for (std::vector<Nitrade::PriceData>::iterator it = priceData->begin(); it != priceData->end(); it++)
+			for (std::vector<Nitrade::IPriceData*>::iterator it = priceData->begin(); it != priceData->end(); it++)
 			{		
-				bool isNewBar = it->updateCurrentBarFromBar(bar);
+				bool isNewBar = (*it)->updateCurrentBarFromBar(bar);
 
 				if (isNewBar)
 				{

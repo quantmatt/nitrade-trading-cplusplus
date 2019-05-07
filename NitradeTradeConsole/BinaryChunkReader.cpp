@@ -42,6 +42,9 @@ bool Nitrade::BinaryChunkReader::isOpen()
 bool Nitrade::BinaryChunkReader::openFile()
 {
 
+	if (_filepath == "")
+		throw invalid_argument("Filepath in binaryChunkReader has not been supplied.");
+
 	//reading from D drive seems to be about 10% faster again - maybe because program is running on D drive
 	_inputFile.open(_filepath, std::ios::binary | std::ios::ate);
 
