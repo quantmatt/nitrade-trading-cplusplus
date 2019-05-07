@@ -2,17 +2,29 @@
 //
 
 #include <iostream>
+#include <time.h>
 
 #include "BackTest.h"
+#include "BinaryChunkReader.h"
+#include "Controller.h"
 
 int main()
 {
     
-	Nitrade::BackTest backTest;
 	
 	
+	//create a binary chunk reader for the eurusd asset
+	std::string filepath = "D:\\TickData\\EURUSD_m1.bin";
+	Nitrade::BinaryChunkReader bcr(filepath);
+	Nitrade::Controller controller;
+	controller.setBinaryReader(&bcr);
+	
+	
+	clock_t t;
+	t = clock();
 	//Can optimise speed reading in chunks of different sizes
-	backTest.ChunkArray(100);
+	Nitrade::BackTest backTest;
+	backTest.Run(&controller, "EURUSD");
 	
 	/*
 	int loops = 100;
@@ -26,6 +38,10 @@ int main()
 	//backTest.BarAtATime();
 	*/
 	
+	t = clock() - t;
+	std::cout << "time: " << t << " miliseconds" << std::endl;
+	std::cout << CLOCKS_PER_SEC << " clocks per second" << std::endl;
+	std::cout << "time: " << t * 1.0 / CLOCKS_PER_SEC << " seconds" << std::endl;
 
 	std::string test;
 	std::cin >> test;

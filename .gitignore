@@ -1,5 +1,5 @@
 .vs
 Debug
 TODO.txt
-NitradeTradeConsole/NitradeTradeConsole.vcxproj.user
-NitradeTradeConsole/NitradeTradeConsole.vcxproj.filters
+*.user
+*.filters

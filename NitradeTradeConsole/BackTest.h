@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include "IController.h"
 #include "Structs.h"
 
 namespace Nitrade {
@@ -9,13 +9,14 @@ namespace Nitrade {
 	class BackTest
 	{
 	private:
-		std::vector<Trade> trades;
+
+		IBinaryChunkReader* _bReader;
 
 	public:
 		BackTest();
 		virtual ~BackTest();
 
-		double ChunkArray(int bufferSizeMB);
+		void Run(IController* controller, std::string assetName); 
 
 	};
 }
