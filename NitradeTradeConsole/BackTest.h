@@ -14,6 +14,9 @@ namespace Nitrade {
 		virtual ~BackTest();
 
 		void Run(IController* controller, std::string assetName); 
+	
+	private:
+		bool isBarValid(const Nitrade::Bar* bar); //checks to see if the bar can sensical values eg. if loaded from a binary file with wrong format
 
 	};
 }

@@ -42,6 +42,15 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 		//also need to get a pointer to the end of the current chunk so we know when to stop iterating
 		char* end = controller->endChunk();
 
+		//throw an error if the bar data appears corrupt due to incorrect binary file
+		if(!isBarValid((Bar*)pBinData))
+		{
+			//clean up
+			controller->closeFile();
+			delete[] pBinData;
+			throw std::invalid_argument("Price data file appears corrupt.");
+		}
+
 		for (char* c = pBinData; c != end; c += sizeof(Bar))
 		{
 			//casting the pointer to a pointer of Bar is about 10% faster than casting to the struct of Bar
@@ -55,6 +64,7 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 				if (isNewBar)
 				{
 					//run the strategy code for all loaded strategies that require this timeframe
+					controller->onBar();					
 				}
 			}	
 					
@@ -68,5 +78,25 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 	//release the binary chunk reader
 	controller->closeFile();
 	
+}
+
+bool Nitrade::BackTest::isBarValid(const Nitrade::Bar* bar)
+{
+	if (bar == NULL)
+		return false;
+
+	//bar timestamp is less than 1970 or more than the year 3000
+	long long val = 1000000000ull;
+	long long seconds = bar->timestamp / val;
+	if (seconds <= 0 || seconds >  32503683600 ||
+		bar->bidHigh > bar->bidLow || bar->askHigh > bar->askLow ||
+		bar->volume < 0)
+	{
+		return false;
+
+	}
+
+	return true;
+		
 }
 

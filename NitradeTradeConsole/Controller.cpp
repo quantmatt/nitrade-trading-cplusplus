@@ -85,6 +85,11 @@ std::vector<Nitrade::IPriceData*>* Nitrade::Controller::getAssetData(std::string
 	return priceData;
 }
 
+void Nitrade::Controller::onBar()
+{
+	//TODO
+}
+
 void Nitrade::Controller::tryBinaryReader()
 {
 	if (_bReader == NULL)

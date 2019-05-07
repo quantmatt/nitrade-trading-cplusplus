@@ -33,7 +33,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName)1</TargetName>
+    <TargetName>$(ProjectName)2</TargetName>
   </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

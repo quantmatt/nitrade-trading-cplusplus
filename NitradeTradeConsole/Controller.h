@@ -24,6 +24,9 @@ namespace Nitrade {
 		//price data functions
 		std::vector<IPriceData*>* getAssetData(std::string assetName);
 
+		//strategy functions
+		void onBar();
+
 	private:
 		void tryBinaryReader();
 	};

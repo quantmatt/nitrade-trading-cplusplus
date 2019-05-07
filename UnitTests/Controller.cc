@@ -18,4 +18,6 @@ public:
 	MOCK_METHOD0(closeFile, void());
 	MOCK_METHOD1(getAssetData, vector<Nitrade::IPriceData*>* (string assetName));
 
+	MOCK_METHOD0(onBar, void ());
+
 };

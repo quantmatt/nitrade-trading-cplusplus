@@ -34,6 +34,9 @@ namespace Nitrade {
 		//price data functions
 		virtual std::vector<Nitrade::IPriceData*>* getAssetData(std::string assetName) = 0;
 
+		//strategy functions
+		virtual void onBar() = 0;
+
 	};
 }
 
