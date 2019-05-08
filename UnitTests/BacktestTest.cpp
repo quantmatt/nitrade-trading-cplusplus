@@ -14,7 +14,11 @@ using namespace testing;
 class BacktestTest : public ::testing::Test
 {
 protected:
-	BackTest* bt = NULL;
+	BackTest* bt{};
+
+	Bar* bars{};
+	Bar* bars2{};
+
 
 	virtual void SetUp()
 	{
@@ -22,19 +26,23 @@ protected:
 
 	virtual void TearDown()
 	{
+		if (bars != nullptr)
+			delete[] bars;
+		if (bars2 != nullptr)
+			delete[] bars2;
 	}
 
 
 	Bar* getBars(int size, bool corrupt)
 	{
-		long long startTime = 1557210984000000000;
+		long long startTime = 1557210984000000000ll;
 		if (corrupt)
-			startTime = -1000;
+			startTime = -1000ll;
 
 		Bar* bars = new Bar[size];
 		for (int i = 0; i < size; i++)
 			//adds 10 minutes onto the timestamp on each iteration
-			bars[i] = Bar{ startTime + i * 600000000000, 1.0001,1.0002, 1.0003,1.0004,1.0005,1.0006,1.0007,1.0008, 5 };
+			bars[i] = Bar{ startTime + i * 600000000000, 1.0001f,1.0002f, 1.0003f,1.0004f,1.0005f,1.0006f,1.0007f,1.0008f, 5 };
 
 		return bars;
 	}
@@ -110,8 +118,8 @@ TEST_F(BacktestTest, RunProcessesMockBarDataCheckUpdateBarCount) {
 
 	//create some mock data
 	int size = 10;
-	Bar* bars = getBars(10, false);
-	Bar* bars2 = getBars(10, false);
+	bars = getBars(10, false);
+	bars2 = getBars(10, false);
 
 	//start chunk and end chunk will be the same so exit internal loop immediately
 	//becuase we have no mocked data
@@ -138,13 +146,7 @@ TEST_F(BacktestTest, RunProcessesMockBarDataCheckUpdateBarCount) {
 		.Times(Exactly(20))
 		.WillRepeatedly(Return(false));
 
-
-
 	bt->Run(&controller, "EURUSD");
-
-	
-	//bars should get deleted in the Run function
-	//delete[] bars;
 
 }
 
@@ -168,8 +170,8 @@ TEST_F(BacktestTest, RunThrowBecauseBarDataInvalid) {
 
 	//create some mock data
 	int size = 10;
-	Bar* bars = getBars(size, false);
-	Bar* bars2 = getBars(size, true);
+	bars = getBars(size, false);
+	bars2 = getBars(size, true);
 
 
 	//start chunk and end chunk will be the same so exit internal loop immediately

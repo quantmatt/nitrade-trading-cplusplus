@@ -3,7 +3,7 @@
 #include "gmock/gmock.h"  // Brings in Google Mock. - installed from nuget
 #include "../NitradeTradeConsole/IController.h"
 
-
+    
 using namespace Nitrade;
 using namespace std;
 

@@ -22,7 +22,7 @@ Nitrade::BackTest::~BackTest()
 void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 {
 	//check we have a binaryReader attached to the controller
-	if (controller == NULL || !controller->hasBinaryReader())
+	if (controller == nullptr || !controller->hasBinaryReader())
 		throw std::invalid_argument("A valid IController must be passed that has a binaryChunkReader attached.");
 
 	//open the binary file containing the asset price data for chunk reading
@@ -44,12 +44,8 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 
 		//throw an error if the bar data appears corrupt due to incorrect binary file
 		if(!isBarValid((Bar*)pBinData))
-		{
-			//clean up
-			controller->closeFile();
-			delete[] pBinData;
 			throw std::invalid_argument("Price data file appears corrupt.");
-		}
+		
 
 		for (char* c = pBinData; c != end; c += sizeof(Bar))
 		{
@@ -69,9 +65,7 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 			}	
 					
 		}
-		
-		if (pBinData != NULL)
-			delete[] pBinData;
+
 	}
 		
 
@@ -82,15 +76,17 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 
 bool Nitrade::BackTest::isBarValid(const Nitrade::Bar* bar)
 {
-	if (bar == NULL)
+	if (bar == nullptr)
 		return false;
 
 	//bar timestamp is less than 1970 or more than the year 3000
-	long long val = 1000000000ull;
+	long long val = 1000000000ll;
 	long long seconds = bar->timestamp / val;
 	if (seconds <= 0 || seconds >  32503683600 ||
 		bar->bidHigh > bar->bidLow || bar->askHigh > bar->askLow ||
-		bar->volume < 0)
+		bar->volume < 0 || bar->bidOpen < 0 || bar->bidClose < 0 ||
+		bar->bidHigh < 0 || bar->bidLow < 0 || bar->askOpen < 0 || 
+		bar->askClose < 0 || bar->askHigh < 0 || bar->askLow < 0)
 	{
 		return false;
 

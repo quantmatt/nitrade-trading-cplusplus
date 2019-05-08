@@ -152,13 +152,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackTest.cpp" />
-    <ClCompile Include="BackTestTradeHandler.cpp" />
     <ClCompile Include="BinaryChunkReader.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="NitradeTradeConsole.cpp" />
     <ClCompile Include="PriceData.cpp" />
-    <ClCompile Include="TradeHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackTest.h" />
@@ -173,7 +171,6 @@
     <ClInclude Include="Strategy.h" />
     <ClInclude Include="TradeManager.h" />
     <ClInclude Include="Structs.h" />
-    <ClInclude Include="TradeHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

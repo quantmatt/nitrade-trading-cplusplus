@@ -10,7 +10,7 @@ Nitrade::PriceData::PriceData()
 
 Nitrade::PriceData::~PriceData()
 {
-	if(_pLookbackBars != NULL)
+	if(_pLookbackBars != nullptr)
 		delete[] _pLookbackBars;
 }
 
@@ -30,7 +30,7 @@ void Nitrade::PriceData::init(int lookback, int barSize, int arraySizeFactor)
 	_lookbackIndex = 0;
 
 	//the current bar being built
-	_pCurrentBar = NULL;
+	_pCurrentBar = nullptr;
 
 
 }
@@ -43,7 +43,7 @@ bool Nitrade::PriceData::updateCurrentBarFromBar(Bar* newInfo)
 	long long peggedNanoseconds = newInfo->timestamp - (newInfo->timestamp % (_barSize * (long long)60000000000));
 
 	//new bar if the pegged bar time is different to the current bar time
-	if (_pCurrentBar == NULL || peggedNanoseconds != _pCurrentBar->timestamp)
+	if (_pCurrentBar == nullptr || peggedNanoseconds != _pCurrentBar->timestamp)
 	{
 
 		//create a new bar for the higher timeframe using the pegged timestamp and the current bars bid/ask
@@ -90,6 +90,7 @@ bool Nitrade::PriceData::updateCurrentBarFromBar(Bar* newInfo)
 
 bool Nitrade::PriceData::updateCurrentBarFromTick(float quote, bool isBid)
 {
+	//Not yet implemented
 	return false;
 }
 

@@ -14,10 +14,10 @@ namespace Nitrade {
 	class IController
 	{
 	protected:
-		BinaryChunkReader* _bReader = NULL;
-		Strategy* _strategies = NULL;
-		TradeManager* _tradeManager = NULL;
-		DataManager* _dataManager = NULL;
+		BinaryChunkReader* _bReader{};
+		Strategy* _strategies{};
+		TradeManager* _tradeManager{};
+		DataManager* _dataManager{};
 
 	public:
 		IController() {}

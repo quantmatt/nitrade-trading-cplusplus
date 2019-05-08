@@ -9,7 +9,7 @@ namespace Nitrade {
 	class TradeManager
 	{
 	protected:
-		std::vector<Trade> trades;
+		std::vector<Trade> trades{};
 
 	public:
 		TradeManager() {}

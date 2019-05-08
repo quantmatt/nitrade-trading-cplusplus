@@ -5,28 +5,28 @@ namespace Nitrade {
 
 #pragma pack(push, 1)
 	struct Bar {
-		long long timestamp;
-		float bidOpen;
-		float bidClose;
-		float bidHigh;
-		float bidLow;
-		float askOpen;
-		float askClose;
-		float askHigh;
-		float askLow;
-		int volume;
+		long long timestamp{ 0 };
+		float bidOpen{ 0 };
+		float bidClose{ 0 };
+		float bidHigh{ 0 };
+		float bidLow{ 0 };
+		float askOpen{ 0 };
+		float askClose{ 0 };
+		float askHigh{ 0 };
+		float askLow{ 0 };
+		int volume{ 0 };
 	};
 
 	struct Trade {
-		long long openTime; //time the trade opened
-		long long closeTime; //time the trade closed
-		float openLevel; //the price the trade exectuted at
-		float closeLevel; //the price the trade closed at
-		int commission; //cents paid in commission
-		int spread; //spread in points
-		int profit; //trade profit in cents
-		int size; //size in units ie. for forex 0.01 lots would be size 1000
-		bool isLong; //true if long false if short
+		long long openTime{ 0 }; //time the trade opened
+		long long closeTime{ 0 }; //time the trade closed
+		float openLevel{ 0 }; //the price the trade exectuted at
+		float closeLevel{ 0 }; //the price the trade closed at
+		int commission{ 0 }; //cents paid in commission
+		int spread{ 0 }; //spread in points
+		int profit{ 0 }; //trade profit in cents
+		int size{ 0 }; //size in units ie. for forex 0.01 lots would be size 1000
+		bool isLong{ false }; //true if long false if short
 	};
 
 #pragma pack(pop)

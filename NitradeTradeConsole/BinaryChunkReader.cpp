@@ -24,17 +24,16 @@ Nitrade::BinaryChunkReader::BinaryChunkReader(std::string filepath)
 Nitrade::BinaryChunkReader::~BinaryChunkReader()
 {
 	if (_inputFile.is_open())
-	{
 		_inputFile.close();
-	}
+	if (_pBinData != nullptr)
+		delete[] _pBinData;
 }
 
 bool Nitrade::BinaryChunkReader::isOpen()
 {
 	if (_inputFile.is_open())
-	{
 		return true;
-	}
+	
 
 	return false;
 }
@@ -77,8 +76,16 @@ char* Nitrade::BinaryChunkReader::endChunk()
 
 char* Nitrade::BinaryChunkReader::getChunk()
 {
+	//if the file isn't open jsut return a null pointer
+	//and set the last chunk byte to a nullptr
+	if (!_inputFile.is_open())
+	{
+		_lastChunkByte = nullptr;
+		return nullptr;
+	}
+
 	//declare the binaryData array to hold the whole contents of the file.
-	char* pBinData = new char[_bufferSize];
+	_pBinData = new char[_bufferSize];
 
 	//make sure we don't read more than what is left
 	int remaining = (int)(_size - _processedBytes);
@@ -86,19 +93,21 @@ char* Nitrade::BinaryChunkReader::getChunk()
 		_bufferSize = remaining;
 
 	//read the file into the char array
-	if (_inputFile.read(pBinData, _bufferSize))
+	if (_inputFile.read(_pBinData, _bufferSize))
 	{
 		_processedBytes += _bufferSize;
 
-		_lastChunkByte = pBinData + _bufferSize;
+		_lastChunkByte = _pBinData + _bufferSize;
 
-		return pBinData;
+		return _pBinData;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void Nitrade::BinaryChunkReader::closeFile()
 {
+	_size = 0;
+	_processedBytes = 0;
 	_inputFile.close();
 }
