@@ -157,6 +157,7 @@
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="NitradeTradeConsole.cpp" />
     <ClCompile Include="PriceData.cpp" />
+    <ClCompile Include="SeriesBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackTest.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="IController.h" />
     <ClInclude Include="IPriceData.h" />
     <ClInclude Include="PriceData.h" />
+    <ClInclude Include="SeriesBuffer.h" />
     <ClInclude Include="Strategy.h" />
     <ClInclude Include="TradeManager.h" />
     <ClInclude Include="Structs.h" />

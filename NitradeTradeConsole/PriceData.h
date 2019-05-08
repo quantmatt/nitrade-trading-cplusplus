@@ -9,7 +9,7 @@ namespace Nitrade {
 		public IPriceData
 	{
 	private:				
-		Nitrade::Bar* _pCurrentBar{}; //The current bar in progress
+		Nitrade::Bar* _pCurrentBar{nullptr}; //The current bar in progress
 
 		int _lookback{0};
 		int _barSize{0};
@@ -17,7 +17,7 @@ namespace Nitrade {
 		long long _currentBarTime{0};
 
 		//the array (as a series) of recent price data
-		Nitrade::Bar* _pLookbackBars{};
+		Nitrade::Bar* _pLookbackBars{nullptr};
 
 		//the lookback bar array is much larger then the required lookback period for speed in backtested
 		//the lookback index is the current index of the bar in the larger array ie. |oooounusedoooo|---lookback area --------|oooounsuedooooooo|

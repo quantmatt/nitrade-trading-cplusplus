@@ -8,12 +8,12 @@ namespace Nitrade {
 	private:
 		std::ifstream _inputFile{};
 		std::string _filepath{};
-		char* _lastChunkByte{};
+		char* _lastChunkByte{nullptr};
 		int _chunkSize{ 0 }; //size in MB of chunk of binary data to read at a time
 		int _bufferSize{ 0 }; //size of the buffer rounded to the nearest Bar size
 		long long _size{ 0 }; //total bytes of loaded file
 		long long _processedBytes{ 0 }; //number of bytes processed
-		char* _pBinData{};
+		char* _pBinData{nullptr};
 
 	public:
 		BinaryChunkReader() {}
