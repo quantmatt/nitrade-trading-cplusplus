@@ -53,7 +53,7 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 			Bar* bar = (Bar*)c;
 
 			//foreach pricedata object check if new bar or update current bar
-			for (std::vector<Nitrade::IPriceData*>::iterator it = priceData->begin(); it != priceData->end(); it++)
+			for (auto it = priceData->begin(); it != priceData->end(); it++)
 			{		
 				bool isNewBar = (*it)->updateCurrentBarFromBar(bar);
 

@@ -76,8 +76,7 @@ void Nitrade::Controller::closeFile()
 std::vector<Nitrade::IPriceData*>* Nitrade::Controller::getAssetData(std::string assetName)
 {
 	//TODO actual implementation
-	PriceData* pd = new PriceData();
-	pd->init(200, 60);
+	PriceData* pd = new PriceData(200,60);
 
 	std::vector<Nitrade::IPriceData*>* priceData = new std::vector<Nitrade::IPriceData*>();
 	priceData->push_back(pd);

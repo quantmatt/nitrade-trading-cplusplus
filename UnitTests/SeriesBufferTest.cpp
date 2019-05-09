@@ -1,6 +1,5 @@
 #include "gtest/gtest.h"
-#include "../NitradeTradeConsole/SeriesBuffer.h"
-
+#include "NitradeLib.h"
 using namespace std;
 using namespace Utils;
 
@@ -39,6 +38,7 @@ TEST_F(SeriesBufferTest, TestIndexOutOfRange) {
 	//overfille the buffer but request an index outside the size of the buffer
 	fill(5, sb);
 
+	EXPECT_THROW(sb.get(3), out_of_range); //should only have 0,1,2 indexes
 	EXPECT_THROW(sb.get(20), out_of_range);
 }
 
@@ -49,14 +49,27 @@ TEST_F(SeriesBufferTest, TestIndexNegative) {
 	EXPECT_THROW(sb.get(-20), out_of_range);
 }
 
-TEST_F(SeriesBufferTest, TestIndexNotYetAdded) {
+TEST_F(SeriesBufferTest, TestIndexNotYetAddedForIntReturnsZero) {
 
 	SeriesBuffer<int> sb(30);
 
 	//partially fill a buffer and request an index in range but hasn't been assigned yet
 	fill(2, sb);
 
-	EXPECT_THROW(sb.get(10), out_of_range);
+	EXPECT_EQ(sb.get(10), 0);	
+}
+
+
+TEST_F(SeriesBufferTest, TestIndexNotYetAddedForPointerReturnsNull) {
+
+	SeriesBuffer<char*> sb(30);
+
+	char c = 'c';
+	char* a = &c;
+	//test the iterator on a partially filled buffer - should throw exception
+	sb.add(a);
+
+	EXPECT_EQ(sb.get(10), nullptr);
 }
 
 
@@ -64,12 +77,16 @@ TEST_F(SeriesBufferTest, TestIteratorPartialFilled) {
 
 	SeriesBuffer<int> sb(30);
 
-	//test the iterator on a partially filled buffer - should throw exception
+	//test the iterator on a partially filled buffer - add 5,4,3,2,1 and the rest as zeros
 	fill(5, sb);
 
-	auto func = [&sb]() {for (int value : sb); };
+	int tally = 0;
+	for (int value : sb)
+	{
+		tally += value;
+	}
 
-	EXPECT_THROW(func(), out_of_range);
+	EXPECT_EQ(tally, 15);
 	
 }
 

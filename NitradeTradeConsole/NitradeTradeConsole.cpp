@@ -4,9 +4,7 @@
 #include <iostream>
 #include <time.h>
 
-#include "BackTest.h"
-#include "BinaryChunkReader.h"
-#include "Controller.h"
+#include "NitradeLib.h"
 
 int main()
 {

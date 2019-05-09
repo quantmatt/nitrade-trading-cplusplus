@@ -1,13 +1,29 @@
 #pragma once
 
+#include "SeriesBuffer.h"
+
 namespace Utils {
+
+	//interface for mocking
 	template<class T>
-	class SeriesBuffer
+	class ISeriesBuffer
+	{
+	public:
+		ISeriesBuffer() {}
+		virtual ~ISeriesBuffer() {}
+
+		virtual void add(T value) = 0;
+		virtual T& get(int pos) = 0;
+	};
+
+
+	template<class T>
+	class SeriesBuffer : 
+		public ISeriesBuffer<T>
 	{
 	private:
 		int _pos{ 0 };
 		int _size{ 0 };
-		int _filledIndex{ 0 };
 		T* _values{ nullptr };
 
 	public:
@@ -17,7 +33,7 @@ namespace Utils {
 
 		SeriesBuffer(int size): _size(size)
 		{
-			_values = new T[size];
+			_values = new T[size]{}; //fill the array with teh default value of this type
 		}
 
 		virtual ~SeriesBuffer() {
@@ -35,8 +51,6 @@ namespace Utils {
 			if (_pos == _size)
 				_pos = 0;
 
-			if (_filledIndex < _size)
-				_filledIndex++;
 		}
 
 		T &get(int pos)
@@ -46,7 +60,7 @@ namespace Utils {
 			//pos of 2 gets the thrid most recent added item. ect.
 
 			//don't allow the call if the position is larger than the size
-			if (pos > _size || pos < 0)
+			if (pos >= _size || pos < 0)
 				throw std::out_of_range("Position of series buffer can't be larger than size or less than zero.");
 						
 			int intPos = _pos - 1 - pos;
@@ -55,8 +69,6 @@ namespace Utils {
 			if (intPos < 0)
 				intPos = _size + intPos;
 
-			if(intPos >= _filledIndex)
-				throw std::out_of_range("Item in series buffer has not been assigned yet.");
 
 			return _values[intPos];
 		}

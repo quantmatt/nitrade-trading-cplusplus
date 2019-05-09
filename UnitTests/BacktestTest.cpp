@@ -1,8 +1,7 @@
-#include "pch.h"
 #include <iostream>
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "../NitradeTradeConsole/BackTest.h"
+#include "NitradeLib.h"
 #include "Controller.cc"
 #include "PriceData.cc"
 

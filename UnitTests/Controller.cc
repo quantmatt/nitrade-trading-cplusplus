@@ -1,7 +1,6 @@
 #pragma once
-#include "pch.h"
 #include "gmock/gmock.h"  // Brings in Google Mock. - installed from nuget
-#include "../NitradeTradeConsole/IController.h"
+#include "NitradeLib.h"
 
     
 using namespace Nitrade;

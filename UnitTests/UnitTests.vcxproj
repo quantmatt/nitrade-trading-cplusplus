@@ -36,23 +36,16 @@
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="BacktestTest.cpp" />
     <ClCompile Include="Controller.cc" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="MockSeriesBuffer.cc" />
     <ClCompile Include="PriceData.cc" />
+    <ClCompile Include="PriceDataTest.cpp" />
     <ClCompile Include="SeriesBufferTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NitradeTradeConsole\NitradeTradeConsole.vcxproj">
-      <Project>{df614cb9-6302-4f3d-903e-ecff7a446d54}</Project>
+    <ProjectReference Include="..\Nitrade\Nitrade.vcxproj">
+      <Project>{927fe302-1006-4087-b8d8-039879b9610b}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +66,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>D:\CPlusPlusApps\NitradeTradeConsole\Nitrade;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -14,6 +14,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tester", "..\Tester\Tester.vcxproj", "{AA038E2A-79AA-4ECF-8172-5E41A900538D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nitrade", "Nitrade\Nitrade.vcxproj", "{927FE302-1006-4087-B8D8-039879B9610B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -46,6 +48,14 @@ Global
 		{AA038E2A-79AA-4ECF-8172-5E41A900538D}.Release|x64.Build.0 = Release|x64
 		{AA038E2A-79AA-4ECF-8172-5E41A900538D}.Release|x86.ActiveCfg = Release|Win32
 		{AA038E2A-79AA-4ECF-8172-5E41A900538D}.Release|x86.Build.0 = Release|Win32
+		{927FE302-1006-4087-B8D8-039879B9610B}.Debug|x64.ActiveCfg = Debug|x64
+		{927FE302-1006-4087-B8D8-039879B9610B}.Debug|x64.Build.0 = Debug|x64
+		{927FE302-1006-4087-B8D8-039879B9610B}.Debug|x86.ActiveCfg = Debug|Win32
+		{927FE302-1006-4087-B8D8-039879B9610B}.Debug|x86.Build.0 = Debug|Win32
+		{927FE302-1006-4087-B8D8-039879B9610B}.Release|x64.ActiveCfg = Release|x64
+		{927FE302-1006-4087-B8D8-039879B9610B}.Release|x64.Build.0 = Release|x64
+		{927FE302-1006-4087-B8D8-039879B9610B}.Release|x86.ActiveCfg = Release|Win32
+		{927FE302-1006-4087-B8D8-039879B9610B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

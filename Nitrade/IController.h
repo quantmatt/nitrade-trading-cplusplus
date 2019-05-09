@@ -6,7 +6,7 @@
 #include "Strategy.h"
 #include "TradeManager.h"
 #include "DataManager.h"
-#include "IPriceData.h"
+#include "PriceData.h"
 
 namespace Nitrade {
 
