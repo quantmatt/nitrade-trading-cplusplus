@@ -38,6 +38,7 @@
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="PriceData.cpp" />
     <ClCompile Include="SeriesBuffer.cpp" />
+    <ClCompile Include="Strategy.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
