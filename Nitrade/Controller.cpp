@@ -5,92 +5,95 @@
 
 Nitrade::Controller::Controller()
 {
-	//assign pointers to null so we can check if they have been assigned later
-	_bReader = NULL;
-	_strategies = NULL;
-	_tradeManager = NULL;
-	_dataManager = NULL;
+	_dataManager = new DataManager();
 }
 
 
 Nitrade::Controller::~Controller()
 {
-
+	delete _dataManager;
+	delete _tradeManager;
+	delete _strategies;
 }
 
-void Nitrade::Controller::setBinaryReader(BinaryChunkReader* bReader)
+bool Nitrade::Controller::hasBinaryReader(std::string assetName)
 {
-	if (_bReader != NULL)
-		delete _bReader;
-	_bReader = bReader;
+	Asset* asset = (Asset*)getAsset(assetName);
+	if (asset != nullptr)
+		return asset->hasBinaryReader();
+
+	return false;
 }
 
-bool Nitrade::Controller::hasBinaryReader()
+bool Nitrade::Controller::openFile(std::string assetName)
 {
-	if (_bReader == NULL)
-		return false;
+	//throws an exception if it hasn't been assigned
+	Asset* asset = (Asset*)getAsset(assetName);
+	if (asset != nullptr)
+		return asset->openFile();
+
+	return false;
+}
+
+bool Nitrade::Controller::eof(std::string assetName)
+{
+	Asset* asset = (Asset*)getAsset(assetName);
+	if (asset != nullptr)
+		return asset->eof();
+
 	return true;
 }
 
-bool Nitrade::Controller::openFile()
+char* Nitrade::Controller::endChunk(std::string assetName)
+{
+	Asset* asset = (Asset*)getAsset(assetName);
+	if (asset != nullptr)
+		return asset->endChunk();
+
+	return nullptr;
+}
+
+char* Nitrade::Controller::getChunk(std::string assetName)
+{	
+	Asset* asset = (Asset*)getAsset(assetName);
+	if (asset != nullptr)
+		return asset->getChunk();
+
+	return nullptr;
+}
+
+void Nitrade::Controller::closeFile(std::string assetName)
 {
 	//throws an exception if it hasn't been assigned
-	tryBinaryReader();
+	Asset* asset = (Asset*)getAsset(assetName);
+	if (asset != nullptr)
+		asset->closeFile();
 
-	return _bReader->openFile();
 }
 
-bool Nitrade::Controller::eof()
+void Nitrade::Controller::addAsset(IAsset* asset)
 {
-	//throws an exception if it hasn't been assigned
-	tryBinaryReader();
-
-	return _bReader->eof();
+	_dataManager->addAsset(asset);
 }
 
-char* Nitrade::Controller::endChunk()
+Nitrade::IAsset* Nitrade::Controller::getAsset(std::string assetName)
 {
-	//throws an exception if it hasn't been assigned
-	tryBinaryReader();
-
-	return _bReader->endChunk();
+	if (_dataManager != nullptr)
+		return _dataManager->getAsset(assetName);
+	else
+		return nullptr;
 }
 
-char* Nitrade::Controller::getChunk()
+std::vector<std::string>* Nitrade::Controller::getAssetNames()
 {
-	//throws an exception if it hasn't been assigned
-	tryBinaryReader();
-
-	return _bReader->getChunk();
+	if (_dataManager != nullptr)
+		return _dataManager->getAssetNames();
+	else
+		return nullptr;
 }
 
-void Nitrade::Controller::closeFile()
-{
-	//throws an exception if it hasn't been assigned
-	tryBinaryReader();
-
-	_bReader->closeFile();
-
-}
-
-std::vector<Nitrade::IPriceData*>* Nitrade::Controller::getAssetData(std::string assetName)
-{
-	//TODO actual implementation
-	PriceData* pd = new PriceData(200,60);
-
-	std::vector<Nitrade::IPriceData*>* priceData = new std::vector<Nitrade::IPriceData*>();
-	priceData->push_back(pd);
-
-	return priceData;
-}
-
-void Nitrade::Controller::onBar()
+void Nitrade::Controller::onBar(std::string assetName)
 {
 	//TODO
 }
 
-void Nitrade::Controller::tryBinaryReader()
-{
-	if (_bReader == NULL)
-		throw std::exception("Null pointer: Can't open file because a BinaryChunkReader has not been assigned for this controller.");
-}

@@ -24,4 +24,4 @@ namespace Nitrade {
 		virtual ~TradeManager() {}
 
 	};
-}
+}   

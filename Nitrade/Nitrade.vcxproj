@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Asset.h" />
     <ClInclude Include="BackTest.h" />
     <ClInclude Include="BinaryChunkReader.h" />
     <ClInclude Include="Controller.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="TradeManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Asset.cpp" />
     <ClCompile Include="BackTest.cpp" />
     <ClCompile Include="BinaryChunkReader.cpp" />
     <ClCompile Include="Controller.cpp" />

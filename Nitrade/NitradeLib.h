@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Asset.h"
 #include "BackTest.h"
 #include "BinaryChunkReader.h"
 #include "Controller.h"

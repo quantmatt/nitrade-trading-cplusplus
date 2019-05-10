@@ -25,8 +25,7 @@ Nitrade::BinaryChunkReader::~BinaryChunkReader()
 {
 	if (_inputFile.is_open())
 		_inputFile.close();
-	if (_pBinData != nullptr)
-		delete[] _pBinData;
+	delete[] _pBinData;
 }
 
 bool Nitrade::BinaryChunkReader::isOpen()
@@ -83,6 +82,9 @@ char* Nitrade::BinaryChunkReader::getChunk()
 		_lastChunkByte = nullptr;
 		return nullptr;
 	}
+
+	//delete any data that was in the binData previously
+	delete[] _pBinData;
 
 	//declare the binaryData array to hold the whole contents of the file.
 	_pBinData = new char[_bufferSize];

@@ -38,6 +38,7 @@
   <ItemGroup>
     <ClCompile Include="BacktestTest.cpp" />
     <ClCompile Include="Controller.cc" />
+    <ClCompile Include="MockAsset.cc" />
     <ClCompile Include="MockSeriesBuffer.cc" />
     <ClCompile Include="PriceData.cc" />
     <ClCompile Include="PriceDataTest.cpp" />

@@ -9,14 +9,17 @@ using namespace std;
 class MockController : public IController {
 public:
 
-	MOCK_METHOD0(hasBinaryReader, bool());
-	MOCK_METHOD0(openFile, bool());
-	MOCK_METHOD0(eof, bool());
-	MOCK_METHOD0(endChunk, char* ());
-	MOCK_METHOD0(getChunk, char* ());
-	MOCK_METHOD0(closeFile, void());
-	MOCK_METHOD1(getAssetData, vector<Nitrade::IPriceData*>* (string assetName));
+	MOCK_METHOD1(hasBinaryReader, bool(string assetName));
+	MOCK_METHOD1(openFile, bool(string assetName));
+	MOCK_METHOD1(eof, bool(string assetName));
+	MOCK_METHOD1(endChunk, char* (string assetName));
+	MOCK_METHOD1(getChunk, char* (string assetName));
+	MOCK_METHOD1(closeFile, void(string assetName));
 
-	MOCK_METHOD0(onBar, void ());
+	MOCK_METHOD1(addAsset, void(IAsset* asset));
+	MOCK_METHOD1(getAsset, IAsset*(string assetName));
+	MOCK_METHOD0(getAssetNames, vector<string>* ());
+
+	MOCK_METHOD1(onBar, void(string assetName));
 
 };

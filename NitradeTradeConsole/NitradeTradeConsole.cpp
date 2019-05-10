@@ -6,39 +6,60 @@
 
 #include "NitradeLib.h"
 
+using namespace std;
+using namespace Nitrade;
+
 int main()
 {
-    
+	{
+		//create the controller object that holds all the asset, trade and strategy data
+		Controller controller;
 
-	//create a binary chunk reader for the eurusd asset
-	std::string filepath = "D:\\TickData\\EURUSD_m1.bin";
-	Nitrade::BinaryChunkReader bcr(filepath);
-	Nitrade::Controller controller;
-	controller.setBinaryReader(&bcr);
-	
-	
-	clock_t t;
-	t = clock();
-	//Can optimise speed reading in chunks of different sizes
-	Nitrade::BackTest backTest;
-	backTest.Run(&controller, "EURUSD");
-	
-	/*
-	int loops = 100;
-	double tally = 0;
-	for (int i = 0; i < loops; i++)
-		tally += backTest.ChunkArray(50);
-	double av = tally / loops;
+		//the assets to use
+		string assetNames[] = { "EURUSD" };
 
-	std::cout << "----------------------------------" << std::endl;
-	std::cout << "Av time: " << av << std::endl;
-	//backTest.BarAtATime();
-	*/
-	
-	t = clock() - t;
-	std::cout << "time: " << t << " miliseconds" << std::endl;
-	std::cout << CLOCKS_PER_SEC << " clocks per second" << std::endl;
-	std::cout << "time: " << t * 1.0 / CLOCKS_PER_SEC << " seconds" << std::endl;
+		//add each asset to the controller with a binary reader attached
+		for (int i = 0; i < sizeof(assetNames) / sizeof(string); i++)
+		{
+			//create a binary chunk reader for the asset
+			string filepath = "D:\\TickData\\" + assetNames[0] + "_m1.bin";
+			BinaryChunkReader* bcr = new BinaryChunkReader(filepath);
+			Asset* asset = new Asset(assetNames[0], bcr);
+			PriceData* pd = new PriceData(200, 60);
+			asset->addPriceData("60min", pd);
+
+			PriceData* pd2 = new PriceData(200, 10);
+			asset->addPriceData("10min", pd2);
+
+			PriceData* pd3 = new PriceData(200, 240);
+			asset->addPriceData("240min", pd3);
+
+			controller.addAsset(asset);
+		}
+
+		clock_t t;
+		t = clock();
+		//Can optimise speed reading in chunks of different sizes
+		Nitrade::BackTest backTest;
+		backTest.RunAll(&controller);
+
+		/*
+		int loops = 100;
+		double tally = 0;
+		for (int i = 0; i < loops; i++)
+			tally += backTest.ChunkArray(50);
+		double av = tally / loops;
+
+		std::cout << "----------------------------------" << std::endl;
+		std::cout << "Av time: " << av << std::endl;
+		//backTest.BarAtATime();
+		*/
+
+		t = clock() - t;
+		std::cout << "time: " << t << " miliseconds" << std::endl;
+		std::cout << CLOCKS_PER_SEC << " clocks per second" << std::endl;
+		std::cout << "time: " << t * 1.0 / CLOCKS_PER_SEC << " seconds" << std::endl;
+	}
 
 	std::string test;
 	std::cin >> test;

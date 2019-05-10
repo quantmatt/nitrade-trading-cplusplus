@@ -4,6 +4,7 @@
 #include "NitradeLib.h"
 #include "Controller.cc"
 #include "PriceData.cc"
+#include "MockAsset.cc"
 
 using namespace std;
 using namespace Nitrade;
@@ -14,6 +15,7 @@ class BacktestTest : public ::testing::Test
 {
 protected:
 	BackTest* bt{};
+	string _assetName{ "EURUSD" };
 
 	Bar* bars{};
 	Bar* bars2{};
@@ -41,7 +43,7 @@ protected:
 		Bar* bars = new Bar[size];
 		for (int i = 0; i < size; i++)
 			//adds 10 minutes onto the timestamp on each iteration
-			bars[i] = Bar{ startTime + i * 600000000000, 1.0001f,1.0002f, 1.0003f,1.0004f,1.0005f,1.0006f,1.0007f,1.0008f, 5 };
+			bars[i] = Bar{ startTime + i * 600000000000, 1.0001f,1.0002f, 1.0003f,1.0001f,1.0005f,1.0006f,1.0007f,1.0005f, 5 };
 
 		return bars;
 	}
@@ -56,7 +58,7 @@ TEST_F(BacktestTest, RunThrowsInvalidArgumentWhenPassedNullAndEmptyString) {
 
 TEST_F(BacktestTest, RunThrowsInvalidArgumentWhenPassedNullAndString) {
 
-	ASSERT_THROW(bt->Run(NULL, "EURUSD"), std::invalid_argument);
+	ASSERT_THROW(bt->Run(NULL, _assetName), std::invalid_argument);
 }
 
 
@@ -64,16 +66,16 @@ TEST_F(BacktestTest, RunThrowsInvalidArgumentWhenPassedControllerWithoutBinaryRe
 
 	MockController controller;
 
-	ASSERT_THROW(bt->Run(&controller, "EURUSD"), std::invalid_argument);
+	ASSERT_THROW(bt->Run(&controller, _assetName), std::invalid_argument);
 }
 
 TEST_F(BacktestTest, RunThrowsInvalidArgumentWhenBinaryFileNotOpened) {
 
 
 	MockController controller;
-	EXPECT_CALL(controller, hasBinaryReader()).WillOnce(Return(true));
-	EXPECT_CALL(controller, openFile()).WillOnce(Return(false));	
-	ASSERT_THROW(bt->Run(&controller, "EURUSD"), std::invalid_argument);
+	EXPECT_CALL(controller, hasBinaryReader(_assetName)).WillOnce(Return(true));
+	EXPECT_CALL(controller, openFile(_assetName)).WillOnce(Return(false));
+	ASSERT_THROW(bt->Run(&controller, _assetName), std::invalid_argument);
 }
 
 
@@ -81,19 +83,22 @@ TEST_F(BacktestTest, RunClosesFileOnComplete) {
 
 
 	MockController controller;
-	EXPECT_CALL(controller, hasBinaryReader()).WillOnce(Return(true));
-	EXPECT_CALL(controller, openFile()).WillOnce(Return(true));
+	MockAsset asset;
+
+	EXPECT_CALL(controller, getAsset(_assetName)).WillOnce(Return(&asset));
+	EXPECT_CALL(controller, hasBinaryReader(_assetName)).WillOnce(Return(true));
+	EXPECT_CALL(controller, openFile(_assetName)).WillOnce(Return(true));
 	
 	//succesfully opened the binary file
 
 	//Loop through zero chunks of mocked data
-	EXPECT_CALL(controller, eof())
+	EXPECT_CALL(controller, eof(_assetName))
 		.WillOnce(Return(true));
 
-	EXPECT_CALL(controller, closeFile())
+	EXPECT_CALL(controller, closeFile(_assetName))
 		.Times(Exactly(1));
 
-	bt->Run(&controller, "EURUSD");
+	bt->Run(&controller, _assetName);
 
 }
 
@@ -101,19 +106,24 @@ TEST_F(BacktestTest, RunProcessesMockBarDataCheckUpdateBarCount) {
 
 	//create some mock price data to return from getAssetData
 	MockPriceData pd;
-	std::vector<IPriceData*>* priceData = new std::vector<IPriceData*>();
-	priceData->push_back(&pd);
 
+	IPriceData** pdArray = new IPriceData * [50];
+	pdArray[0] = &pd;
+	pdArray[1] = nullptr;
 
 	MockController controller;
+	MockAsset asset;
+
+	EXPECT_CALL(controller, getAsset(_assetName)).WillOnce(Return(&asset));
+
 	//mock that a binaryReader exists
-	EXPECT_CALL(controller, hasBinaryReader()).WillOnce(Return(true));
+	EXPECT_CALL(controller, hasBinaryReader(_assetName)).WillOnce(Return(true));
 
 	//mock that the binary file opens successfully
-	EXPECT_CALL(controller, openFile()).WillOnce(Return(true));
+	EXPECT_CALL(controller, openFile(_assetName)).WillOnce(Return(true));
 
 	//mock a PriceData object
-	EXPECT_CALL(controller, getAssetData(_)).WillOnce(Return(priceData));
+	EXPECT_CALL(asset, getAllPriceData()).WillOnce(Return(pdArray));
 
 	//create some mock data
 	int size = 10;
@@ -127,15 +137,15 @@ TEST_F(BacktestTest, RunProcessesMockBarDataCheckUpdateBarCount) {
 	char* start2 = (char*)&bars2[0];
 	char* end2 = start2 + sizeof(Bar) * size;
 	
-	EXPECT_CALL(controller, getChunk())
+	EXPECT_CALL(controller, getChunk(_assetName))
 		.WillOnce(Return(start))
 		.WillOnce(Return(start2));
-	EXPECT_CALL(controller, endChunk())
+	EXPECT_CALL(controller, endChunk(_assetName))
 		.WillOnce(Return(end))
 		.WillOnce(Return(end2));
 	
 	//Loop through 2 chunks of mocked data
-	EXPECT_CALL(controller, eof())
+	EXPECT_CALL(controller, eof(_assetName))
 		.WillOnce(Return(false))
 		.WillOnce(Return(false))
 		.WillOnce(Return(true));
@@ -145,7 +155,7 @@ TEST_F(BacktestTest, RunProcessesMockBarDataCheckUpdateBarCount) {
 		.Times(Exactly(20))
 		.WillRepeatedly(Return(false));
 
-	bt->Run(&controller, "EURUSD");
+	bt->Run(&controller, _assetName);
 
 }
 
@@ -153,18 +163,25 @@ TEST_F(BacktestTest, RunThrowBecauseBarDataInvalid) {
 
 	//create some mock price data to return from getAssetData
 	MockPriceData pd;
-	std::vector<IPriceData*>* priceData = new std::vector<IPriceData*>();
-	priceData->push_back(&pd);
+
+	IPriceData** pdArray = new IPriceData * [50];
+	pdArray[0] = &pd;
+	pdArray[1] = nullptr;
 
 	MockController controller;
+
+	MockAsset asset;
+
+	EXPECT_CALL(controller, getAsset(_assetName)).WillOnce(Return(&asset));
+
 	//mock that a binaryReader exists
-	EXPECT_CALL(controller, hasBinaryReader()).WillOnce(Return(true));
+	EXPECT_CALL(controller, hasBinaryReader(_assetName)).WillOnce(Return(true));
 
 	//mock that the binary file opens successfully
-	EXPECT_CALL(controller, openFile()).WillOnce(Return(true));
+	EXPECT_CALL(controller, openFile(_assetName)).WillOnce(Return(true));
 
 	//mock a PriceData object
-	EXPECT_CALL(controller, getAssetData(_)).WillOnce(Return(priceData));
+	EXPECT_CALL(asset, getAllPriceData()).WillOnce(Return(pdArray));
 
 
 	//create some mock data
@@ -180,19 +197,19 @@ TEST_F(BacktestTest, RunThrowBecauseBarDataInvalid) {
 	char* start2 = (char*)& bars2[0];
 	char* end2 = start2 + sizeof(Bar) * size;
 
-	EXPECT_CALL(controller, getChunk())
+	EXPECT_CALL(controller, getChunk(_assetName))
 		.WillOnce(Return(start))
 		.WillOnce(Return(start2));
-	EXPECT_CALL(controller, endChunk())
+	EXPECT_CALL(controller, endChunk(_assetName))
 		.WillOnce(Return(end))
 		.WillOnce(Return(end2));
 
 	//Loop through 2 chunks of mocked data
-	EXPECT_CALL(controller, eof())
+	EXPECT_CALL(controller, eof(_assetName))
 		.WillOnce(Return(false))
 		.WillOnce(Return(false));
 
-	EXPECT_THROW(bt->Run(&controller, "EURUSD"), std::invalid_argument);
+	EXPECT_THROW(bt->Run(&controller, _assetName), std::invalid_argument);
 
 
 }

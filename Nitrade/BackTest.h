@@ -13,6 +13,7 @@ namespace Nitrade {
 		BackTest();
 		virtual ~BackTest();
 
+		void RunAll(IController* controller);
 		void Run(IController* controller, std::string assetName); 
 	
 	private:
