@@ -21,19 +21,8 @@ void Nitrade::Strategy::addRequireData(std::string assetName, std::string datase
 	//try to find the pointers to this data - will throw exception if asset or dataset doesn't exist
 	Nitrade::IPriceData* pd = _dataManager->getAsset(assetName)->getPriceData(datasetName);
 
+	_requiredData.add(pd);
 
-	//create a temp array one size larger
-	IPriceData** temp = new IPriceData * [_requiredDataCount + 1];
-
-	//copy the pointers across
-	for (int i = 0; i < _requiredDataCount; i++)
-		temp[i] = _requiredData[i];
-
-	_requiredData = temp;
-
-	//add in the new strategy and increment the counter
-	_requiredData[_requiredDataCount] = pd;
-	_requiredDataCount++;
 
 	
 }
@@ -185,7 +174,8 @@ int Nitrade::Strategy::volume(std::string asset, std::string dataset, int offset
 
 bool Nitrade::Strategy::setCurrentDataIfRequired(IPriceData* pd)
 {
-	for (int i = 0; i < _requiredDataCount; i++)
+	int size = _requiredData.size();
+	for (int i = 0; i < size; i++)
 	{
 		if (_requiredData[i] == pd)
 		{

@@ -1,6 +1,7 @@
 #pragma once
 #include "IController.h"
 #include "PriceData.h"
+#include "FastAccessDynamicArray.h"
 #include <vector>
 
 namespace Nitrade {
@@ -10,8 +11,7 @@ namespace Nitrade {
 
 	private:
 
-		int _strategyCount{ 0 };
-		Strategy** _strategies{ nullptr };
+		Utils::FastAccessDynamicArray<Strategy*> _strategies;
 		TradeManager* _tradeManager{ nullptr };
 		DataManager* _dataManager{ nullptr };
 

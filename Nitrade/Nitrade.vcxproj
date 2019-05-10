@@ -24,6 +24,7 @@
     <ClInclude Include="BinaryChunkReader.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="FastAccessDynamicArray.h" />
     <ClInclude Include="IController.h" />
     <ClInclude Include="NitradeLib.h" />
     <ClInclude Include="PriceData.h" />

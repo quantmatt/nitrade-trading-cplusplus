@@ -1,4 +1,5 @@
 #include "Asset.h"
+#include "FastAccessDynamicArray.h"
 #include <vector>
 #include <map>
 
@@ -86,20 +87,15 @@ Nitrade::IPriceData* Nitrade::Asset::getPriceData(std::string dataSetName)
 		throw std::out_of_range("Dataset " + dataSetName + " does not exist in " + _name);
 }
 
-Nitrade::IPriceData** Nitrade::Asset::getAllPriceData()
+Utils::FastAccessDynamicArray<Nitrade::IPriceData*>* Nitrade::Asset::getAllPriceData()
 {
-	//use an native array (with max size of 50) because this is much faster to loop through in backtesting
-	//50 should be plenty big to hold all the timeframes that might be used
-	IPriceData** pdArray = new IPriceData*[50];
 
-	int index = 0;
+	Utils::FastAccessDynamicArray<IPriceData*>* pdArray = new Utils::FastAccessDynamicArray<IPriceData*>();
+		
 	for (auto data : *_priceData)
 	{
-		pdArray[index++] = data.second;
+		pdArray->add(data.second);
 	}
-
-	//add a nullptr on the end so we know this is the end of the array
-	pdArray[index] = nullptr;
 
 	return pdArray;
 }

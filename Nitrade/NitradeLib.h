@@ -5,6 +5,7 @@
 #include "BinaryChunkReader.h"
 #include "Controller.h"
 #include "DataManager.h"
+#include "FastAccessDynamicArray.h"
 #include "IController.h"
 #include "PriceData.h"
 #include "SeriesBuffer.h"

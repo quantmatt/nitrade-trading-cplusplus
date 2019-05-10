@@ -4,7 +4,7 @@
 
 using namespace Nitrade;
 using namespace std;
-
+using namespace Utils;
 
 class MockAsset : public IAsset {
 public:
@@ -19,7 +19,7 @@ public:
 	MOCK_METHOD0(closeFile, void());
 
 	MOCK_METHOD2(addPriceData, void(string dataSetName, PriceData* pd));
-	MOCK_METHOD0(getAllPriceData, IPriceData** ());
+	MOCK_METHOD0(getAllPriceData, FastAccessDynamicArray<IPriceData*>* ());
 	MOCK_METHOD1(getPriceData, Nitrade::IPriceData*(std::string dataSetName));
 
 };

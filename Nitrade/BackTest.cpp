@@ -47,20 +47,10 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 	if (asset == nullptr)
 		throw std::invalid_argument(assetName + " has not been setup in memory.");
 
-	//this is a native array of size 50 with a nullptr after the last real item to signify end of array
+	//this is a native array
 	//this is 10 x faster than using a vector in the backtest loop.
-	Nitrade::IPriceData** priceData = asset->getAllPriceData();
-
-	/*
-	//get the names of the dataSets in a separate array because priceData[index]->getName() takes too long
-	std::string* dataSetNames = new std::string[50];
-	int i = 0;
-	while (priceData[i] != nullptr)
-	{
-		dataSetNames[i] = priceData[i]->getName();
-		i++;
-	}
-	*/
+	Utils::FastAccessDynamicArray<Nitrade::IPriceData*>* priceData = asset->getAllPriceData();
+	int size = priceData->size();
 
 	//continue through the file reading it in chunks of size roundedBufferSize
 	while(!controller->eof(assetName))
@@ -74,26 +64,22 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 		if(!isBarValid((Bar*)pBinData))
 			throw std::invalid_argument("Price data file appears corrupt.");
 		
-		
 
 		for (char* c = pBinData; c != end; c += sizeof(Bar))
 		{
 			//casting the pointer to a pointer of Bar is about 10% faster than casting to the struct of Bar
 			Bar* bar = (Bar*)c;
 
-			//for (auto it = priceData->begin(); it != priceData->end(); it++) //this loop makes things 10 x slower
-			int index = 0;
-			while(priceData[index] != nullptr)
+			for(int i=0; i < size; i++)
 			{
-				bool isNewBar = priceData[index]->updateCurrentBarFromBar(bar);
+				bool isNewBar = (*priceData)[i]->updateCurrentBarFromBar(bar);
 
 				if (isNewBar)
 				{
 					//run the strategy code for all loaded strategies that require this timeframe					
-					controller->run(priceData[index]);
+					controller->run((*priceData)[i]);
 				}
 
-				index++;
 			}
 					
 		}

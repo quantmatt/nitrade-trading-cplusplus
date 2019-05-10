@@ -2,6 +2,7 @@
 #include <iostream>
 #include "TradeManager.h"
 #include "DataManager.h"
+#include "FastAccessDynamicArray.h"
 
 namespace Nitrade {
 
@@ -11,8 +12,7 @@ namespace Nitrade {
 	private:
 		ITradeManager* _tradeManager{ nullptr };
 		IDataManager* _dataManager{ nullptr };
-		IPriceData** _requiredData{ nullptr };
-		int _requiredDataCount{ 0 };
+		Utils::FastAccessDynamicArray<IPriceData*> _requiredData;
 		IPriceData* _currentData{ nullptr };
 
 	public:

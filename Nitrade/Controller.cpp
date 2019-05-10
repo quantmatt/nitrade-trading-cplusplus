@@ -12,7 +12,7 @@ Nitrade::Controller::~Controller()
 {
 	delete _dataManager;
 	delete _tradeManager;
-	delete _strategies;
+	
 }
 
 bool Nitrade::Controller::hasBinaryReader(std::string assetName)
@@ -94,7 +94,8 @@ std::vector<std::string>* Nitrade::Controller::getAssetNames()
 void Nitrade::Controller::run(IPriceData* pd)
 {
 	//Need to loop through possibly thousands of strategies - so vector is too slow in iteration
-	for (int i = 0; i < _strategyCount; i++)
+	int size = _strategies.size();
+	for (int i = 0; i < size; i++)
 	{
 		Strategy* strategy = _strategies[i];
 		if(strategy->setCurrentDataIfRequired(pd))
@@ -105,23 +106,12 @@ void Nitrade::Controller::run(IPriceData* pd)
 void Nitrade::Controller::addStrategy(Strategy* strategy)
 {	
 
-	//Need to loop through possibly thousands of strategies - so vector is too slow in iteration
-
-	//create a temp array one size larger
-	Strategy** temp = new Strategy* [_strategyCount + 1];
-
-	//copy the pointers across
-	for (int i = 0; i < _strategyCount; i++)
-		temp[i] = _strategies[i];
-
-	_strategies = temp;
-
 	//Initialise the strategy with the tradeManager and dataManager pointers
 	strategy->init(_tradeManager, _dataManager);
 
-	//add in the new strategy and increment the counter
-	_strategies[_strategyCount] = strategy;
-	_strategyCount++;
+
+	//Need to loop through possibly thousands of strategies - so vector is too slow in iteration / using fastAccessDynamicArray
+	_strategies.add(strategy);
 
 }
 

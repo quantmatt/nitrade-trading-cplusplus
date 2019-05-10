@@ -86,9 +86,9 @@ TEST_F(BacktestTest, RunClosesFileOnComplete) {
 	MockAsset asset;
 
 	MockPriceData pd;
-	IPriceData** pdArray = new IPriceData * [50];
-	pdArray[0] = &pd;
-	pdArray[1] = nullptr;
+	FastAccessDynamicArray<IPriceData*> pdArray;
+	pdArray.add(&pd);
+
 
 	EXPECT_CALL(controller, getAsset(_assetName)).WillOnce(Return(&asset));
 	EXPECT_CALL(controller, hasBinaryReader(_assetName)).WillOnce(Return(true));
@@ -104,7 +104,7 @@ TEST_F(BacktestTest, RunClosesFileOnComplete) {
 		.Times(Exactly(1));
 
 	//mock a PriceData object
-	EXPECT_CALL(asset, getAllPriceData()).WillOnce(Return(pdArray));
+	EXPECT_CALL(asset, getAllPriceData()).WillOnce(Return(&pdArray));
 
 	bt->Run(&controller, _assetName);
 
@@ -115,9 +115,8 @@ TEST_F(BacktestTest, RunProcessesMockBarDataCheckUpdateBarCount) {
 	//create some mock price data to return from getAssetData
 	MockPriceData pd;
 
-	IPriceData** pdArray = new IPriceData * [50];
-	pdArray[0] = &pd;
-	pdArray[1] = nullptr;
+	FastAccessDynamicArray<IPriceData*> pdArray;
+	pdArray.add(&pd);
 
 	MockController controller;
 	MockAsset asset;
@@ -131,7 +130,7 @@ TEST_F(BacktestTest, RunProcessesMockBarDataCheckUpdateBarCount) {
 	EXPECT_CALL(controller, openFile(_assetName)).WillOnce(Return(true));
 
 	//mock a PriceData object
-	EXPECT_CALL(asset, getAllPriceData()).WillOnce(Return(pdArray));
+	EXPECT_CALL(asset, getAllPriceData()).WillOnce(Return(&pdArray));
 
 	//create some mock data
 	int size = 10;
@@ -172,9 +171,8 @@ TEST_F(BacktestTest, RunThrowBecauseBarDataInvalid) {
 	//create some mock price data to return from getAssetData
 	MockPriceData pd;
 
-	IPriceData** pdArray = new IPriceData * [50];
-	pdArray[0] = &pd;
-	pdArray[1] = nullptr;
+	FastAccessDynamicArray<IPriceData*> pdArray;
+	pdArray.add(&pd);
 
 	MockController controller;
 
@@ -189,7 +187,7 @@ TEST_F(BacktestTest, RunThrowBecauseBarDataInvalid) {
 	EXPECT_CALL(controller, openFile(_assetName)).WillOnce(Return(true));
 
 	//mock a PriceData object
-	EXPECT_CALL(asset, getAllPriceData()).WillOnce(Return(pdArray));
+	EXPECT_CALL(asset, getAllPriceData()).WillOnce(Return(&pdArray));
 
 
 	//create some mock data

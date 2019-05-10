@@ -4,6 +4,7 @@
 #include <vector>
 #include "PriceData.h"
 #include "BinaryChunkReader.h"
+#include "FastAccessDynamicArray.h"
 
 namespace Nitrade {
 
@@ -28,7 +29,7 @@ namespace Nitrade {
 		//price data functions
 		virtual void addPriceData(std::string dataSetName, Nitrade::PriceData* pd) = 0;
 		virtual Nitrade::IPriceData* getPriceData(std::string dataSetName) = 0;
-		virtual Nitrade::IPriceData** getAllPriceData() = 0;
+		virtual Utils::FastAccessDynamicArray<Nitrade::IPriceData*>* getAllPriceData() = 0;
 
 
 	};
@@ -66,7 +67,7 @@ namespace Nitrade {
 		//price data functions
 		void addPriceData(std::string dataSetName, Nitrade::PriceData* pd);
 		Nitrade::IPriceData* getPriceData(std::string dataSetName);
-		Nitrade::IPriceData** getAllPriceData();
+		Utils::FastAccessDynamicArray<Nitrade::IPriceData*>* getAllPriceData();
 
 	private:
 		void tryBinaryReader();
