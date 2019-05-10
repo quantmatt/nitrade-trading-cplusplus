@@ -33,7 +33,7 @@ namespace Nitrade {
 		
 
 		//strategy functions
-		virtual void onBar(std::string assetName) = 0;
+		virtual void run(IPriceData* pd) = 0;
 
 	};
 }

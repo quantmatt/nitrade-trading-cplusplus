@@ -20,6 +20,6 @@ public:
 	MOCK_METHOD1(getAsset, IAsset*(string assetName));
 	MOCK_METHOD0(getAssetNames, vector<string>* ());
 
-	MOCK_METHOD1(onBar, void(string assetName));
+	MOCK_METHOD1(run, void(IPriceData* pd));
 
 };

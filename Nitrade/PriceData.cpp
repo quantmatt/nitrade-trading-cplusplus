@@ -1,5 +1,6 @@
 #include "PriceData.h"
 #include "SeriesBuffer.h"
+#include <string>
 
 
 
@@ -81,4 +82,10 @@ bool Nitrade::PriceData::updateCurrentBarFromTick(float quote, bool isBid)
 {
 	//Not yet implemented
 	return false;
+}
+
+std::string Nitrade::PriceData::getName()
+{
+	std::string description = std::to_string(_barSize) + "min";
+	return description;
 }

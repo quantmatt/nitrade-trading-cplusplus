@@ -85,6 +85,11 @@ TEST_F(BacktestTest, RunClosesFileOnComplete) {
 	MockController controller;
 	MockAsset asset;
 
+	MockPriceData pd;
+	IPriceData** pdArray = new IPriceData * [50];
+	pdArray[0] = &pd;
+	pdArray[1] = nullptr;
+
 	EXPECT_CALL(controller, getAsset(_assetName)).WillOnce(Return(&asset));
 	EXPECT_CALL(controller, hasBinaryReader(_assetName)).WillOnce(Return(true));
 	EXPECT_CALL(controller, openFile(_assetName)).WillOnce(Return(true));
@@ -97,6 +102,9 @@ TEST_F(BacktestTest, RunClosesFileOnComplete) {
 
 	EXPECT_CALL(controller, closeFile(_assetName))
 		.Times(Exactly(1));
+
+	//mock a PriceData object
+	EXPECT_CALL(asset, getAllPriceData()).WillOnce(Return(pdArray));
 
 	bt->Run(&controller, _assetName);
 

@@ -51,7 +51,16 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 	//this is 10 x faster than using a vector in the backtest loop.
 	Nitrade::IPriceData** priceData = asset->getAllPriceData();
 
-	//get a vector of strategies to run for this asset
+	/*
+	//get the names of the dataSets in a separate array because priceData[index]->getName() takes too long
+	std::string* dataSetNames = new std::string[50];
+	int i = 0;
+	while (priceData[i] != nullptr)
+	{
+		dataSetNames[i] = priceData[i]->getName();
+		i++;
+	}
+	*/
 
 	//continue through the file reading it in chunks of size roundedBufferSize
 	while(!controller->eof(assetName))
@@ -76,13 +85,15 @@ void Nitrade::BackTest::Run(IController* controller, std::string assetName)
 			int index = 0;
 			while(priceData[index] != nullptr)
 			{
-				bool isNewBar = priceData[index++]->updateCurrentBarFromBar(bar);
+				bool isNewBar = priceData[index]->updateCurrentBarFromBar(bar);
 
 				if (isNewBar)
 				{
-					//run the strategy code for all loaded strategies that require this timeframe
-					controller->onBar(assetName);
+					//run the strategy code for all loaded strategies that require this timeframe					
+					controller->run(priceData[index]);
 				}
+
+				index++;
 			}
 					
 		}

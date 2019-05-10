@@ -7,14 +7,15 @@ namespace Nitrade {
 	class ITradeManager
 	{
 	public:
-		ITradeManager();
-		virtual ~ITradeManager();
+		ITradeManager() {}
+		virtual ~ITradeManager() {}
 
 	};
 
 
 	//Trade Manager will have sub classes different for back testing and live trading
-	class TradeManager
+	class TradeManager :
+		public ITradeManager
 	{
 	protected:
 		std::vector<Trade> trades{};

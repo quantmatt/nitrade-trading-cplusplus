@@ -11,11 +11,21 @@ namespace Nitrade {
 	private:
 		ITradeManager* _tradeManager{ nullptr };
 		IDataManager* _dataManager{ nullptr };
+		IPriceData** _requiredData{ nullptr };
+		int _requiredDataCount{ 0 };
+		IPriceData* _currentData{ nullptr };
 
 	public:
-		Strategy(ITradeManager* tradeManager, IDataManager* dataManager) :
-			_tradeManager(tradeManager), _dataManager(dataManager) {};
+		Strategy() {}
 		virtual ~Strategy();
+
+		
+		void init(ITradeManager* tradeManager, IDataManager* dataManager);
+		//needs to be called after strategy init so the pointers from dataManager can be found
+		//this is to quickly determine if the onBar event should be run for this strategy since onBar events
+		//can be triggere by any asset or any dataset
+		void addRequireData(std::string assetName, std::string datasetName);
+
 
 		//trade functions
 		bool openTrade(std::string asset, int size, double stopLoss = 0, double takeProfit = 0);
@@ -50,7 +60,11 @@ namespace Nitrade {
 		int volume(std::string asset, int offset = 0);
 		int volume(std::string asset, std::string dataset, int offset = 0);
 
-		virtual void onInit() = 0; //these are setup by the child strategies
-		virtual void onBar() = 0;//these are setup by the child strategies
+		//returns true if this strategy runs on this priceData onBar event
+		//also sets the current price data to process in OnBar
+		bool setCurrentDataIfRequired(IPriceData* pd);
+
+		virtual void onInit() {}; //these are setup by the child strategies
+		virtual void onBar() {};//these are setup by the child strategies
 	};
 }

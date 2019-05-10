@@ -27,6 +27,7 @@ namespace Nitrade {
 
 		//price data functions
 		virtual void addPriceData(std::string dataSetName, Nitrade::PriceData* pd) = 0;
+		virtual Nitrade::IPriceData* getPriceData(std::string dataSetName) = 0;
 		virtual Nitrade::IPriceData** getAllPriceData() = 0;
 
 
@@ -64,6 +65,7 @@ namespace Nitrade {
 
 		//price data functions
 		void addPriceData(std::string dataSetName, Nitrade::PriceData* pd);
+		Nitrade::IPriceData* getPriceData(std::string dataSetName);
 		Nitrade::IPriceData** getAllPriceData();
 
 	private:

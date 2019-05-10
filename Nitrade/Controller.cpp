@@ -1,11 +1,10 @@
-
-
 #include "Controller.h"
 
 
 Nitrade::Controller::Controller()
 {
 	_dataManager = new DataManager();
+	_tradeManager = new TradeManager();
 }
 
 
@@ -92,8 +91,37 @@ std::vector<std::string>* Nitrade::Controller::getAssetNames()
 		return nullptr;
 }
 
-void Nitrade::Controller::onBar(std::string assetName)
+void Nitrade::Controller::run(IPriceData* pd)
 {
-	//TODO
+	//Need to loop through possibly thousands of strategies - so vector is too slow in iteration
+	for (int i = 0; i < _strategyCount; i++)
+	{
+		Strategy* strategy = _strategies[i];
+		if(strategy->setCurrentDataIfRequired(pd))
+			strategy->onBar();
+	}
+}
+
+void Nitrade::Controller::addStrategy(Strategy* strategy)
+{	
+
+	//Need to loop through possibly thousands of strategies - so vector is too slow in iteration
+
+	//create a temp array one size larger
+	Strategy** temp = new Strategy* [_strategyCount + 1];
+
+	//copy the pointers across
+	for (int i = 0; i < _strategyCount; i++)
+		temp[i] = _strategies[i];
+
+	_strategies = temp;
+
+	//Initialise the strategy with the tradeManager and dataManager pointers
+	strategy->init(_tradeManager, _dataManager);
+
+	//add in the new strategy and increment the counter
+	_strategies[_strategyCount] = strategy;
+	_strategyCount++;
+
 }
 

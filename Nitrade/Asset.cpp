@@ -78,6 +78,14 @@ void Nitrade::Asset::addPriceData(std::string dataSetName, Nitrade::PriceData* p
 	(*_priceData)[dataSetName] = pd;
 }
 
+Nitrade::IPriceData* Nitrade::Asset::getPriceData(std::string dataSetName)
+{
+	if (_priceData->find(dataSetName) != _priceData->end())
+		return (*_priceData)[dataSetName];
+	else
+		throw std::out_of_range("Dataset " + dataSetName + " does not exist in " + _name);
+}
+
 Nitrade::IPriceData** Nitrade::Asset::getAllPriceData()
 {
 	//use an native array (with max size of 50) because this is much faster to loop through in backtesting

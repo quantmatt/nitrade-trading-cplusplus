@@ -17,6 +17,7 @@ namespace Nitrade {
 
 		virtual bool updateCurrentBarFromBar(Nitrade::Bar* newInfo) = 0;
 		virtual bool updateCurrentBarFromTick(float quote, bool isBid) = 0;
+		virtual std::string getName() = 0;
 
 		virtual Bar* operator [](int barOffset) = 0;
 	};
@@ -38,6 +39,7 @@ namespace Nitrade {
 
 		bool updateCurrentBarFromBar(Nitrade::Bar* newInfo); //used update current bar from minute bar
 		bool updateCurrentBarFromTick(float quote, bool isBid); //used to update current bar on a new tick 
+		std::string getName();
 
 		Bar* operator [](int barOffset) { return _pLookbackBars->get(barOffset); }
 

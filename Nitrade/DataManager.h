@@ -9,8 +9,8 @@ namespace Nitrade {
 	class IDataManager
 	{
 	public:
-		IDataManager();
-		virtual ~IDataManager();
+		IDataManager() {}
+		virtual ~IDataManager() {}
 
 		virtual void addAsset(IAsset* asset) = 0;
 		virtual IAsset* getAsset(std::string assetName) = 0;
@@ -18,7 +18,8 @@ namespace Nitrade {
 
 	};
 
-	class DataManager
+	class DataManager :
+		public IDataManager
 	{
 		
 	private:

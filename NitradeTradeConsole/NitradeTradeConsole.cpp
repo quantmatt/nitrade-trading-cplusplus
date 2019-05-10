@@ -28,13 +28,18 @@ int main()
 			PriceData* pd = new PriceData(200, 60);
 			asset->addPriceData("60min", pd);
 
-			PriceData* pd2 = new PriceData(200, 10);
-			asset->addPriceData("10min", pd2);
-
 			PriceData* pd3 = new PriceData(200, 240);
 			asset->addPriceData("240min", pd3);
 
 			controller.addAsset(asset);
+		}
+
+		//add in all strategy variations
+		for (int i = 0; i < 100; i++)
+		{
+			Strategy* strategy = new Strategy();
+			controller.addStrategy(strategy);
+			strategy->addRequireData("EURUSD", "60min");
 		}
 
 		clock_t t;

@@ -20,5 +20,6 @@ public:
 
 	MOCK_METHOD2(addPriceData, void(string dataSetName, PriceData* pd));
 	MOCK_METHOD0(getAllPriceData, IPriceData** ());
+	MOCK_METHOD1(getPriceData, Nitrade::IPriceData*(std::string dataSetName));
 
 };

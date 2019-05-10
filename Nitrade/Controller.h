@@ -9,8 +9,9 @@ namespace Nitrade {
 	{
 
 	private:
-		
-		Strategy* _strategies{ nullptr };
+
+		int _strategyCount{ 0 };
+		Strategy** _strategies{ nullptr };
 		TradeManager* _tradeManager{ nullptr };
 		DataManager* _dataManager{ nullptr };
 
@@ -34,7 +35,8 @@ namespace Nitrade {
 		std::vector<std::string>* getAssetNames();
 
 		//strategy functions
-		void onBar(std::string assetName);
+		void run(IPriceData* pd);
+		void addStrategy(Strategy* strategy);
 
 	private:
 		//void tryBinaryReader();
