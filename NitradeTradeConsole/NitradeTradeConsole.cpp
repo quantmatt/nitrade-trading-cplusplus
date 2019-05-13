@@ -3,8 +3,9 @@
 
 #include <iostream>
 #include <time.h>
-
+#include <memory>
 #include "NitradeLib.h"
+#include "../Strategies/framework.h"
 
 using namespace std;
 using namespace Nitrade;
@@ -12,6 +13,10 @@ using namespace Nitrade;
 int main()
 {
 	{
+		/*
+		testClass* ab = new testClass();
+		ab->func();
+
 		//create the controller object that holds all the asset, trade and strategy data
 		Controller controller;
 
@@ -23,15 +28,17 @@ int main()
 		{
 			//create a binary chunk reader for the asset
 			string filepath = "D:\\TickData\\" + assetNames[0] + "_m1.bin";
-			BinaryChunkReader* bcr = new BinaryChunkReader(filepath);
-			Asset* asset = new Asset(assetNames[0], bcr);
+			
+			std::unique_ptr<BinaryChunkReader> bcr = std::make_unique<BinaryChunkReader>(filepath);			
+			std::unique_ptr<IAsset> asset = std::make_unique<Asset>(assetNames[0], std::move(bcr));
+
 			PriceData* pd = new PriceData(200, 60);
 			asset->addPriceData("60min", pd);
 
-			PriceData* pd3 = new PriceData(200, 240);
-			asset->addPriceData("240min", pd3);
+			//PriceData* pd3 = new PriceData(200, 240);
+			//asset->addPriceData("240min", pd3);
 
-			controller.addAsset(asset);
+			controller.addAsset(std::move(asset));
 		}
 
 		//add in all strategy variations
@@ -42,23 +49,19 @@ int main()
 			strategy->addRequireData("EURUSD", "60min");
 		}
 
-		clock_t t;
-		t = clock();
+		
 		//Can optimise speed reading in chunks of different sizes
 		Nitrade::BackTest backTest;
 		backTest.RunAll(&controller);
 
-		/*
-		int loops = 100;
-		double tally = 0;
-		for (int i = 0; i < loops; i++)
-			tally += backTest.ChunkArray(50);
-		double av = tally / loops;
+*/
 
-		std::cout << "----------------------------------" << std::endl;
-		std::cout << "Av time: " << av << std::endl;
-		//backTest.BarAtATime();
-		*/
+		Strategy s;
+		clock_t t;
+		t = clock();
+
+		//BackTest backTest;
+		//backTest.Optimise(s);
 
 		t = clock() - t;
 		std::cout << "time: " << t << " miliseconds" << std::endl;

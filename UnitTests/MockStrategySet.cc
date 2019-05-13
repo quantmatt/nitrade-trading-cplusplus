@@ -6,13 +6,7 @@ using namespace Nitrade;
 using namespace std;
 using namespace Utils;
 
-class MockAsset : public IAsset {
-public:
+class MockStrategySet : public IStrategySet {
 
-	//properties
-	MOCK_METHOD0(getName, string());
-	MOCK_METHOD0(getDataPath, string());
-
-
-
+	MOCK_METHOD1(run, void(const IPriceData* dataSet));
 };

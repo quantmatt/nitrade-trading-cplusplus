@@ -36,13 +36,17 @@
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="BacktestTest.cpp" />
-    <ClCompile Include="Controller.cc" />
+    <ClCompile Include="HistoricSimulatorTests.cpp" />
     <ClCompile Include="MockAsset.cc" />
+    <ClCompile Include="MockAssetData.cc" />
+    <ClCompile Include="MockBinaryChunkReader.cc" />
+    <ClCompile Include="MockDataFactory.cc" />
     <ClCompile Include="MockSeriesBuffer.cc" />
-    <ClCompile Include="PriceData.cc" />
+    <ClCompile Include="MockStrategyDefinition.cc" />
+    <ClCompile Include="MockPriceData.cc" />
     <ClCompile Include="PriceDataTest.cpp" />
     <ClCompile Include="SeriesBufferTest.cpp" />
+    <ClCompile Include="MockStrategySet.cc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nitrade\Nitrade.vcxproj">

@@ -22,17 +22,13 @@ namespace Utils {
 	private:
 		int _pos{ 0 };
 		int _size{ 0 };
-		T* _values{ nullptr };
+		std::unique_ptr<T[]> _values;
 
 	public:
 
-		FastAccessDynamicArray() 
-		{
-		}
+		FastAccessDynamicArray() = default;
 
-		virtual ~FastAccessDynamicArray() {
-			delete[] _values;
-		}
+		virtual ~FastAccessDynamicArray() = default;
 
 		int size() {
 			return _size;
@@ -40,16 +36,16 @@ namespace Utils {
 		void add(T value)
 		{
 			//create a temp array one size larger
-			T* temp = new T[_size + 1];
+			auto temp = std::make_unique<T[]>(_size + 1);
 
 			//copy the pointers across
 			for (int i = 0; i < _size; i++)
-				temp[i] = _values[i];
+				temp[i] = std::move(_values[i]);
 
-			_values = temp;
+			std::exchange(_values, std::move(temp));
 
 			//add in the new item and increment the counter
-			_values[_size] = value;
+			_values[_size] = std::move(value);
 			_size++;
 
 
@@ -61,7 +57,7 @@ namespace Utils {
 			return _values[pos];
 		}
 
-		T operator [](int pos) { return _values[pos]; }
+		T& operator [](int pos) { return _values[pos]; }
 
 
 	};

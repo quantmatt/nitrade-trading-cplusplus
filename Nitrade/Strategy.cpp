@@ -13,20 +13,6 @@ void Nitrade::Strategy::init(ITradeManager* tradeManager, IDataManager* dataMana
 	_dataManager = dataManager;	
 }
 
-void Nitrade::Strategy::addRequireData(std::string assetName, std::string datasetName)
-{
-	if (_dataManager == nullptr)
-		throw std::exception("DataManager must be set before adding required data pointers.");
-
-	//try to find the pointers to this data - will throw exception if asset or dataset doesn't exist
-	Nitrade::IPriceData* pd = _dataManager->getAsset(assetName)->getPriceData(datasetName);
-
-	_requiredData.add(pd);
-
-
-	
-}
-
 bool Nitrade::Strategy::openTrade(std::string asset, int size, double stopLoss, double takeProfit)
 {
 	return false;
@@ -39,137 +25,47 @@ bool Nitrade::Strategy::closeTrade(long tradeId)
 
 float Nitrade::Strategy::bidOpen(int offset)
 {
-	return 0.0f;
+	return (*_currentData)[0]->bidOpen;
 }
 
 float Nitrade::Strategy::bidClose(int offset)
 {
-	return 0.0f;
+	return (*_currentData)[0]->bidClose;
 }
 
 float Nitrade::Strategy::bidHigh(int offset)
 {
-	return 0.0f;
+	return (*_currentData)[0]->bidHigh;
 }
 
 float Nitrade::Strategy::bidLow(int offset)
 {
-	return 0.0f;
-}
-
-float Nitrade::Strategy::bidOpen(std::string asset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::bidClose(std::string asset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::bidHigh(std::string asset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::bidLow(std::string asset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::bidOpen(std::string asset, std::string dataset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::bidClose(std::string asset, std::string dataset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::bidHigh(std::string asset, std::string dataset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::bidLow(std::string asset, std::string dataset, int offset)
-{
-	return 0.0f;
+	return (*_currentData)[0]->bidLow;
 }
 
 float Nitrade::Strategy::askOpen(int offset)
 {
-	return 0.0f;
+	return (*_currentData)[0]->askOpen;
 }
 
 float Nitrade::Strategy::askClose(int offset)
 {
-	return 0.0f;
+	return (*_currentData)[0]->askClose;
 }
 
 float Nitrade::Strategy::askHigh(int offset)
 {
-	return 0.0f;
+	return(*_currentData)[0]->askHigh;
 }
 
 float Nitrade::Strategy::askLow(int offset)
 {
-	return 0.0f;
-}
-
-float Nitrade::Strategy::askOpen(std::string asset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::askClose(std::string asset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::askHigh(std::string asset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::askLow(std::string asset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::askOpen(std::string asset, std::string dataset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::askClose(std::string asset, std::string dataset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::askHigh(std::string asset, std::string dataset, int offset)
-{
-	return 0.0f;
-}
-
-float Nitrade::Strategy::askLow(std::string asset, std::string dataset, int offset)
-{
-	return 0.0f;
+	return (*_currentData)[0]->askLow;
 }
 
 int Nitrade::Strategy::volume(int offset)
 {
-	return 0;
-}
-
-int Nitrade::Strategy::volume(std::string asset, int offset)
-{
-	return 0;
-}
-
-int Nitrade::Strategy::volume(std::string asset, std::string dataset, int offset)
-{
-	return 0;
+	return (*_currentData)[0]->volume;
 }
 
 bool Nitrade::Strategy::setCurrentDataIfRequired(IPriceData* pd)

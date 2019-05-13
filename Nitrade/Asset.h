@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <memory>
 #include "PriceData.h"
 #include "BinaryChunkReader.h"
 #include "FastAccessDynamicArray.h"
@@ -17,19 +18,7 @@ namespace Nitrade {
 
 		//properties
 		virtual std::string getName() = 0;
-
-		//binary reader functions
-		virtual bool hasBinaryReader() = 0;
-		virtual bool openFile() = 0;
-		virtual bool eof() = 0;
-		virtual char* endChunk() = 0;
-		virtual char* getChunk() = 0;
-		virtual void closeFile() = 0;
-
-		//price data functions
-		virtual void addPriceData(std::string dataSetName, Nitrade::PriceData* pd) = 0;
-		virtual Nitrade::IPriceData* getPriceData(std::string dataSetName) = 0;
-		virtual Utils::FastAccessDynamicArray<Nitrade::IPriceData*>* getAllPriceData() = 0;
+		virtual std::string getDataPath() = 0;
 
 
 	};
@@ -40,37 +29,25 @@ namespace Nitrade {
 	private:
 		float _pipValue{ 0 };
 		int _digits{ 0 };
-		std::string _name{ "" };
+		std::string _name{ nullptr };
+		std::string _dataPath{  "D:\\TickData\\EURUSD_m1.bin" }; //tempory hard coded
 
 		std::map<std::string, IPriceData*>* _priceData;
 
 		//used for reading data for backtests
-		BinaryChunkReader* _bReader{ nullptr };
+		std::unique_ptr<BinaryChunkReader> _bReader;
 
 	public:
+		Asset() = default;
 		Asset(std::string assetName);
 		//create an asset to read data from file
-		Asset(std::string assetName, BinaryChunkReader* bReader);
+		Asset(std::string assetName, std::unique_ptr<BinaryChunkReader> bReader);
 		virtual ~Asset();
 
 		//properties
 		std::string getName();
+		std::string getDataPath();
 
-		//binary reader functions
-		bool hasBinaryReader();
-		bool openFile(); //returns the size in bytes of the file
-		bool eof(); //returns true if end of file
-		char* endChunk(); //pointer to last byte of the chunk
-		char* getChunk();
-		void closeFile(); //close the file
-
-		//price data functions
-		void addPriceData(std::string dataSetName, Nitrade::PriceData* pd);
-		Nitrade::IPriceData* getPriceData(std::string dataSetName);
-		Utils::FastAccessDynamicArray<Nitrade::IPriceData*>* getAllPriceData();
-
-	private:
-		void tryBinaryReader();
 	};
 
 }

@@ -33,6 +33,7 @@ namespace Nitrade {
 		Utils::ISeriesBuffer<Bar*>* _pLookbackBars{nullptr};
 
 	public:
+		PriceData() = default;
 		PriceData(int lookBack, int barSize);
 		PriceData(int lookBack, int barSize, Utils::ISeriesBuffer<Bar*>* mockSeriesBuffer);
 		virtual ~PriceData();
