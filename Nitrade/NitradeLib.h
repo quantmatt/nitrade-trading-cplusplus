@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Asset.h"
+#include "OptimiseParameter.h"
 #include "BinaryChunkReader.h"
 #include "DataManager.h"
 #include "FastAccessDynamicArray.h"

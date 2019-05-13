@@ -30,5 +30,7 @@ std::unique_ptr<Nitrade::IBinaryChunkReader> Nitrade::DataFactory::getBinaryChun
 std::unique_ptr<Nitrade::IStrategySet> Nitrade::DataFactory::getStrategySet(IStrategyDefinition* strategyDefinition,
 	IAsset* asset)
 {
-	return std::make_unique<StrategySet>();
+	auto strategySet = std::make_unique<StrategySet>();
+	strategySet->createFrom(strategyDefinition);
+	return strategySet;
 }

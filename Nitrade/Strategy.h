@@ -2,7 +2,7 @@
 #include <iostream>
 #include "TradeManager.h"
 #include "DataManager.h"
-#include "FastAccessDynamicArray.h"
+#include "IAssetData.h"
 
 namespace Nitrade {
 
@@ -11,8 +11,7 @@ namespace Nitrade {
 
 	private:
 		ITradeManager* _tradeManager{ nullptr };
-		IDataManager* _dataManager{ nullptr };
-		Utils::FastAccessDynamicArray<IPriceData*> _requiredData;
+		IAssetData* _assetData{ nullptr };
 		IPriceData* _currentData{ nullptr };
 
 	public:
@@ -20,7 +19,7 @@ namespace Nitrade {
 		virtual ~Strategy();
 
 		
-		void init(ITradeManager* tradeManager, IDataManager* dataManager);
+		void init(ITradeManager* tradeManager, IAssetData* assetDataa);
 		
 		//trade functions
 		bool openTrade(std::string asset, int size, double stopLoss = 0, double takeProfit = 0);

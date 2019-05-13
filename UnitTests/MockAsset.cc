@@ -1,6 +1,7 @@
 #pragma once
 #include "gmock/gmock.h"  // Brings in Google Mock. - installed from nuget
 #include "NitradeLib.h"
+#include <iostream>
 
 using namespace Nitrade;
 using namespace std;

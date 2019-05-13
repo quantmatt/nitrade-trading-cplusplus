@@ -6,11 +6,11 @@ Nitrade::Strategy::~Strategy()
 	//dont delete trade manager or data manager because it is used by all strategies
 }
 
-void Nitrade::Strategy::init(ITradeManager* tradeManager, IDataManager* dataManager)
+void Nitrade::Strategy::init(ITradeManager* tradeManager, IAssetData* assetData)
 {
 	//need a reference to the controllers trade and data managers
 	_tradeManager = tradeManager;
-	_dataManager = dataManager;	
+	_assetData = assetData;	
 }
 
 bool Nitrade::Strategy::openTrade(std::string asset, int size, double stopLoss, double takeProfit)
@@ -70,10 +70,10 @@ int Nitrade::Strategy::volume(int offset)
 
 bool Nitrade::Strategy::setCurrentDataIfRequired(IPriceData* pd)
 {
-	int size = _requiredData.size();
+	int size = _assetData->size();
 	for (int i = 0; i < size; i++)
 	{
-		if (_requiredData[i] == pd)
+		if ((*_assetData)[i] == pd)
 		{
 			_currentData = pd;
 			return true;

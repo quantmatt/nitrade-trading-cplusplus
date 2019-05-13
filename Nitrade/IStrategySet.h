@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PriceData.h"
-
+#include "IStrategyDefinition.h"
 namespace Nitrade {
 	class IStrategySet
 	{
@@ -9,7 +9,8 @@ namespace Nitrade {
 		IStrategySet() = default;
 		virtual ~IStrategySet() = default;
 		
-		virtual void run(const IPriceData* dataSet) = 0;
+		virtual void createFrom(IStrategyDefinition* strategyDefintion) = 0;
+		virtual void run(IPriceData* dataSet) = 0;
 	};
 }
 

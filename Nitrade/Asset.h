@@ -1,12 +1,5 @@
 #pragma once
 #include <iostream>
-#include <map>
-#include <vector>
-#include <memory>
-#include "PriceData.h"
-#include "BinaryChunkReader.h"
-#include "FastAccessDynamicArray.h"
-
 namespace Nitrade {
 
 	class IAsset
@@ -32,17 +25,12 @@ namespace Nitrade {
 		std::string _name{ nullptr };
 		std::string _dataPath{  "D:\\TickData\\EURUSD_m1.bin" }; //tempory hard coded
 
-		std::map<std::string, IPriceData*>* _priceData;
-
-		//used for reading data for backtests
-		std::unique_ptr<BinaryChunkReader> _bReader;
+		
 
 	public:
 		Asset() = default;
 		Asset(std::string assetName);
-		//create an asset to read data from file
-		Asset(std::string assetName, std::unique_ptr<BinaryChunkReader> bReader);
-		virtual ~Asset();
+		virtual ~Asset() = default;
 
 		//properties
 		std::string getName();

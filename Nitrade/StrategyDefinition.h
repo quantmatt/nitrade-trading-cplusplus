@@ -1,5 +1,6 @@
 #pragma once
 #include "IStrategyDefinition.h"
+#include "OptimiseParameter.h"
 #include <tuple>
 
 namespace Nitrade{
@@ -8,14 +9,20 @@ namespace Nitrade{
 	{
 	private:
 		std::unique_ptr<std::tuple<std::string, int, int>[]> _dataSetParameters;
-		int _dataSetCount = 1;
+		std::unique_ptr<OptimiseParameter[]> _optimiseParameters;
+		int _dataSetCount{ 0 };
+		int _optimiseParameterCount{ 0 };
 	public:
 		StrategyDefinition();
 		virtual ~StrategyDefinition() = default;
 
 		std::unique_ptr<std::string[]> getAssetNames() { return nullptr; };
+
 		const std::tuple<std::string, int, int>& getDataSetParams(int index);
 		int getDataSetCount();
+
+		const OptimiseParameter& getOptimiseParams(int index);
+		int getOptimiseParameterCount();
 
 	};
 }

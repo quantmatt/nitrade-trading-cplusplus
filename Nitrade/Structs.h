@@ -29,6 +29,7 @@ namespace Nitrade {
 		bool isLong{ false }; //true if long false if short
 	};
 
+
 #pragma pack(pop)
 
 }

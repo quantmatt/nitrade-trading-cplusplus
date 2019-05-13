@@ -8,5 +8,6 @@ using namespace Utils;
 
 class MockStrategySet : public IStrategySet {
 
-	MOCK_METHOD1(run, void(const IPriceData* dataSet));
+	MOCK_METHOD1(run, void(IPriceData* dataSet));
+	MOCK_METHOD1(createFrom, void(IStrategyDefinition* strategyDefintion));
 };
