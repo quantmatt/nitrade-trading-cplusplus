@@ -17,7 +17,7 @@ namespace Nitrade{
 		StrategySet();
 		virtual ~StrategySet();
 
-		void createFrom(IStrategyDefinition* strategyDefintion);
+		void createFrom(IStrategyDefinition* strategyDefintion, std::string assetName);
 		void init(ITradeManager* tradeManager, IAssetData* assetData);
 		void run(IPriceData* dataSet);
 	};

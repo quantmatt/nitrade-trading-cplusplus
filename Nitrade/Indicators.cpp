@@ -25,7 +25,8 @@ double Nitrade::Indicators::SMA(int periods, Utils::ISeriesBuffer<double>* data)
 
 bool Nitrade::Indicators::CrossOver(Utils::ISeriesBuffer<double>* data1, Utils::ISeriesBuffer<double>* data2)
 {
-	if (data1->get(0) > data2->get(0) && data1->get(1) < data2->get(1))
+	if ((data1->get(0) > data2->get(0) && data1->get(1) < data2->get(1)) ||
+		(data2->get(0) > data1->get(0) && data2->get(1) < data1->get(1)))
 		return true;
 
 	return false;

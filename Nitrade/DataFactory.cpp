@@ -31,11 +31,11 @@ std::unique_ptr<Nitrade::IStrategySet> Nitrade::DataFactory::getStrategySet(IStr
 	IAsset* asset)
 {
 	auto strategySet = std::make_unique<StrategySet>();
-	strategySet->createFrom(strategyDefinition);
+	strategySet->createFrom(strategyDefinition, asset->getName());
 	return strategySet;
 }
 
 std::unique_ptr<Nitrade::ITradeManager> Nitrade::DataFactory::getTradeManager()
 {
-	return std::make_unique<ITradeManager>();
+	return std::make_unique<TradeManager>();
 }

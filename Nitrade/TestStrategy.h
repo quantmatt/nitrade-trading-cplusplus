@@ -23,12 +23,12 @@ namespace Nitrade {
 		};
 
 		void onBar() {
-
+			
 			//only calculate when we have enough bars in the lookback
-			if (_currentData->getBarIndex() <= 30)
+			if (getBarIndex() <= _parameters["Period2"])
 				return;
 
-			if (_currentData->getName() == "60min" && getOpenTradeCount() == 0)
+			if (getDatasetName() == "60min")
 			{
 				_features["ASK_CLOSE"]->add(askClose());
 
@@ -43,12 +43,18 @@ namespace Nitrade {
 					double stopLoss = getPip() * 10;
 
 					if (smaFast > smaSlow)
-						openTrade(_assetName, tradeDirection::Long, 1, stopLoss, stopLoss);
+					{
+						closeTrades(tradeDirection::Short);
+						openTrade(tradeDirection::Long, 1, stopLoss, stopLoss);
+					}
 					else if (smaFast < smaSlow)
-						openTrade(_assetName, tradeDirection::Short, 1, stopLoss, stopLoss);
+					{
+						closeTrades(tradeDirection::Long);
+						openTrade(tradeDirection::Short, 1, stopLoss, stopLoss);
+					}
 				}
 			}
-
+			
 		};
 	};
 }

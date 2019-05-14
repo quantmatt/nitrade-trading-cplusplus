@@ -12,7 +12,7 @@ Nitrade::StrategySet::~StrategySet()
 {
 }
 
-void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion)
+void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion, std::string assetName)
 {
 	int paramCount = strategyDefintion->getOptimiseParameterCount();
 
@@ -57,6 +57,10 @@ void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion)
 	while (indexArray[floater] < paramValues[floater].size() && !exitLoop)
 	{
 		_strategies[sIndex] = std::move(baseStrategy->clone());
+
+		//give each strategy a unique index so we can track trades
+		_strategies[sIndex]->setVariantId(sIndex); 
+		_strategies[sIndex]->setAssetName(assetName);
 
 		for (int i = 0; i < paramCount; i++)
 		{
@@ -110,6 +114,7 @@ void Nitrade::StrategySet::init(ITradeManager* tradeManager, IAssetData* assetDa
 
 void Nitrade::StrategySet::run(IPriceData* dataSet)
 {
+	
 	//loop through all the strategies in the set
 	for (int i = 0; i < _strategyCount; i++)
 	{
@@ -118,4 +123,5 @@ void Nitrade::StrategySet::run(IPriceData* dataSet)
 		if (_strategies[i]->setCurrentDataIfRequired(dataSet))
 			_strategies[i]->onBar();
 	}
+
 }

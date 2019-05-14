@@ -30,14 +30,38 @@ double Nitrade::Strategy::getParameter(std::string name)
 	return _parameters[name];
 }
 
-bool Nitrade::Strategy::openTrade(std::string asset, tradeDirection direction, int size, double stopLoss, double takeProfit)
+bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, double stopLoss, double takeProfit)
+{
+	//this will be the current bar - ie. the one that has not closed yet so careful not to use any close price or volume info
+	//the open of the bar is essentially the first oportunity to open a trade based on calculations from the last bar
+	Bar* bar = (*_currentData)[0];
+
+	auto trade = std::make_unique<Trade>();
+	trade->openTime = bar->timestamp;
+	trade->assetName = _assetName;
+	trade->variantId = _variantId;
+	trade->direction = direction;
+	trade->stopLoss = stopLoss;
+	trade->takeProfit = takeProfit;
+	trade->spread = bar->askOpen - bar->bidOpen;
+	if (direction == tradeDirection::Long)
+		trade->openLevel = bar->askOpen;
+	else
+		trade->openLevel = bar->bidOpen;
+
+	_tradeManager->openTrade(std::move(trade));
+
+	return true;
+}
+
+bool Nitrade::Strategy::closeTrade(int tradeId)
 {
 	return false;
 }
 
-bool Nitrade::Strategy::closeTrade(long tradeId)
+void Nitrade::Strategy::closeTrades(tradeDirection direction)
 {
-	return false;
+	_tradeManager->closeTrades(_assetName, _variantId, direction, (*_currentData)[0]);
 }
 
 int Nitrade::Strategy::getOpenTradeCount(std::string assetName, std::string strategyName)
@@ -47,7 +71,7 @@ int Nitrade::Strategy::getOpenTradeCount(std::string assetName, std::string stra
 
 int Nitrade::Strategy::getOpenTradeCount()
 {
-	return 0;
+	return _tradeManager->getOpenTradeCount(_assetName, _variantId);
 }
 
 double Nitrade::Strategy::getPip()
@@ -56,53 +80,54 @@ double Nitrade::Strategy::getPip()
 	return 0.0001;
 }
 
-float Nitrade::Strategy::bidOpen(int offset)
+float Nitrade::Strategy::bidOpen(unsigned int offset)
 {
-	return (*_currentData)[0]->bidOpen;
+	return (*_currentData)[offset+1]->bidOpen;
 }
 
-float Nitrade::Strategy::bidClose(int offset)
+float Nitrade::Strategy::bidClose(unsigned int offset)
 {
-	return (*_currentData)[0]->bidClose;
+	return (*_currentData)[offset + 1]->bidClose;
 }
 
-float Nitrade::Strategy::bidHigh(int offset)
+float Nitrade::Strategy::bidHigh(unsigned int offset)
 {
-	return (*_currentData)[0]->bidHigh;
+	return (*_currentData)[offset + 1]->bidHigh;
 }
 
-float Nitrade::Strategy::bidLow(int offset)
+float Nitrade::Strategy::bidLow(unsigned int offset)
 {
-	return (*_currentData)[0]->bidLow;
+	return (*_currentData)[offset + 1]->bidLow;
 }
 
-float Nitrade::Strategy::askOpen(int offset)
+float Nitrade::Strategy::askOpen(unsigned int offset)
 {
-	return (*_currentData)[0]->askOpen;
+	return (*_currentData)[offset + 1]->askOpen;
 }
 
-float Nitrade::Strategy::askClose(int offset)
+float Nitrade::Strategy::askClose(unsigned int offset)
 {
-	return (*_currentData)[0]->askClose;
+	return (*_currentData)[offset + 1]->askClose;
 }
 
-float Nitrade::Strategy::askHigh(int offset)
+float Nitrade::Strategy::askHigh(unsigned int offset)
 {
-	return(*_currentData)[0]->askHigh;
+	return(*_currentData)[offset + 1]->askHigh;
 }
 
-float Nitrade::Strategy::askLow(int offset)
+float Nitrade::Strategy::askLow(unsigned int offset)
 {
-	return (*_currentData)[0]->askLow;
+	return (*_currentData)[offset + 1]->askLow;
 }
 
-int Nitrade::Strategy::volume(int offset)
+int Nitrade::Strategy::volume(unsigned int offset)
 {
-	return (*_currentData)[0]->volume;
+	return (*_currentData)[offset + 1]->volume;
 }
 
 bool Nitrade::Strategy::setCurrentDataIfRequired(IPriceData* pd)
 {
+	/*
 	int size = _assetData->size();
 	for (int i = 0; i < size; i++)
 	{
@@ -114,4 +139,7 @@ bool Nitrade::Strategy::setCurrentDataIfRequired(IPriceData* pd)
 	}
 
 	return false;
+	*/
+	_currentData = pd;
+	return true;
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <map>
+#include <iostream>
 #include "Structs.h"
 
 namespace Nitrade {
@@ -10,6 +12,10 @@ namespace Nitrade {
 		ITradeManager() {}
 		virtual ~ITradeManager() {}
 
+		virtual void openTrade(std::unique_ptr<Trade> trade) = 0;
+		virtual void closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar) = 0;
+		virtual int getOpenTradeCount(std::string asset, int id) = 0;
+
 	};
 
 
@@ -17,12 +23,18 @@ namespace Nitrade {
 	class TradeManager :
 		public ITradeManager
 	{
-	protected:
-		std::vector<Trade> trades{};
+	private:
+		int _idCounter{ 1 }; //used for backtesting to create an id
+		//trades are mapped by asset, variantId
+		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<Trade>>> _openTrades;
+		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<Trade>>> _closedTrades;
 
 	public:
 		TradeManager() {}
 		virtual ~TradeManager() {}
 
+		void openTrade(std::unique_ptr<Trade> trade);
+		void closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar);
+		int getOpenTradeCount(std::string asset, int id);
 	};
 }   

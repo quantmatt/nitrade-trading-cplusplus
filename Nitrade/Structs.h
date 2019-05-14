@@ -20,6 +20,10 @@ namespace Nitrade {
 	};
 
 	struct Trade {
+		int tradeId;
+		std::string assetName{ "" };
+		int variantId{ 0 };
+		tradeDirection direction{ tradeDirection::Long };
 		long long openTime{ 0 }; //time the trade opened
 		long long closeTime{ 0 }; //time the trade closed
 		float openLevel{ 0 }; //the price the trade exectuted at
@@ -28,7 +32,8 @@ namespace Nitrade {
 		int spread{ 0 }; //spread in points
 		int profit{ 0 }; //trade profit in cents
 		int size{ 0 }; //size in units ie. for forex 0.01 lots would be size 1000
-		bool isLong{ false }; //true if long false if short
+		double stopLoss{ 0 };
+		double takeProfit{ 0 };
 	};
 
 
