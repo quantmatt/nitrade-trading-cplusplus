@@ -158,9 +158,6 @@
     <ProjectReference Include="..\Nitrade\Nitrade.vcxproj">
       <Project>{927fe302-1006-4087-b8d8-039879b9610b}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Strategies\Strategies.vcxproj">
-      <Project>{348b8991-8e01-4b3b-a2ec-d61b87af5293}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

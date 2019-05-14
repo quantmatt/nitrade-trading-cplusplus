@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <memory>
+#include <vector>
 
 namespace Nitrade {
 	class OptimiseParameter
@@ -19,7 +20,8 @@ namespace Nitrade {
 
 		virtual ~OptimiseParameter() = default;
 
-		std::unique_ptr<double[]> getValues();
+		std::vector<double> getValues();
+		std::string getName();
 
 
 	};

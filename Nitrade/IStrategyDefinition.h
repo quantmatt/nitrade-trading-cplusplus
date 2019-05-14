@@ -2,6 +2,7 @@
 #include <memory>
 #include <iostream>
 #include "Structs.h"
+#include "Strategy.h"
 #include "OptimiseParameter.h"
 
 namespace Nitrade {
@@ -12,6 +13,9 @@ namespace Nitrade {
 		virtual ~IStrategyDefinition() = default;
 
 		virtual std::unique_ptr<std::string[]> getAssetNames() = 0;
+
+		virtual void setStrategy(std::unique_ptr<Strategy> strategy) = 0;
+		virtual Strategy* getStrategy() = 0;
 
 		virtual const std::tuple<std::string, int, int>& getDataSetParams(int index) = 0;
 		virtual int getDataSetCount() = 0;

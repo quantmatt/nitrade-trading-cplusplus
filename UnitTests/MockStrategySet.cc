@@ -10,4 +10,6 @@ class MockStrategySet : public IStrategySet {
 
 	MOCK_METHOD1(run, void(IPriceData* dataSet));
 	MOCK_METHOD1(createFrom, void(IStrategyDefinition* strategyDefintion));
+	MOCK_METHOD2(init, void(ITradeManager* tradeManager, IAssetData* assetData));
+	
 };

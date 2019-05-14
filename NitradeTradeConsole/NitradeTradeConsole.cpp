@@ -5,7 +5,6 @@
 #include <time.h>
 #include <memory>
 #include "NitradeLib.h"
-#include "../Strategies/framework.h"
 
 using namespace std;
 using namespace Nitrade;

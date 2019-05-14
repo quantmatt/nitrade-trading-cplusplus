@@ -3,6 +3,8 @@
 
 namespace Nitrade {
 
+	enum tradeDirection { Long, Short };
+
 #pragma pack(push, 1)
 	struct Bar {
 		long long timestamp{ 0 };

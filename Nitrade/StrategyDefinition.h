@@ -10,11 +10,16 @@ namespace Nitrade{
 	private:
 		std::unique_ptr<std::tuple<std::string, int, int>[]> _dataSetParameters;
 		std::unique_ptr<OptimiseParameter[]> _optimiseParameters;
+		std::unique_ptr<Strategy> _strategy;
+
 		int _dataSetCount{ 0 };
 		int _optimiseParameterCount{ 0 };
 	public:
 		StrategyDefinition();
 		virtual ~StrategyDefinition() = default;
+
+		void setStrategy(std::unique_ptr<Strategy> strategy);
+		Strategy* getStrategy();
 
 		std::unique_ptr<std::string[]> getAssetNames() { return nullptr; };
 

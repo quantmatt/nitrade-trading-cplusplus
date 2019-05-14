@@ -28,6 +28,7 @@
     <ClInclude Include="HistoricSimulator.h" />
     <ClInclude Include="IAssetData.h" />
     <ClInclude Include="IDataFactory.h" />
+    <ClInclude Include="Indicators.h" />
     <ClInclude Include="IStrategyDefinition.h" />
     <ClInclude Include="IStrategySet.h" />
     <ClInclude Include="NitradeLib.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="StrategyDefinition.h" />
     <ClInclude Include="StrategySet.h" />
     <ClInclude Include="Structs.h" />
+    <ClInclude Include="TestStrategy.h" />
     <ClInclude Include="TradeManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +49,7 @@
     <ClCompile Include="DataFactory.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="HistoricSimulator.cpp" />
+    <ClCompile Include="Indicators.cpp" />
     <ClCompile Include="OptimiseParameter.cpp" />
     <ClCompile Include="PriceData.cpp" />
     <ClCompile Include="SeriesBuffer.cpp" />

@@ -11,6 +11,7 @@ namespace Nitrade {
 		
 		virtual void createFrom(IStrategyDefinition* strategyDefintion) = 0;
 		virtual void run(IPriceData* dataSet) = 0;
+		virtual void init(ITradeManager* tradeManager, IAssetData* assetData) = 0;
 	};
 }
 

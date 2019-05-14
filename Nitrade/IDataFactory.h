@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <memory>
+#include <tuple>
 #include "BinaryChunkReader.h"
 #include "Asset.h"
 #include "AssetData.h"
@@ -19,6 +20,7 @@ namespace Nitrade {
 		virtual std::unique_ptr<IAssetData> getAssetData(IStrategyDefinition* strategyDefinition) = 0;
 		virtual std::unique_ptr<IBinaryChunkReader> getBinaryChunkReader(const std::string dataPath) = 0;
 		virtual std::unique_ptr<IStrategySet> getStrategySet(IStrategyDefinition* strategyDefinition, IAsset* asset) = 0;
+		virtual std::unique_ptr<ITradeManager> getTradeManager() = 0;
 	};
 }
 

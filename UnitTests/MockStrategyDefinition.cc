@@ -11,6 +11,9 @@ class MockStrategyDefinition : public IStrategyDefinition {
 	MOCK_METHOD1(getDataSetParams, std::tuple<std::string, int, int>& (int index));
 	MOCK_METHOD0(getDataSetCount, int());
 
+	MOCK_METHOD1(setStrategy, void(std::unique_ptr<Strategy> strategy));
+	MOCK_METHOD0(getStrategy, Strategy* ());
+
 	MOCK_METHOD1(getOptimiseParams, OptimiseParameter& (int index));
 	MOCK_METHOD0(getOptimiseParameterCount, int());
 };

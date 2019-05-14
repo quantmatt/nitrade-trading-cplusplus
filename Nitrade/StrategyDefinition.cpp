@@ -11,14 +11,25 @@ Nitrade::StrategyDefinition::StrategyDefinition()
 	_dataSetParameters[0] = std::make_tuple("60min", 200, 60);
 	
 
-	_optimiseParameterCount = 2;
+	_optimiseParameterCount = 3;
 	_optimiseParameters = std::make_unique<OptimiseParameter[]>(_optimiseParameterCount);
-	_optimiseParameters[0] = OptimiseParameter("Period1", 4, 8, 1, 6);
-	_optimiseParameters[1] = OptimiseParameter("Period2", 14, 18, 1, 16);
+	_optimiseParameters[0] = OptimiseParameter("Period1", 4, 6, 1, 6);
+	_optimiseParameters[1] = OptimiseParameter("Period2", 14, 16, 1, 16);
+	_optimiseParameters[2] = OptimiseParameter("Not Used", 1, 10, 1, 1);
 
 
 
 
+}
+
+void Nitrade::StrategyDefinition::setStrategy(std::unique_ptr<Strategy> strategy)
+{
+	_strategy = std::move(strategy);
+}
+
+Nitrade::Strategy* Nitrade::StrategyDefinition::getStrategy()
+{
+	return _strategy.get();
 }
 
 const std::tuple<std::string, int, int>& Nitrade::StrategyDefinition::getDataSetParams(int index)

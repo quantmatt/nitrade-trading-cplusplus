@@ -25,7 +25,7 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 	//A set of strategies generated with all possible values of the input variables
 	//for this particular asset
 	auto strategies = _dataFactory->getStrategySet(_strategyDefinition.get(), asset.get());
-
+	
 	//create the price data arrays for this asset.
 	//these will be filled as we traverse through the binary data
 	auto assetData = _dataFactory->getAssetData(_strategyDefinition.get());
@@ -34,6 +34,12 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 	//Create a binary chunk reader to read the binary price data in chunks
 	//chunks not only conserve memory use but also process faster
 	auto bcr = _dataFactory->getBinaryChunkReader(asset->getDataPath());
+
+	auto tradeManager = _dataFactory->getTradeManager();
+
+	//initialise all the strategies
+	strategies->init(tradeManager.get(), assetData.get());
+
 
 	//All objects have been created so start processing the binary data into OHLC bars
 	bcr->openFile();

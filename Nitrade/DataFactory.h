@@ -14,6 +14,7 @@ namespace Nitrade {
 		virtual std::unique_ptr<IAssetData> getAssetData(IStrategyDefinition* strategyDefinition) override;
 		virtual std::unique_ptr<IBinaryChunkReader> getBinaryChunkReader(const std::string dataPath) override;
 		virtual std::unique_ptr<IStrategySet> getStrategySet(IStrategyDefinition* strategyDefinition, IAsset* asset) override;
+		virtual std::unique_ptr<ITradeManager> getTradeManager() override;
 	};
 }
 

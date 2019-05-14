@@ -1,19 +1,36 @@
 #include "Strategy.h"
 
-
 Nitrade::Strategy::~Strategy()
 {
 	//dont delete trade manager or data manager because it is used by all strategies
+}
+
+std::unique_ptr<Nitrade::Strategy> Nitrade::Strategy::clone()
+{
+	return std::make_unique<Strategy>();
 }
 
 void Nitrade::Strategy::init(ITradeManager* tradeManager, IAssetData* assetData)
 {
 	//need a reference to the controllers trade and data managers
 	_tradeManager = tradeManager;
-	_assetData = assetData;	
+	_assetData = assetData;
+	
+	//initialse any strategy specific code
+	onInit();
 }
 
-bool Nitrade::Strategy::openTrade(std::string asset, int size, double stopLoss, double takeProfit)
+void Nitrade::Strategy::setParameter(std::string name, double value)
+{
+	_parameters[name] = value;
+}
+
+double Nitrade::Strategy::getParameter(std::string name)
+{
+	return _parameters[name];
+}
+
+bool Nitrade::Strategy::openTrade(std::string asset, tradeDirection direction, int size, double stopLoss, double takeProfit)
 {
 	return false;
 }
@@ -21,6 +38,22 @@ bool Nitrade::Strategy::openTrade(std::string asset, int size, double stopLoss, 
 bool Nitrade::Strategy::closeTrade(long tradeId)
 {
 	return false;
+}
+
+int Nitrade::Strategy::getOpenTradeCount(std::string assetName, std::string strategyName)
+{
+	return 0;
+}
+
+int Nitrade::Strategy::getOpenTradeCount()
+{
+	return 0;
+}
+
+double Nitrade::Strategy::getPip()
+{
+	//gets the value of 1 pip for the currently selected asset
+	return 0.0001;
 }
 
 float Nitrade::Strategy::bidOpen(int offset)

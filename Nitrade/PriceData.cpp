@@ -52,6 +52,8 @@ bool Nitrade::PriceData::updateCurrentBarFromBar(Bar* newInfo)
 
 		//add this bar to the series
 		_pLookbackBars->add(newBar);
+
+		_barIndex++;
 		
 
 		//returns true if this is the start of a new bar
@@ -88,4 +90,9 @@ std::string Nitrade::PriceData::getName()
 {
 	std::string description = std::to_string(_barSize) + "min";
 	return description;
+}
+
+int Nitrade::PriceData::getBarIndex()
+{
+	return _barIndex;
 }

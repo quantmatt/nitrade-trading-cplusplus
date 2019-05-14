@@ -34,3 +34,8 @@ std::unique_ptr<Nitrade::IStrategySet> Nitrade::DataFactory::getStrategySet(IStr
 	strategySet->createFrom(strategyDefinition);
 	return strategySet;
 }
+
+std::unique_ptr<Nitrade::ITradeManager> Nitrade::DataFactory::getTradeManager()
+{
+	return std::make_unique<ITradeManager>();
+}

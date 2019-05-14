@@ -13,6 +13,7 @@ public:
 	MOCK_METHOD2(updateCurrentBarFromTick, bool(float quote, bool isBid));
 	MOCK_METHOD1(bracketOp, Bar*(int index));
 	MOCK_METHOD0(getName, string());
+	MOCK_METHOD0(getBarIndex, int());
 
 	Bar* operator [](int barOffset) override { return bracketOp(barOffset); }
 };

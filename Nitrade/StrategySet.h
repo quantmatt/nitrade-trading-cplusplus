@@ -4,18 +4,21 @@
 #include "Strategy.h"
 #include "IStrategyDefinition.h"
 #include "OptimiseParameter.h"
+#include "vector"
+
 namespace Nitrade{
 	class StrategySet :
 		public IStrategySet
 	{
 	private:
-		std::unique_ptr<Strategy[]> _strategies;
+		std::vector<std::unique_ptr<Strategy>> _strategies;
 		int _strategyCount{ 0 };
 	public:
 		StrategySet();
 		virtual ~StrategySet();
 
 		void createFrom(IStrategyDefinition* strategyDefintion);
+		void init(ITradeManager* tradeManager, IAssetData* assetData);
 		void run(IPriceData* dataSet);
 	};
 }
