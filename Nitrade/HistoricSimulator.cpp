@@ -1,13 +1,18 @@
 #include "HistoricSimulator.h"
 #include "DataFactory.h"
 
-void Nitrade::HistoricSimulator::Setup(std::unique_ptr<IStrategyDefinition> strategyDef, std::unique_ptr<IDataFactory> dataFactory)
+void Nitrade::HistoricSimulator::Setup(std::unique_ptr<IStrategyDefinition> strategyDef, 
+	std::unique_ptr<IDataFactory> dataFactory)
 {
+	//setup the strategy definition and datafactory
 	_strategyDefinition = std::move(strategyDef);
 	if (dataFactory != nullptr)
 		_dataFactory = std::move(dataFactory);
 	else
 		_dataFactory = std::make_unique<Nitrade::DataFactory>();
+
+	//load in the assets file
+	_loadedAssets = Utils::IOIterator::vectorFromCsv<Asset>(std::string(DEFAULT_ASSET_DETAILS_CSV), true);
 }
 
 void Nitrade::HistoricSimulator::Optimise(int threads)
@@ -20,11 +25,11 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 	//get all the objects required to run the test using the data factory class
 
 	//The details about the asset eg. datapath for binary, digits, pip value ect.
-	auto asset = _dataFactory->getAsset(assetName);
+	auto asset = getAsset(assetName);
 
 	//A set of strategies generated with all possible values of the input variables
 	//for this particular asset
-	auto strategies = _dataFactory->getStrategySet(_strategyDefinition.get(), asset.get());
+	auto strategies = _dataFactory->getStrategySet(_strategyDefinition.get(), asset);
 	
 	//create the price data arrays for this asset.
 	//these will be filled as we traverse through the binary data
@@ -33,7 +38,7 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 
 	//Create a binary chunk reader to read the binary price data in chunks
 	//chunks not only conserve memory use but also process faster
-	auto bcr = _dataFactory->getBinaryChunkReader(asset->getDataPath());
+	auto bcr = _dataFactory->getBinaryChunkReader(asset.getDataPath());
 
 	auto tradeManager = _dataFactory->getTradeManager();
 
@@ -82,6 +87,8 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 	bcr->closeFile();
 	//finished so close the binary file
 
+	//write all trades to a binary file
+	tradeManager->writeTradesToBinary("trades.bin");
 
 }
 
@@ -105,4 +112,20 @@ bool Nitrade::HistoricSimulator::isBarValid(const Nitrade::Bar* bar)
 
 	return true;
 
+}
+
+Nitrade::Asset& Nitrade::HistoricSimulator::getAsset(std::string assetName)
+{
+	//try to find the asset in the loaded assets
+	for (auto& asset : _loadedAssets)
+	{
+		//return a reference to the asset if found
+		if (asset->getName() == assetName)
+			return *asset;
+		
+	}
+
+	//throw an error if the asset can't be found
+	std::string err = assetName + " does not exist in loaded Asset list.";
+	throw std::exception(err.c_str());
 }

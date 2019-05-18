@@ -37,3 +37,18 @@ int Nitrade::TradeManager::getOpenTradeCount(std::string asset, int id)
 {
 	return _openTrades[std::make_tuple(asset, id)].size();
 }
+
+bool Nitrade::TradeManager::writeTradesToBinary(std::string filepath)
+{
+	std::vector<std::unique_ptr<Trade>> allTrades;
+	for (auto& vec : _closedTrades)
+	{
+		for (auto& trade : vec.second)
+		{
+			//Trade tradeCopy = Trade(*trade);
+			allTrades.push_back(std::make_unique<Trade>(*trade));
+		}
+	}
+
+	return Utils::IOIterator::binary<Trade>(filepath, allTrades);	
+}

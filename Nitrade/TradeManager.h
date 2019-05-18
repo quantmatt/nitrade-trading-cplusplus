@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include "utils.h"
 #include "Structs.h"
 
 namespace Nitrade {
@@ -15,6 +16,7 @@ namespace Nitrade {
 		virtual void openTrade(std::unique_ptr<Trade> trade) = 0;
 		virtual void closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar) = 0;
 		virtual int getOpenTradeCount(std::string asset, int id) = 0;
+		virtual bool writeTradesToBinary(std::string filepath) = 0;
 
 	};
 
@@ -36,5 +38,7 @@ namespace Nitrade {
 		void openTrade(std::unique_ptr<Trade> trade);
 		void closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar);
 		int getOpenTradeCount(std::string asset, int id);
+
+		bool writeTradesToBinary(std::string filepath);
 	};
 }   

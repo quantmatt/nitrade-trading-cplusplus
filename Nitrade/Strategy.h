@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 #include <memory>
 #include <map>
 #include "TradeManager.h"
@@ -38,7 +39,7 @@ namespace Nitrade {
 
 		void setVariantId(int id) { _variantId = id; }
 		int getVariantId() {return _variantId; }
-		void setAssetName(std::string name) { _assetName = name; }
+		void setAssetName(std::string name);
 		std::string getAssetName() { return _assetName; }
 
 		//trade functions
@@ -53,6 +54,7 @@ namespace Nitrade {
 
 		//asset functions
 		double getPip();
+		double getPoint();
 
 		//functions to access the data - will always add 1 to the offset to get the data from the last closed bar
 		//data from the current incomplete bar should only be accessed in an ontick function

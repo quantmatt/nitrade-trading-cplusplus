@@ -30,6 +30,13 @@ double Nitrade::Strategy::getParameter(std::string name)
 	return _parameters[name];
 }
 
+void Nitrade::Strategy::setAssetName(std::string name)
+{
+	//resize this so it fits into a size 10 char array for struct binary reading/writing
+	name.resize(9, ' '); //9 + terminator
+	_assetName = name; 
+}
+
 bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, double stopLoss, double takeProfit)
 {
 	//this will be the current bar - ie. the one that has not closed yet so careful not to use any close price or volume info
@@ -37,13 +44,14 @@ bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, double sto
 	Bar* bar = (*_currentData)[0];
 
 	auto trade = std::make_unique<Trade>();
-	trade->openTime = bar->timestamp;
-	trade->assetName = _assetName;
+	trade->openTime = bar->timestamp;	
+	//copy max string length of 10 chars to the structs char array	
+	strcpy_s(trade->assetName, _assetName.c_str());
 	trade->variantId = _variantId;
 	trade->direction = direction;
 	trade->stopLoss = stopLoss;
 	trade->takeProfit = takeProfit;
-	trade->spread = bar->askOpen - bar->bidOpen;
+	trade->spread = (float)((bar->askOpen - bar->bidOpen) / getPip());
 	if (direction == tradeDirection::Long)
 		trade->openLevel = bar->askOpen;
 	else
@@ -78,6 +86,12 @@ double Nitrade::Strategy::getPip()
 {
 	//gets the value of 1 pip for the currently selected asset
 	return 0.0001;
+}
+
+double Nitrade::Strategy::getPoint()
+{
+	//gets the value of 1 point for the currently selected asset
+	return 0.00001;
 }
 
 float Nitrade::Strategy::bidOpen(unsigned int offset)

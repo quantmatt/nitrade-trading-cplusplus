@@ -6,7 +6,7 @@ namespace Nitrade {
 	{
 	public:
 		IAsset() {}
-		IAsset(std::string assetName) {}
+		IAsset(std::string csv) {}
 		virtual ~IAsset() {}
 
 		//properties
@@ -20,16 +20,18 @@ namespace Nitrade {
 		: public IAsset
 	{
 	private:
+		float _pip{ 0 };
 		float _pipValue{ 0 };
 		int _digits{ 0 };
-		std::string _name{ nullptr };
-		std::string _dataPath{  "D:\\TickData\\EURUSD_m1.bin" }; //tempory hard coded
+		float _pipCost{ 0 };
+		std::string _name{ (10, ' ') };
+		std::string _dataPath{""};
 
 		
 
 	public:
 		Asset() = default;
-		Asset(std::string assetName);
+		Asset(std::string csv);
 		virtual ~Asset() = default;
 
 		//properties

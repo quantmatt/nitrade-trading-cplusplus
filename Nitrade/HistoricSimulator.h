@@ -11,6 +11,7 @@ namespace Nitrade {
 
 		std::unique_ptr<IStrategyDefinition> _strategyDefinition;
 		std::unique_ptr<IDataFactory> _dataFactory;
+		std::vector<std::unique_ptr<Asset>> _loadedAssets;
 
 	public:
 		HistoricSimulator() = default;		
@@ -24,6 +25,7 @@ namespace Nitrade {
 
 	private:
 		bool isBarValid(const Nitrade::Bar* bar);
+		Asset& getAsset(std::string assetName);
 	
 	};
 }

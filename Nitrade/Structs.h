@@ -3,7 +3,8 @@
 
 namespace Nitrade {
 
-	enum tradeDirection { Long, Short };
+	const char DEFAULT_ASSET_DETAILS_CSV[] = "AssetData\\Assets.csv";
+	enum tradeDirection { Long = 1, Short = -1 };
 
 #pragma pack(push, 1)
 	struct Bar {
@@ -20,20 +21,20 @@ namespace Nitrade {
 	};
 
 	struct Trade {
-		int tradeId;
-		std::string assetName{ "" };
+		int tradeId{ 0 };
 		int variantId{ 0 };
-		tradeDirection direction{ tradeDirection::Long };
-		long long openTime{ 0 }; //time the trade opened
-		long long closeTime{ 0 }; //time the trade closed
 		float openLevel{ 0 }; //the price the trade exectuted at
 		float closeLevel{ 0 }; //the price the trade closed at
 		int commission{ 0 }; //cents paid in commission
-		int spread{ 0 }; //spread in points
+		float spread{ 0 }; //spread in points
 		int profit{ 0 }; //trade profit in cents
 		int size{ 0 }; //size in units ie. for forex 0.01 lots would be size 1000
 		double stopLoss{ 0 };
 		double takeProfit{ 0 };
+		long long openTime{ 0 }; //time the trade opened
+		long long closeTime{ 0 }; //time the trade closed
+		char assetName[10]{ "" };
+		tradeDirection direction{ tradeDirection::Long };
 	};
 
 
