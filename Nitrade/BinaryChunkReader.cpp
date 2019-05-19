@@ -25,7 +25,6 @@ Nitrade::BinaryChunkReader::~BinaryChunkReader()
 {
 	if (_inputFile.is_open())
 		_inputFile.close();
-	delete[] _pBinData;
 }
 
 bool Nitrade::BinaryChunkReader::isOpen()
@@ -83,11 +82,9 @@ char* Nitrade::BinaryChunkReader::getChunk()
 		return nullptr;
 	}
 
-	//delete any data that was in the binData previously
-	delete[] _pBinData;
 
 	//declare the binaryData array to hold the whole contents of the file.
-	_pBinData = new char[_bufferSize];
+	_pBinData = std::make_unique<char[]>(_bufferSize);
 
 	//make sure we don't read more than what is left
 	int remaining = (int)(_size - _processedBytes);
@@ -95,13 +92,14 @@ char* Nitrade::BinaryChunkReader::getChunk()
 		_bufferSize = remaining;
 
 	//read the file into the char array
-	if (_inputFile.read(_pBinData, _bufferSize))
+	if (_inputFile.read(_pBinData.get(), _bufferSize))
 	{
 		_processedBytes += _bufferSize;
 
-		_lastChunkByte = _pBinData + _bufferSize;
+		_lastChunkByte = _pBinData.get() + _bufferSize;
 
-		return _pBinData;
+		//return a raw pointer to the char array owned by BinaryChunkReader
+		return _pBinData.get();
 	}
 
 	return nullptr;

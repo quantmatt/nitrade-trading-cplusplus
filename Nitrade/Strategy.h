@@ -18,11 +18,11 @@ namespace Nitrade {
 		IAssetData* _assetData{ nullptr };
 		IPriceData* _currentData{ nullptr };
 		ITradeManager* _tradeManager{ nullptr };
+		Asset* _currentAsset{nullptr};
 	
 	protected:
 		std::map<std::string, double> _parameters;
 		int _variantId{ 0 }; //used to identify the strategy variant ie. different parameter values
-		std::string _assetName{""};
 
 		std::map<std::string, std::unique_ptr<Utils::ISeriesBuffer<double>>> _features;
 
@@ -39,11 +39,11 @@ namespace Nitrade {
 
 		void setVariantId(int id) { _variantId = id; }
 		int getVariantId() {return _variantId; }
-		void setAssetName(std::string name);
-		std::string getAssetName() { return _assetName; }
+		
+		
 
 		//trade functions
-		bool openTrade(tradeDirection direction, int size, double stopLoss = 0, double takeProfit = 0);
+		bool openTrade(tradeDirection direction, int size, float stopLoss = 0, float takeProfit = 0);
 		bool closeTrade(int tradeId);
 		void closeTrades(tradeDirection direction);
 		int getOpenTradeCount(std::string assetName, std::string strategyName);
@@ -53,8 +53,10 @@ namespace Nitrade {
 		std::string getDatasetName() { return _currentData->getName(); }
 
 		//asset functions
-		double getPip();
-		double getPoint();
+		void setAsset(Asset* asset);
+	    std::string getAssetName() const { return _currentAsset->getName(); }
+		float getPip() const { return _currentAsset->getPip(); }
+		float getPoint() const { return _currentAsset->getPoint(); }
 
 		//functions to access the data - will always add 1 to the offset to get the data from the last closed bar
 		//data from the current incomplete bar should only be accessed in an ontick function

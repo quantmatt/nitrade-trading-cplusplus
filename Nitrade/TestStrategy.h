@@ -32,15 +32,15 @@ namespace Nitrade {
 			{
 				_features["ASK_CLOSE"]->add(askClose());
 
-				double smaFast = Indicators::SMA(_parameters["Period1"], _features["ASK_CLOSE"].get());
-				double smaSlow = Indicators::SMA(_parameters["Period2"], _features["ASK_CLOSE"].get());
+				double smaFast = Indicators::SMA((int)_parameters["Period1"], _features["ASK_CLOSE"].get());
+				double smaSlow = Indicators::SMA((int)_parameters["Period2"], _features["ASK_CLOSE"].get());
 
 				_features["SMA_Fast"]->add(smaFast);
 				_features["SMA_Slow"]->add(smaSlow);
 
 				if (Indicators::CrossOver(_features["SMA_Fast"].get(), _features["SMA_Slow"].get()))
 				{
-					double stopLoss = getPip() * 10;
+					float stopLoss = getPip() * 10;
 
 					if (smaFast > smaSlow)
 					{

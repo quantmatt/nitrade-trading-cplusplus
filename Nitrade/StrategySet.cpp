@@ -12,14 +12,19 @@ Nitrade::StrategySet::~StrategySet()
 {
 }
 
-void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion, std::string assetName)
+void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion,  Nitrade::Asset* asset)
 {
+	//Does a brute force calculation of all the possible strategy setups with the range of optimisable
+	//parameters. A parameter has a start value, step value and max value
+
+	//get the number of optimisable parameters for the given strategy
 	int paramCount = strategyDefintion->getOptimiseParameterCount();
 
 	//get the base strategy to use as a template
 	Strategy* baseStrategy = strategyDefintion->getStrategy();
+	baseStrategy->setAsset(asset);
 
-	//if no optimisiation just set the strategy as is.
+	//if no optimisiation just set the strategy set as a single variant.
 	if (paramCount == 0)
 	{
 		_strategies = std::vector<std::unique_ptr<Strategy>>(1);
@@ -28,8 +33,11 @@ void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion, st
 		return;			
 	}
 
+	//create a vector to hold all the possible values for each optimisiable parameter
 	auto paramValues = std::vector<std::vector<double>>(paramCount);
 
+	//calculate how many strategies will be created from a brute force optimisation of the parameters	
+	//during the loop below by multiplying the number by the number of values for each parameter
 	int count = 1;
 
 	//create an array of values for each optimise parameter
@@ -41,13 +49,14 @@ void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion, st
 		count = count * paramValues[i].size();
 	}
 
-	//calculate how many strategies will be created from a brute force optimisation of the parameters
 	
 	_strategyCount = count;
+
 	//create an array large enough to hold all the strategies
 	_strategies = std::vector<std::unique_ptr<Strategy>>(count);
 
 
+	//algorithm below creates the cartesian product of all the possible parameter values
 	int sIndex = 0;
 	auto indexArray = std::vector<unsigned int>(paramCount);
 
@@ -60,7 +69,9 @@ void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion, st
 
 		//give each strategy a unique index so we can track trades
 		_strategies[sIndex]->setVariantId(sIndex); 
-		_strategies[sIndex]->setAssetName(assetName);
+
+		//assing the same asset
+		_strategies[sIndex]->setAsset(asset);
 
 		for (int i = 0; i < paramCount; i++)
 		{
@@ -106,6 +117,7 @@ void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion, st
 
 void Nitrade::StrategySet::init(ITradeManager* tradeManager, IAssetData* assetData)
 {
+	//sets each strategy in the set with the required assetdata and trade manager objects
 	for (int i = 0; i < _strategyCount; i++)
 	{
 		_strategies[i]->init(tradeManager, assetData);

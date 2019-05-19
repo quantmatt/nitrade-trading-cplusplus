@@ -23,6 +23,10 @@ namespace Nitrade {
 
 	};
 
+
+	//This class is used to load binary data in chunks to keep RAM usage at a minimum
+	//if RAM is limited on the users computer. Doesn't seem to change speed much if
+	//chunk size is 1MB, 50MB or 400MB.
 	class BinaryChunkReader :
 		public IBinaryChunkReader
 	{
@@ -34,7 +38,7 @@ namespace Nitrade {
 		int _bufferSize{ 0 }; //size of the buffer rounded to the nearest Bar size
 		long long _size{ 0 }; //total bytes of loaded file
 		long long _processedBytes{ 0 }; //number of bytes processed
-		char* _pBinData{nullptr};
+		std::unique_ptr<char[]> _pBinData{};
 
 	public:
 		BinaryChunkReader() {}

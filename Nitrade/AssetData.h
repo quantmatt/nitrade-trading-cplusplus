@@ -8,6 +8,8 @@ namespace Nitrade {
 		public IAssetData
 	{
 	private: 
+		//a vector is about 5-10% slower than array in backtesting
+		//so keep as array for performance reasons
 		std::unique_ptr<std::unique_ptr<IPriceData>[]> _priceData;
 		int _size{ 0 };
 

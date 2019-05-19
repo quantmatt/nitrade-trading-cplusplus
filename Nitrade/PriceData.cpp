@@ -18,7 +18,7 @@ Nitrade::PriceData::PriceData(int lookBack, int barSize, Utils::ISeriesBuffer<Ba
 
 Nitrade::PriceData::~PriceData()
 {
-	delete _pLookbackBars;
+	delete[] _pLookbackBars;
 }
 
 bool Nitrade::PriceData::updateCurrentBarFromBar(Bar* newInfo)

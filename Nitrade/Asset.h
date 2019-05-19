@@ -10,11 +10,11 @@ namespace Nitrade {
 		virtual ~IAsset() {}
 
 		//properties
-		virtual std::string getName() = 0;
-		virtual std::string getDataPath() = 0;
-		virtual float getPip() = 0;
-		virtual float getPipCost() = 0;
-		virtual float getCommission() = 0;
+		virtual std::string getName() const  = 0;
+		virtual std::string getDataPath() const = 0;
+		virtual float getPip() const = 0;
+		virtual float getPipCost() const = 0;
+		virtual float getCommission() const = 0;
 
 
 	};
@@ -27,7 +27,7 @@ namespace Nitrade {
 		float _pipCost{ 0 };
 		int _digits{ 0 };
 		float _commission{ 0 };
-		std::string _name{ (10, ' ') };
+		std::string _name{ (9, ' ') };
 		std::string _dataPath{""};
 
 		
@@ -38,11 +38,12 @@ namespace Nitrade {
 		virtual ~Asset() = default;
 
 		//properties
-		std::string getName();
-		std::string getDataPath();
-		float getPip() { return _pip; }
-		float getPipCost() { return _pipCost; }
-		float getCommission() { return _commission;  }
+		std::string getName() const { return _name; }
+		std::string getDataPath() const { return _dataPath; }
+		float getPip() const { return _pip; }
+		float getPoint() const { return (float)pow(1, -_digits); }
+		float getPipCost() const { return _pipCost; }
+		float getCommission() const { return _commission;  }
 
 
 	};

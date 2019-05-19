@@ -30,14 +30,12 @@ double Nitrade::Strategy::getParameter(std::string name)
 	return _parameters[name];
 }
 
-void Nitrade::Strategy::setAssetName(std::string name)
+void Nitrade::Strategy::setAsset(Nitrade::Asset* asset)
 {
-	//resize this so it fits into a size 10 char array for struct binary reading/writing
-	name.resize(9, ' '); //9 + terminator
-	_assetName = name; 
+	_currentAsset = asset; 
 }
 
-bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, double stopLoss, double takeProfit)
+bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, float stopLoss, float takeProfit)
 {
 	//this will be the current bar - ie. the one that has not closed yet so careful not to use any close price or volume info
 	//the open of the bar is essentially the first oportunity to open a trade based on calculations from the last bar
@@ -46,7 +44,7 @@ bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, double sto
 	auto trade = std::make_unique<Trade>();
 	trade->openTime = bar->timestamp;	
 	//copy max string length of 10 chars to the structs char array	
-	strcpy_s(trade->assetName, _assetName.c_str());
+	strcpy_s(trade->assetName, getAssetName().c_str());
 	trade->variantId = _variantId;
 	trade->size = size;
 	trade->direction = direction;
@@ -70,7 +68,7 @@ bool Nitrade::Strategy::closeTrade(int tradeId)
 
 void Nitrade::Strategy::closeTrades(tradeDirection direction)
 {
-	_tradeManager->closeTrades(_assetName, _variantId, direction, (*_currentData)[0]);
+	_tradeManager->closeTrades(getAssetName(), _variantId, direction, (*_currentData)[0]);
 }
 
 int Nitrade::Strategy::getOpenTradeCount(std::string assetName, std::string strategyName)
@@ -80,20 +78,9 @@ int Nitrade::Strategy::getOpenTradeCount(std::string assetName, std::string stra
 
 int Nitrade::Strategy::getOpenTradeCount()
 {
-	return _tradeManager->getOpenTradeCount(_assetName, _variantId);
+	return _tradeManager->getOpenTradeCount(getAssetName(), _variantId);
 }
 
-double Nitrade::Strategy::getPip()
-{
-	//gets the value of 1 pip for the currently selected asset
-	return 0.0001;
-}
-
-double Nitrade::Strategy::getPoint()
-{
-	//gets the value of 1 point for the currently selected asset
-	return 0.00001;
-}
 
 float Nitrade::Strategy::bidOpen(unsigned int offset)
 {

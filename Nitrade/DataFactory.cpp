@@ -1,9 +1,5 @@
 #include "DataFactory.h"
 
-std::unique_ptr<Nitrade::IAsset> Nitrade::DataFactory::getAsset(const std::string assetName)
-{
-	return std::make_unique<Asset>(assetName);
-}
 
 std::unique_ptr<Nitrade::IAssetData> Nitrade::DataFactory::getAssetData(IStrategyDefinition* strategyDefinition)
 {
@@ -14,7 +10,12 @@ std::unique_ptr<Nitrade::IAssetData> Nitrade::DataFactory::getAssetData(IStrateg
 	auto assetData = std::make_unique<AssetData>(dataSetCount);
 	for (int i = 0; i < dataSetCount; i++)
 	{
+		//the strategy definition holds the required details for the dataset in a tuple
+		//with assetname, lookback period and bar size in minutes
 		std::tuple<std::string, int, int> dataSetParams = strategyDefinition->getDataSetParams(i);
+
+		//creates a new Price data object and adds it to the array of price data objects
+		//for this asset
 		assetData->set(i, std::get<0>(dataSetParams), std::get<1>(dataSetParams), std::get<2>(dataSetParams));
 	}
 
@@ -28,10 +29,10 @@ std::unique_ptr<Nitrade::IBinaryChunkReader> Nitrade::DataFactory::getBinaryChun
 }
 
 std::unique_ptr<Nitrade::IStrategySet> Nitrade::DataFactory::getStrategySet(IStrategyDefinition* strategyDefinition,
-	std::string assetName)
+	Nitrade::Asset* asset)
 {
 	auto strategySet = std::make_unique<StrategySet>();
-	strategySet->createFrom(strategyDefinition, assetName);
+	strategySet->createFrom(strategyDefinition, asset);
 	return strategySet;
 }
 

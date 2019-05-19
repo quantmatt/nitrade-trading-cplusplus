@@ -16,10 +16,9 @@ namespace Nitrade {
 		IDataFactory() = default;
 		virtual ~IDataFactory() = default;
 
-		virtual std::unique_ptr<IAsset> getAsset(const std::string assetName) = 0;
 		virtual std::unique_ptr<IAssetData> getAssetData(IStrategyDefinition* strategyDefinition) = 0;
 		virtual std::unique_ptr<IBinaryChunkReader> getBinaryChunkReader(const std::string dataPath) = 0;
-		virtual std::unique_ptr<IStrategySet> getStrategySet(IStrategyDefinition* strategyDefinition, std::string assetName) = 0;
+		virtual std::unique_ptr<IStrategySet> getStrategySet(IStrategyDefinition* strategyDefinition, Asset* asset) = 0;
 		virtual std::unique_ptr<ITradeManager> getTradeManager() = 0;
 	};
 }

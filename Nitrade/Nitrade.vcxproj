@@ -24,7 +24,6 @@
     <ClInclude Include="BinaryChunkReader.h" />
     <ClInclude Include="DataFactory.h" />
     <ClInclude Include="DataManager.h" />
-    <ClInclude Include="FastAccessDynamicArray.h" />
     <ClInclude Include="HistoricSimulator.h" />
     <ClInclude Include="IAssetData.h" />
     <ClInclude Include="IDataFactory.h" />
@@ -52,7 +51,6 @@
     <ClCompile Include="Indicators.cpp" />
     <ClCompile Include="OptimiseParameter.cpp" />
     <ClCompile Include="PriceData.cpp" />
-    <ClCompile Include="SeriesBuffer.cpp" />
     <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="StrategyDefinition.cpp" />
     <ClCompile Include="StrategySet.cpp" />
