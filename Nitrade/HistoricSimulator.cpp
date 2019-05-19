@@ -11,8 +11,6 @@ void Nitrade::HistoricSimulator::Setup(std::unique_ptr<IStrategyDefinition> stra
 	else
 		_dataFactory = std::make_unique<Nitrade::DataFactory>();
 
-	//load in the assets file
-	_loadedAssets = Utils::IOIterator::vectorFromCsv<Asset>(std::string(DEFAULT_ASSET_DETAILS_CSV), true);
 }
 
 void Nitrade::HistoricSimulator::Optimise(int threads)
@@ -23,13 +21,16 @@ void Nitrade::HistoricSimulator::Optimise(int threads)
 void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 {
 	//get all the objects required to run the test using the data factory class
+	auto tradeManager = _dataFactory->getTradeManager();
+	//load all the asset details into the trade manager
+	tradeManager->loadAssetDetails();
 
 	//The details about the asset eg. datapath for binary, digits, pip value ect.
-	auto asset = getAsset(assetName);
+	auto asset = tradeManager->getAsset(assetName);
 
 	//A set of strategies generated with all possible values of the input variables
 	//for this particular asset
-	auto strategies = _dataFactory->getStrategySet(_strategyDefinition.get(), asset);
+	auto strategies = _dataFactory->getStrategySet(_strategyDefinition.get(), asset.getName());
 	
 	//create the price data arrays for this asset.
 	//these will be filled as we traverse through the binary data
@@ -40,7 +41,7 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 	//chunks not only conserve memory use but also process faster
 	auto bcr = _dataFactory->getBinaryChunkReader(asset.getDataPath());
 
-	auto tradeManager = _dataFactory->getTradeManager();
+	
 
 	//initialise all the strategies
 	strategies->init(tradeManager.get(), assetData.get());
@@ -114,18 +115,4 @@ bool Nitrade::HistoricSimulator::isBarValid(const Nitrade::Bar* bar)
 
 }
 
-Nitrade::Asset& Nitrade::HistoricSimulator::getAsset(std::string assetName)
-{
-	//try to find the asset in the loaded assets
-	for (auto& asset : _loadedAssets)
-	{
-		//return a reference to the asset if found
-		if (asset->getName() == assetName)
-			return *asset;
-		
-	}
 
-	//throw an error if the asset can't be found
-	std::string err = assetName + " does not exist in loaded Asset list.";
-	throw std::exception(err.c_str());
-}

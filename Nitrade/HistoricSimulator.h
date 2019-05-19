@@ -11,7 +11,7 @@ namespace Nitrade {
 
 		std::unique_ptr<IStrategyDefinition> _strategyDefinition;
 		std::unique_ptr<IDataFactory> _dataFactory;
-		std::vector<std::unique_ptr<Asset>> _loadedAssets;
+		
 
 	public:
 		HistoricSimulator() = default;		

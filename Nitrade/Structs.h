@@ -25,12 +25,12 @@ namespace Nitrade {
 		int variantId{ 0 };
 		float openLevel{ 0 }; //the price the trade exectuted at
 		float closeLevel{ 0 }; //the price the trade closed at
-		int commission{ 0 }; //cents paid in commission
+		float commission{ 0 }; //dollars paid in commission
 		float spread{ 0 }; //spread in points
-		int profit{ 0 }; //trade profit in cents
+		float profit{ 0 }; //trade profit in cents
 		int size{ 0 }; //size in units ie. for forex 0.01 lots would be size 1000
-		double stopLoss{ 0 };
-		double takeProfit{ 0 };
+		float stopLoss{ 0 };
+		float takeProfit{ 0 };
 		long long openTime{ 0 }; //time the trade opened
 		long long closeTime{ 0 }; //time the trade closed
 		char assetName[10]{ "" };

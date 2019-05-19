@@ -3,6 +3,7 @@
 #include <map>
 #include <iostream>
 #include "utils.h"
+#include "Asset.h"
 #include "Structs.h"
 
 namespace Nitrade {
@@ -18,6 +19,9 @@ namespace Nitrade {
 		virtual int getOpenTradeCount(std::string asset, int id) = 0;
 		virtual bool writeTradesToBinary(std::string filepath) = 0;
 
+		virtual void loadAssetDetails() = 0;
+		virtual Asset& getAsset(std::string assetName) = 0;
+
 	};
 
 
@@ -30,6 +34,8 @@ namespace Nitrade {
 		//trades are mapped by asset, variantId
 		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<Trade>>> _openTrades;
 		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<Trade>>> _closedTrades;
+		
+		std::vector<std::unique_ptr<Asset>> _loadedAssets;
 
 	public:
 		TradeManager() {}
@@ -40,5 +46,8 @@ namespace Nitrade {
 		int getOpenTradeCount(std::string asset, int id);
 
 		bool writeTradesToBinary(std::string filepath);
+
+		void loadAssetDetails();
+		Asset& getAsset(std::string assetName);
 	};
 }   

@@ -10,9 +10,14 @@ void Nitrade::TradeManager::closeTrades(std::string asset, int id, tradeDirectio
 {
 	auto moveTrades = std::vector<std::unique_ptr<Trade>>();
 
+	auto assetDetails = getAsset(asset);
+	float pip = assetDetails.getPip();
+	float pipCost = assetDetails.getPipCost();
+	float commission = assetDetails.getCommission();
+
 	auto key = std::make_tuple(asset, id);	
 	for (auto trade = _openTrades[key].begin(); trade != _openTrades[key].end();)
-	{	
+	{			
 		if ((*trade)->direction == direction)
 		{
 			(*trade)->closeTime = currentBar->timestamp;
@@ -22,6 +27,14 @@ void Nitrade::TradeManager::closeTrades(std::string asset, int id, tradeDirectio
 			else
 				(*trade)->closeLevel = currentBar->askOpen;
 
+			//add trading costs
+			(*trade)->commission = commission;
+
+			//calculate profit
+			float pointsProfit = (((*trade)->closeLevel - (*trade)->openLevel) * (*trade)->direction);
+			float pipsProfit = (pointsProfit / pip);
+			(*trade)->profit = ((pipsProfit * pipCost) - commission) * (*trade)->size;			
+			
 			//add to the closed trades array and transfer ownership
 			_closedTrades[key].push_back(std::move((*trade)));
 
@@ -51,4 +64,29 @@ bool Nitrade::TradeManager::writeTradesToBinary(std::string filepath)
 	}
 
 	return Utils::IOIterator::binary<Trade>(filepath, allTrades);	
+}
+
+void Nitrade::TradeManager::loadAssetDetails()
+{
+	_loadedAssets = Utils::IOIterator::vectorFromCsv<Asset>(std::string(DEFAULT_ASSET_DETAILS_CSV), true);
+}
+
+
+Nitrade::Asset& Nitrade::TradeManager::getAsset(std::string assetName)
+{
+	//try to find the asset in the loaded assets
+	for (auto& asset : _loadedAssets)
+	{
+		//create a string of size 10 with right side buffered with white space
+		//since the Asset class has a char arary of size 10 for the assetName
+		assetName.resize(10, ' ');
+		//return a reference to the asset if found
+		if (asset->getName() == assetName)
+			return *asset;
+
+	}
+
+	//throw an error if the asset can't be found
+	std::string err = assetName + " does not exist in loaded Asset list.";
+	throw std::exception(err.c_str());
 }

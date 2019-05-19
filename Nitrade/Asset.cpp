@@ -20,6 +20,7 @@ Nitrade::Asset::Asset(std::string csv)
 		switch (colIndex)
 		{
 		case 0:
+			word.resize(10, ' ');
 			_name = word;
 			break;
 		case 1:
@@ -32,6 +33,9 @@ Nitrade::Asset::Asset(std::string csv)
 			_pip = std::stof(word);
 			break;
 		case 4:
+			_commission = std::stof(word);
+			break;
+		case 5:
 			_dataPath = word;
 			break;
 		}

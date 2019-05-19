@@ -48,6 +48,7 @@ bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, double sto
 	//copy max string length of 10 chars to the structs char array	
 	strcpy_s(trade->assetName, _assetName.c_str());
 	trade->variantId = _variantId;
+	trade->size = size;
 	trade->direction = direction;
 	trade->stopLoss = stopLoss;
 	trade->takeProfit = takeProfit;
