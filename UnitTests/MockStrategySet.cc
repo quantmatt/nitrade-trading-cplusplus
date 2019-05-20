@@ -9,7 +9,7 @@ using namespace Utils;
 class MockStrategySet : public IStrategySet {
 
 	MOCK_METHOD1(run, void(IPriceData* dataSet));
-	MOCK_METHOD2(createFrom, void(IStrategyDefinition* strategyDefintion, std::string assetName));
+	MOCK_METHOD2(createFrom, void(IStrategyDefinition* strategyDefintion, IAsset* assetName));
 	MOCK_METHOD2(init, void(ITradeManager* tradeManager, IAssetData* assetData));
-	
+
 };

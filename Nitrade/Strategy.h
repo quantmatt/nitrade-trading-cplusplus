@@ -18,7 +18,7 @@ namespace Nitrade {
 		IAssetData* _assetData{ nullptr };
 		IPriceData* _currentData{ nullptr };
 		ITradeManager* _tradeManager{ nullptr };
-		Asset* _currentAsset{nullptr};
+		IAsset* _currentAsset{nullptr};
 	
 	protected:
 		std::map<std::string, double> _parameters;
@@ -53,7 +53,7 @@ namespace Nitrade {
 		std::string getDatasetName() { return _currentData->getName(); }
 
 		//asset functions
-		void setAsset(Asset* asset);
+		void setAsset(IAsset* asset);
 	    std::string getAssetName() const { return _currentAsset->getName(); }
 		float getPip() const { return _currentAsset->getPip(); }
 		float getPoint() const { return _currentAsset->getPoint(); }

@@ -5,14 +5,14 @@ namespace Nitrade {
 	class IAsset
 	{
 	public:
-		IAsset() {}
-		IAsset(std::string csv) {}
-		virtual ~IAsset() {}
+		IAsset() = default;
+		virtual ~IAsset() = default;
 
 		//properties
 		virtual std::string getName() const  = 0;
 		virtual std::string getDataPath() const = 0;
 		virtual float getPip() const = 0;
+		virtual float getPoint() const = 0;
 		virtual float getPipCost() const = 0;
 		virtual float getCommission() const = 0;
 
@@ -33,8 +33,8 @@ namespace Nitrade {
 		
 
 	public:
-		Asset() = default;
 		Asset(std::string csv);
+		Asset() = default;		
 		virtual ~Asset() = default;
 
 		//properties

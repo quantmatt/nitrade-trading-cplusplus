@@ -9,6 +9,7 @@
 #include "MockAssetData.cc"
 #include "MockPriceData.cc"
 #include "MockStrategySet.cc"
+#include "MockTradeManager.cc"
 
 using namespace Nitrade;
 using namespace std;
@@ -26,6 +27,7 @@ protected:
 	unique_ptr<MockAssetData> mockAssetData = make_unique<MockAssetData>();
 	unique_ptr<MockPriceData> mockPriceData = make_unique<MockPriceData>();
 	unique_ptr<MockBinaryChunkReader> mockBinaryChunkReader = make_unique<MockBinaryChunkReader>();
+	unique_ptr<MockTradeManager> mockTradeManager = make_unique<MockTradeManager>();
 
 	HistoricSimulator hs;
 	const string binDataPath = "D:\\TickData\\EURUSD_m1.bin";
@@ -64,7 +66,12 @@ TEST_F(HistoricSimulatorTests, OptimiseWithThreads) {
 
 TEST_F(HistoricSimulatorTests, OptimiseWithAssetFailAssetDetailsLoad) {
 	
-	EXPECT_CALL(*df, getAsset(_)).WillRepeatedly(Throw(exception()));
+	//make sure to setup mockTradeManager before ownership gets moved to dataFActory
+	EXPECT_CALL(*mockTradeManager, getAsset(_)).WillRepeatedly(Throw(exception()));
+
+	//set the mocks that datafactor produces
+	EXPECT_CALL(*df, getTradeManager()).WillRepeatedly(Return(ByMove(move(mockTradeManager))));	
+
 	hs.Setup(move(sd), move(df));
 
 	EXPECT_THROW(hs.Optimise(""), exception);
@@ -72,16 +79,26 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetFailAssetDetailsLoad) {
 
 TEST_F(HistoricSimulatorTests, OptimiseWithAssetStrategySetFail) {
 
-	EXPECT_CALL(*df, getAsset(_)).WillRepeatedly(Return(ByMove(move(mockAsset))));
+	//make sure to setup mockTradeManager before ownership gets moved to dataFActory
+	EXPECT_CALL(*mockTradeManager, getAsset(_)).WillRepeatedly(Return(mockAsset.get()));
+
+	//set the mocks that datafactor produces
+	EXPECT_CALL(*df, getTradeManager()).WillRepeatedly(Return(ByMove(move(mockTradeManager))));
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Throw(exception()));
 	hs.Setup(move(sd), move(df));
 
 	EXPECT_THROW(hs.Optimise(""), exception);
 }
 
+
+
 TEST_F(HistoricSimulatorTests, OptimiseWithAssetGetAssetDataFail) {
 
-	EXPECT_CALL(*df, getAsset(_)).WillRepeatedly(Return(ByMove(move(mockAsset))));
+	//make sure to setup mockTradeManager before ownership gets moved to dataFActory
+	EXPECT_CALL(*mockTradeManager, getAsset(_)).WillRepeatedly(Return(mockAsset.get()));
+
+	//set the mocks that datafactor produces
+	EXPECT_CALL(*df, getTradeManager()).WillRepeatedly(Return(ByMove(move(mockTradeManager))));
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Return(ByMove(move(mockStrategySet))));
 	EXPECT_CALL(*df, getAssetData(_)).WillRepeatedly(Throw(exception()));
 	hs.Setup(move(sd), move(df));
@@ -91,7 +108,11 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetGetAssetDataFail) {
 
 TEST_F(HistoricSimulatorTests, OptimiseWithAssetGetBinaryReaderFail) {
 
-	EXPECT_CALL(*df, getAsset(_)).WillRepeatedly(Return(ByMove(move(mockAsset))));
+	//make sure to setup mockTradeManager before ownership gets moved to dataFActory
+	EXPECT_CALL(*mockTradeManager, getAsset(_)).WillRepeatedly(Return(mockAsset.get()));
+
+	//set the mocks that datafactor produces
+	EXPECT_CALL(*df, getTradeManager()).WillRepeatedly(Return(ByMove(move(mockTradeManager))));
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Return(ByMove(move(mockStrategySet))));
 	EXPECT_CALL(*df, getAssetData(_)).WillRepeatedly(Return(ByMove(move(mockAssetData))));
 	EXPECT_CALL(*df, getBinaryChunkReader(_)).WillRepeatedly(Throw(exception()));
@@ -108,7 +129,11 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetBinaryDataInvalid) {
 	EXPECT_CALL(*mockBinaryChunkReader, eof())
 		.WillOnce(Return(false));
 
-	EXPECT_CALL(*df, getAsset(_)).WillRepeatedly(Return(ByMove(move(mockAsset))));
+	//make sure to setup mockTradeManager before ownership gets moved to dataFActory
+	EXPECT_CALL(*mockTradeManager, getAsset(_)).WillRepeatedly(Return(mockAsset.get()));
+
+	//set the mocks that datafactor produces
+	EXPECT_CALL(*df, getTradeManager()).WillRepeatedly(Return(ByMove(move(mockTradeManager))));
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Return(ByMove(move(mockStrategySet))));
 	EXPECT_CALL(*df, getAssetData(_)).WillRepeatedly(Return(ByMove(move(mockAssetData))));
 	EXPECT_CALL(*df, getBinaryChunkReader(_)).WillRepeatedly(Return(ByMove(move(mockBinaryChunkReader))));
@@ -121,7 +146,7 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetWillSucceed) {
 
 	EXPECT_CALL(*mockAsset, getDataPath()).WillRepeatedly(Return(binDataPath));
 
-	
+
 	EXPECT_CALL(*mockBinaryChunkReader, eof())
 		.WillOnce(Return(false))
 		.WillOnce(Return(true));
@@ -141,13 +166,17 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetWillSucceed) {
 
 	EXPECT_CALL(*mockPriceData, updateCurrentBarFromBar(_)).WillRepeatedly(Return(false));
 
-	EXPECT_CALL(*df, getAsset(_)).WillRepeatedly(Return(ByMove(move(mockAsset))));
+	//make sure to setup mockTradeManager before ownership gets moved to dataFActory
+	EXPECT_CALL(*mockTradeManager, getAsset(_)).WillRepeatedly(Return(mockAsset.get()));
+
+	//set the mocks that datafactor produces
+	EXPECT_CALL(*df, getTradeManager()).WillRepeatedly(Return(ByMove(move(mockTradeManager))));
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Return(ByMove(move(mockStrategySet))));
 	EXPECT_CALL(*df, getAssetData(_)).WillRepeatedly(Return(ByMove(move(mockAssetData))));
 	EXPECT_CALL(*df, getBinaryChunkReader(_)).WillRepeatedly(Return(ByMove(move(mockBinaryChunkReader))));
 	hs.Setup(move(sd), move(df));
 
-	
+
 
 
 	hs.Optimise("");

@@ -30,7 +30,7 @@ double Nitrade::Strategy::getParameter(std::string name)
 	return _parameters[name];
 }
 
-void Nitrade::Strategy::setAsset(Nitrade::Asset* asset)
+void Nitrade::Strategy::setAsset(Nitrade::IAsset* asset)
 {
 	_currentAsset = asset; 
 }

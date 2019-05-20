@@ -11,8 +11,8 @@ namespace Nitrade {
 	class ITradeManager
 	{
 	public:
-		ITradeManager() {}
-		virtual ~ITradeManager() {}
+		ITradeManager() = default;
+		virtual ~ITradeManager() = default;
 
 		virtual void openTrade(std::unique_ptr<Trade> trade) = 0;
 		virtual void closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar) = 0;
@@ -20,7 +20,7 @@ namespace Nitrade {
 		virtual bool writeTradesToBinary(std::string filepath) = 0;
 
 		virtual void loadAssetDetails() = 0;
-		virtual Asset& getAsset(std::string assetName) = 0;
+		virtual IAsset* getAsset(std::string assetName) = 0;
 
 	};
 
@@ -38,8 +38,8 @@ namespace Nitrade {
 		std::vector<std::unique_ptr<Asset>> _loadedAssets;
 
 	public:
-		TradeManager() {}
-		virtual ~TradeManager() {}
+		TradeManager() = default;
+		virtual ~TradeManager() = default;
 
 		void openTrade(std::unique_ptr<Trade> trade);
 		void closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar);
@@ -48,6 +48,6 @@ namespace Nitrade {
 		bool writeTradesToBinary(std::string filepath);
 
 		void loadAssetDetails();
-		Asset& getAsset(std::string assetName);
+		IAsset* getAsset(std::string assetName);
 	};
 }   

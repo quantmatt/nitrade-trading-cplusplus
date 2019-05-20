@@ -44,6 +44,7 @@
     <ClCompile Include="MockSeriesBuffer.cc" />
     <ClCompile Include="MockStrategyDefinition.cc" />
     <ClCompile Include="MockPriceData.cc" />
+    <ClCompile Include="MockTradeManager.cc" />
     <ClCompile Include="PriceDataTest.cpp" />
     <ClCompile Include="SeriesBufferTest.cpp" />
     <ClCompile Include="MockStrategySet.cc" />
@@ -71,7 +72,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>D:\CPlusPlusApps\NitradeTradeConsole\Nitrade;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\CPlusPlusApps\NitradeTradeConsole\Nitrade;D:\CPlusPlusApps\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

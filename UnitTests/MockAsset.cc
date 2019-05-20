@@ -5,14 +5,17 @@
 
 using namespace Nitrade;
 using namespace std;
-using namespace Utils;
 
 class MockAsset : public IAsset {
 public:
 
 	//properties
-	MOCK_METHOD0(getName, string());
-	MOCK_METHOD0(getDataPath, string());
+	MOCK_CONST_METHOD0(getName, string());
+	MOCK_CONST_METHOD0(getDataPath, string());
+	MOCK_CONST_METHOD0(getPip, float());
+	MOCK_CONST_METHOD0(getPoint, float());
+	MOCK_CONST_METHOD0(getPipCost, float());
+	MOCK_CONST_METHOD0(getCommission, float());
 
 
 

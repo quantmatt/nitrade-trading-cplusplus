@@ -12,7 +12,7 @@ Nitrade::StrategySet::~StrategySet()
 {
 }
 
-void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion,  Nitrade::Asset* asset)
+void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion,  Nitrade::IAsset* asset)
 {
 	//Does a brute force calculation of all the possible strategy setups with the range of optimisable
 	//parameters. A parameter has a start value, step value and max value

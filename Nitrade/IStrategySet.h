@@ -9,7 +9,7 @@ namespace Nitrade {
 		IStrategySet() = default;
 		virtual ~IStrategySet() = default;
 		
-		virtual void createFrom(IStrategyDefinition* strategyDefintion, Asset* asset) = 0;
+		virtual void createFrom(IStrategyDefinition* strategyDefintion, IAsset* asset) = 0;
 		virtual void run(IPriceData* dataSet) = 0;
 		virtual void init(ITradeManager* tradeManager, IAssetData* assetData) = 0;
 	};

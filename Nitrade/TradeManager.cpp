@@ -13,9 +13,9 @@ void Nitrade::TradeManager::closeTrades(std::string asset, int id, tradeDirectio
 	
 	//get the details from the asset needed to calculate profit
 	auto assetDetails = getAsset(asset);
-	float pip = assetDetails.getPip();
-	float pipCost = assetDetails.getPipCost();
-	float commission = assetDetails.getCommission();
+	float pip = assetDetails->getPip();
+	float pipCost = assetDetails->getPipCost();
+	float commission = assetDetails->getCommission();
 
 	//loop through all open trades and close any that match the passed direction
 	auto key = std::make_tuple(asset, id);	
@@ -87,7 +87,7 @@ void Nitrade::TradeManager::loadAssetDetails()
 }
 
 
-Nitrade::Asset& Nitrade::TradeManager::getAsset(std::string assetName)
+Nitrade::IAsset* Nitrade::TradeManager::getAsset(std::string assetName)
 {
 	//try to find the asset in the loaded assets
 	for (auto& asset : _loadedAssets)
@@ -97,7 +97,7 @@ Nitrade::Asset& Nitrade::TradeManager::getAsset(std::string assetName)
 		assetName.resize(9, ' ');
 		//return a reference to the asset if found
 		if (asset->getName() == assetName)
-			return *asset;
+			return asset.get();
 
 	}
 
