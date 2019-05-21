@@ -1,9 +1,6 @@
 #include "Strategy.h"
+#include "TestStrategy.h"
 
-Nitrade::Strategy::~Strategy()
-{
-	//dont delete trade manager or data manager because it is used by all strategies
-}
 
 std::unique_ptr<Nitrade::Strategy> Nitrade::Strategy::clone()
 {

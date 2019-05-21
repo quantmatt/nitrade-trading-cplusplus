@@ -8,13 +8,13 @@ Nitrade::StrategyDefinition::StrategyDefinition()
 
 	_dataSetCount = 1;
 	_dataSetParameters = std::make_unique<std::tuple<std::string, int, int>[]>(_dataSetCount);
-	_dataSetParameters[0] = std::make_tuple("60min", 200, 60);
+	_dataSetParameters[0] = std::make_tuple("240min", 200, 240);
 	
 
 	_optimiseParameterCount = 3;
 	_optimiseParameters = std::make_unique<OptimiseParameter[]>(_optimiseParameterCount);
-	_optimiseParameters[0] = OptimiseParameter("Period1", 4, 5, 1, 6);
-	_optimiseParameters[1] = OptimiseParameter("Period2", 14, 15, 1, 16);
+	_optimiseParameters[0] = OptimiseParameter("Period1", 12, 13, 1, 6);
+	_optimiseParameters[1] = OptimiseParameter("Period2", 30, 31, 1, 16);
 	_optimiseParameters[2] = OptimiseParameter("Not Used", 1, 1, 1, 1);
 
 
@@ -22,7 +22,7 @@ Nitrade::StrategyDefinition::StrategyDefinition()
 
 }
 
-void Nitrade::StrategyDefinition::setStrategy(std::unique_ptr<Strategy> strategy)
+void Nitrade::StrategyDefinition::setStrategy(std::unique_ptr<Nitrade::Strategy> strategy)
 {
 	_strategy = std::move(strategy);
 }

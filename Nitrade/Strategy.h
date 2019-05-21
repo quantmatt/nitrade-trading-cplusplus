@@ -27,8 +27,8 @@ namespace Nitrade {
 		std::map<std::string, std::unique_ptr<Utils::ISeriesBuffer<double>>> _features;
 
 	public:
-		Strategy() {}
-		virtual ~Strategy();
+		Strategy() = default;
+		virtual ~Strategy() = default;
 
 		virtual std::unique_ptr<Strategy> clone();
 

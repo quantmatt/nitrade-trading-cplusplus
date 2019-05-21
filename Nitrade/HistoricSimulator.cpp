@@ -80,6 +80,11 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 
 			}
 
+			//update the open trades after all the onBar methods run - for example if current minute bar is
+			//7:00 open to 7:01 close then the 7:00 onBar function should run first and then essentially this
+			//updateOpenTrades function is run theoretically at 7.01 ie. 1 min has passed between onBar and now
+			tradeManager->updateOpenTrades(bar);
+
 		}
 
 	}

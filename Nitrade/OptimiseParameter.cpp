@@ -2,7 +2,7 @@
 
 std::vector<double> Nitrade::OptimiseParameter::getValues()
 {
-	int count = ((_max - _min) / _step) + 1;
+	int count = (int)(((_max - _min) / _step) + 1);
 
 	auto values = std::vector<double>(count);
 

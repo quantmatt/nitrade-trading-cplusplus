@@ -23,10 +23,10 @@ namespace Nitrade {
 		: public IAsset
 	{
 	private:
-		float _pip{ 0 };
-		float _pipCost{ 0 };
+		float _pip{ 0.0 };
+		float _pipCost{ 0.0 };
 		int _digits{ 0 };
-		float _commission{ 0 };
+		float _commission{ 0.0 };
 		std::string _name{ (9, ' ') };
 		std::string _dataPath{""};
 

@@ -13,6 +13,7 @@
 #include "StrategySet.h"
 #include "PriceData.h"
 #include "SeriesBuffer.h"
+#include "Strategy.h"
 #include "Structs.h"
 #include "TradeManager.h"
 

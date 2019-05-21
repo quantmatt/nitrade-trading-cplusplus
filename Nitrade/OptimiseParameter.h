@@ -7,11 +7,11 @@ namespace Nitrade {
 	class OptimiseParameter
 	{
 	private:
-		std::string _name;
-		double _min;
-		double _max;
-		double _step;
-		double _defaultValue;
+		std::string _name{""};
+		double _min{ 0 };
+		double _max{ 0 };
+		double _step{ 0 };
+		double _defaultValue{ 0 };
 
 	public:
 		OptimiseParameter() = default;

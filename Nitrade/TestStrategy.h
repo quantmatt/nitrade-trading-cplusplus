@@ -19,7 +19,7 @@ namespace Nitrade {
 		void onInit() {
 			_features["SMA_Fast"] = std::make_unique<Utils::SeriesBuffer<double>>(2);
 			_features["SMA_Slow"] = std::make_unique<Utils::SeriesBuffer<double>>(2);
-			_features["ASK_CLOSE"] = std::make_unique<Utils::SeriesBuffer<double>>(_parameters["Period2"]);
+			_features["ASK_CLOSE"] = std::make_unique<Utils::SeriesBuffer<double>>((int)_parameters["Period2"]);
 		};
 
 		void onBar() {
@@ -28,7 +28,7 @@ namespace Nitrade {
 			if (getBarIndex() <= _parameters["Period2"])
 				return;
 
-			if (getDatasetName() == "60min")
+			if (getDatasetName() == "240min")
 			{
 				_features["ASK_CLOSE"]->add(askClose());
 
@@ -40,17 +40,17 @@ namespace Nitrade {
 
 				if (Indicators::CrossOver(_features["SMA_Fast"].get(), _features["SMA_Slow"].get()))
 				{
-					float stopLoss = getPip() * 10;
+					float stopLoss = getPip() * 100;
 
 					if (smaFast > smaSlow)
 					{
-						closeTrades(tradeDirection::Short);
-						openTrade(tradeDirection::Long, 1, stopLoss, stopLoss);
+						closeTrades(tradeDirection::Long);
+						openTrade(tradeDirection::Short, 1, stopLoss, stopLoss);
 					}
 					else if (smaFast < smaSlow)
 					{
-						closeTrades(tradeDirection::Long);
-						openTrade(tradeDirection::Short, 1, stopLoss, stopLoss);
+						closeTrades(tradeDirection::Short);
+						openTrade(tradeDirection::Long, 1, stopLoss, stopLoss);
 					}
 				}
 			}
