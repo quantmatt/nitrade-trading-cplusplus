@@ -39,6 +39,7 @@
     <ClInclude Include="StrategySet.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="TestStrategy.h" />
+    <ClInclude Include="TradeDataManager.h" />
     <ClInclude Include="TradeManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +55,7 @@
     <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="StrategyDefinition.cpp" />
     <ClCompile Include="StrategySet.cpp" />
+    <ClCompile Include="TradeDataManager.cpp" />
     <ClCompile Include="TradeManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

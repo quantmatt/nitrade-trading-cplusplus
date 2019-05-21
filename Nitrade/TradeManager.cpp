@@ -65,7 +65,7 @@ void Nitrade::TradeManager::updateOpenTrades(Bar* bar)
 
 
 
-void Nitrade::TradeManager::openTrade(std::unique_ptr<Trade> trade)
+void Nitrade::TradeManager::openTrade(std::unique_ptr<Trade> trade, std::map<std::string, double>& data)
 {
 	//get the details from the asset needed to calculate profit
 	auto assetDetails = getAsset(trade->assetName);
@@ -88,9 +88,13 @@ void Nitrade::TradeManager::openTrade(std::unique_ptr<Trade> trade)
 			trade->takeProfitLevel = trade->openLevel + trade->takeProfit;
 	}
 
-
 	//set the trade id
 	trade->tradeId = _idCounter++;
+
+	//save the trade data associated with this trade if there is any.
+	if (data.size() > 0)
+		_dataManager.push_back(trade->tradeId, data);
+
 	//put opentrades in a map for fast referencing, key is asset and variantid
 	_openTrades[std::make_tuple(trade->assetName, trade->variantId)].push_back(std::move(trade));
 }
@@ -211,6 +215,12 @@ bool Nitrade::TradeManager::writeTradesToBinary(std::string filepath)
 
 	//write to binary file
 	return Utils::IOIterator::binary<Trade>(filepath, allTrades);	
+}
+
+bool Nitrade::TradeManager::writeTradeDataToBinary(std::string filepath)
+{
+	//writes the addition data that was recorded when each trade was open
+	return _dataManager.toBinary(filepath);
 }
 
 void Nitrade::TradeManager::loadAssetDetails()

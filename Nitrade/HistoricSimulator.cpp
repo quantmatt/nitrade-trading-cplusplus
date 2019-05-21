@@ -95,6 +95,7 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 
 	//write all trades to a binary file
 	tradeManager->writeTradesToBinary("trades.bin");
+	tradeManager->writeTradeDataToBinary("trades_data.bin");
 
 }
 

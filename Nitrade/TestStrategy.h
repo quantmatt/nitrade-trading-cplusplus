@@ -22,6 +22,22 @@ namespace Nitrade {
 			_features["ASK_CLOSE"] = std::make_unique<Utils::SeriesBuffer<double>>((int)_parameters["Period2"]);
 		};
 
+		void flip(tradeDirection openDirection, tradeDirection closeDirection)
+		{
+			float pip = getPip();
+
+			//record some data with the trade to use for analysis
+			_data["Last 4 bar Log Change"] = log(askClose() / askClose(3));
+			_data["Pips from SMA"] = (askClose() - _features["SMA_Slow"]->get(0)) / pip;
+
+			//set the stop loss and target to be equal
+			float stopLoss = pip * 100;
+
+			//close open trades then open a new trade
+			closeTrades(closeDirection);
+			openTrade(openDirection, 1, stopLoss, stopLoss);
+		}
+
 		void onBar() {
 			
 			//only calculate when we have enough bars in the lookback
@@ -40,17 +56,15 @@ namespace Nitrade {
 
 				if (Indicators::CrossOver(_features["SMA_Fast"].get(), _features["SMA_Slow"].get()))
 				{
-					float stopLoss = getPip() * 100;
+					
 
 					if (smaFast > smaSlow)
 					{
-						closeTrades(tradeDirection::Long);
-						openTrade(tradeDirection::Short, 1, stopLoss, stopLoss);
+						flip(tradeDirection::Short, tradeDirection::Long);
 					}
 					else if (smaFast < smaSlow)
 					{
-						closeTrades(tradeDirection::Short);
-						openTrade(tradeDirection::Long, 1, stopLoss, stopLoss);
+						flip(tradeDirection::Long, tradeDirection::Short);
 					}
 				}
 			}

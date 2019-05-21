@@ -53,7 +53,7 @@ bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, float stop
 	else
 		trade->openLevel = bar->bidOpen;
 
-	_tradeManager->openTrade(std::move(trade));
+	_tradeManager->openTrade(std::move(trade), _data);
 
 	return true;
 }

@@ -25,6 +25,7 @@ namespace Nitrade {
 		int _variantId{ 0 }; //used to identify the strategy variant ie. different parameter values
 
 		std::map<std::string, std::unique_ptr<Utils::ISeriesBuffer<double>>> _features;
+		std::map<std::string, double> _data;
 
 	public:
 		Strategy() = default;
