@@ -7,6 +7,8 @@ namespace Nitrade {
 	enum tradeDirection { Long = 1, Short = -1 };
 	enum exitType { ByStrategy, StopLoss, TakeProfit };
 
+	typedef std::tuple<std::string, int> StrategyKey;
+
 #pragma pack(push, 1)
 	struct Bar {
 		long long timestamp{ 0 };

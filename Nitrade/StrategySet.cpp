@@ -138,3 +138,17 @@ void Nitrade::StrategySet::run(IPriceData* dataSet)
 
 }
 
+std::vector<std::unique_ptr<Nitrade::StrategyKey>> Nitrade::StrategySet::getStrategyKeys()
+{
+	//creates a set of asset-variantId tuples that are used as keys to identify each strategy
+	
+	auto keys = std::vector<std::unique_ptr<StrategyKey>>();
+	for (auto& strategy : _strategies)
+	{
+		auto key = std::make_unique<StrategyKey>(strategy->getAssetName(), strategy->getVariantId());
+		keys.push_back(std::move(key));
+	}
+
+	return std::move(keys);
+}
+

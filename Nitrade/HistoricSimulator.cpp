@@ -40,11 +40,13 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName, bool runningPL)
 	//Create a binary chunk reader to read the binary price data in chunks
 	//chunks not only conserve memory use but also process faster
 	auto bcr = _dataFactory->getBinaryChunkReader(asset->getDataPath());
-
 	
 
 	//initialise all the strategies
 	strategies->init(tradeManager.get(), assetData.get());
+
+	//get a list of the keys used to reference the strategies
+	auto keys = strategies->getStrategyKeys();
 
 
 	//All objects have been created so start processing the binary data into OHLC bars
@@ -94,7 +96,7 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName, bool runningPL)
 			if (runningPL && bar->timestamp > currentDailyBar + 86400000000000)
 			{
 				currentDailyBar = bar->timestamp - (bar->timestamp % 86400000000000);
-				tradeManager->onDay(currentDailyBar); //run updates for daily stats eg runnning PL
+				tradeManager->onDay(keys, currentDailyBar); //run updates for daily stats eg runnning PL
 
 			}
 

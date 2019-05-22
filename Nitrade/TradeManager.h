@@ -29,7 +29,7 @@ namespace Nitrade {
 		virtual void loadAssetDetails() = 0;
 		virtual IAsset* getAsset(std::string assetName) = 0;
 
-		virtual void onDay(long long timestamp) = 0;
+		virtual void onDay(std::vector<std::unique_ptr<StrategyKey>>& keys, long long timestamp) = 0;
 
 	};
 
@@ -41,12 +41,12 @@ namespace Nitrade {
 	private:
 		int _idCounter{ 1 }; //used for backtesting to create an id
 		//trades are mapped by asset, variantId
-		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<Trade>>> _openTrades;
-		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<Trade>>> _closedTrades;
+		std::map<StrategyKey, std::vector<std::unique_ptr<Trade>>> _openTrades;
+		std::map<StrategyKey, std::vector<std::unique_ptr<Trade>>> _closedTrades;
 		
 		//map to hold the running PL for each strategy variant
 		//held in a map in case future need to have the data available to the running strategy
-		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<RunningPL>>> _runningPL;
+		std::map<StrategyKey, std::vector<std::unique_ptr<RunningPL>>> _runningPL;
 
 		std::vector<std::unique_ptr<Asset>> _loadedAssets;
 
@@ -71,7 +71,7 @@ namespace Nitrade {
 
 		void loadAssetDetails();
 		IAsset* getAsset(std::string assetName);
-		void onDay(long long timestamp);
+		void onDay(std::vector<std::unique_ptr<StrategyKey>>& keys, long long timestamp);
 
 	
 

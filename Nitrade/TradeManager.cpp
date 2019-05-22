@@ -96,7 +96,7 @@ void Nitrade::TradeManager::openTrade(std::unique_ptr<Trade> trade, std::map<std
 		_dataManager.push_back(trade->tradeId, data);
 
 	//put opentrades in a map for fast referencing, key is asset and variantid
-	_openTrades[std::make_tuple(trade->assetName, trade->variantId)].push_back(std::move(trade));
+	_openTrades[StrategyKey(trade->assetName, trade->variantId)].push_back(std::move(trade));
 }
 
 void Nitrade::TradeManager::closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar)
@@ -109,7 +109,7 @@ void Nitrade::TradeManager::closeTrades(std::string asset, int id, tradeDirectio
 	float commission = assetDetails->getCommission();
 
 	//loop through all open trades and close any that match the passed direction
-	auto key = std::make_tuple(asset, id);	
+	auto key = StrategyKey(asset, id);	
 	for (auto trade = _openTrades[key].begin(); trade != _openTrades[key].end();)
 	{			
 		//only close trades that match the direction passed to this function
@@ -136,7 +136,7 @@ void Nitrade::TradeManager::closeTrade(std::string asset, int id, long long trad
 {
 	
 	//loop through all open trades and close any that match the passed direction
-	auto key = std::make_tuple(asset, id);
+	auto key = StrategyKey(asset, id);
 	for (auto trade = _openTrades[key].begin(); trade != _openTrades[key].end();)
 	{
 		//only close the trade that matches this tradeId
@@ -195,7 +195,7 @@ std::vector<std::unique_ptr<Nitrade::Trade>>::iterator Nitrade::TradeManager::cl
 int Nitrade::TradeManager::getOpenTradeCount(std::string asset, int id)
 {
 	//returns the number of open trades for this asset and variant id
-	return _openTrades[std::make_tuple(asset, id)].size();
+	return _openTrades[StrategyKey(asset, id)].size();
 }
 
 bool Nitrade::TradeManager::writeTradesToBinary(std::string filepath)
@@ -268,15 +268,15 @@ Nitrade::IAsset* Nitrade::TradeManager::getAsset(std::string assetName)
 	throw std::exception(err.c_str());
 }
 
-void Nitrade::TradeManager::onDay(long long timestamp)
+void Nitrade::TradeManager::onDay(std::vector<std::unique_ptr<StrategyKey>>& keys, long long timestamp)
 {
 	//keep a running PL of open and closed trades for each day 
 	//useful for calculating sharpe ratio ect. and comparing strategies on a daily pl basis
 	//note: this is useful during the backtest so that unrealsed daily pl can be captured as well
 	//which can't be done on closed trades alone. Useful for strategies that have trades open for long periods of time.
-	for (auto& vec : _closedTrades)
+	for (auto& keyPtr : keys)
 	{
-		auto key = vec.first;
+		auto key = *keyPtr;
 		double realisedProfitTally = 0;
 		double unrealisedProfitTally = 0;
 
@@ -290,7 +290,7 @@ void Nitrade::TradeManager::onDay(long long timestamp)
 
 
 		//start from the end of the list of the closed trades
-		for (auto it = vec.second.rbegin(); it != vec.second.rend(); ++it)
+		for (auto it = _closedTrades[key].rbegin(); it != _closedTrades[key].rend(); ++it)
 		{
 			if ((*it)->closeTime < lastTimestamp)
 				break;

@@ -20,6 +20,7 @@ namespace Nitrade{
 		void createFrom(IStrategyDefinition* strategyDefintion, Nitrade::IAsset* asset);
 		void init(ITradeManager* tradeManager, IAssetData* assetData);
 		void run(IPriceData* dataSet);
+		std::vector<std::unique_ptr<StrategyKey>> getStrategyKeys();
 	};
 }
 
