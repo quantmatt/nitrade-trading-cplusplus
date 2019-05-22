@@ -21,7 +21,7 @@ namespace Nitrade {
 			std::unique_ptr<IDataFactory> dataFactory = nullptr);
 
 		void Optimise(int threads);
-		void Optimise(std::string assetName);
+		void Optimise(std::string assetName, bool runningPL=true);
 
 	private:
 		bool isBarValid(const Nitrade::Bar* bar);

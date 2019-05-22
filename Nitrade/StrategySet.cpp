@@ -137,3 +137,4 @@ void Nitrade::StrategySet::run(IPriceData* dataSet)
 	}
 
 }
+

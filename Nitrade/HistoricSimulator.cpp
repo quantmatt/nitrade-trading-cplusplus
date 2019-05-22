@@ -18,7 +18,7 @@ void Nitrade::HistoricSimulator::Optimise(int threads)
 
 }
 
-void Nitrade::HistoricSimulator::Optimise(std::string assetName)
+void Nitrade::HistoricSimulator::Optimise(std::string assetName, bool runningPL)
 {
 	//get all the objects required to run the test using the data factory class
 	auto tradeManager = _dataFactory->getTradeManager();
@@ -49,6 +49,10 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 
 	//All objects have been created so start processing the binary data into OHLC bars
 	bcr->openFile();
+
+	//declare a variable to hold the last known daily bar timestamp
+	//to determine if a new daily bar has formed - for calculationg daily PL
+	long long currentDailyBar = 0;
 
 	//continue through the file reading it in chunks of size roundedBufferSize
 	while (!bcr->eof())
@@ -85,6 +89,15 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 			//updateOpenTrades function is run theoretically at 7.01 ie. 1 min has passed between onBar and now
 			tradeManager->updateOpenTrades(bar);
 
+			//if this is a new bar based on a daily bar then update the running daily Profit Loss
+			//for each strategy
+			if (runningPL && bar->timestamp > currentDailyBar + 86400000000000)
+			{
+				currentDailyBar = bar->timestamp - (bar->timestamp % 86400000000000);
+				tradeManager->onDay(currentDailyBar); //run updates for daily stats eg runnning PL
+
+			}
+
 		}
 
 	}
@@ -96,6 +109,8 @@ void Nitrade::HistoricSimulator::Optimise(std::string assetName)
 	//write all trades to a binary file
 	tradeManager->writeTradesToBinary("trades.bin");
 	tradeManager->writeTradeDataToBinary("trades_data.bin");
+	if(runningPL)
+		tradeManager->writeRunningPLToBinary("daily_returns.bin");
 
 }
 

@@ -24,9 +24,12 @@ namespace Nitrade {
 		virtual int getOpenTradeCount(std::string asset, int id) = 0;
 		virtual bool writeTradesToBinary(std::string filepath) = 0;
 		virtual bool writeTradeDataToBinary(std::string filepath) = 0;
+		virtual bool writeRunningPLToBinary(std::string filepath) = 0;
 
 		virtual void loadAssetDetails() = 0;
 		virtual IAsset* getAsset(std::string assetName) = 0;
+
+		virtual void onDay(long long timestamp) = 0;
 
 	};
 
@@ -41,6 +44,10 @@ namespace Nitrade {
 		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<Trade>>> _openTrades;
 		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<Trade>>> _closedTrades;
 		
+		//map to hold the running PL for each strategy variant
+		//held in a map in case future need to have the data available to the running strategy
+		std::map<std::tuple<std::string, int>, std::vector<std::unique_ptr<RunningPL>>> _runningPL;
+
 		std::vector<std::unique_ptr<Asset>> _loadedAssets;
 
 		//holds the extra data for each trade and manages inserting new data, writing to binary
@@ -60,9 +67,13 @@ namespace Nitrade {
 
 		bool writeTradesToBinary(std::string filepath);
 		bool writeTradeDataToBinary(std::string filepath);
+		bool writeRunningPLToBinary(std::string filepath);
 
 		void loadAssetDetails();
 		IAsset* getAsset(std::string assetName);
+		void onDay(long long timestamp);
+
+	
 
 		
 	};

@@ -8,8 +8,13 @@ namespace Nitrade{
 		public IStrategyDefinition
 	{
 	private:
+		//an array holding the list of assets, lookback period and bar size of required data
 		std::unique_ptr<std::tuple<std::string, int, int>[]> _dataSetParameters;
+
+		//parameters that can optimised for the strategy
 		std::unique_ptr<OptimiseParameter[]> _optimiseParameters;
+
+		//the actual strategy code (sub class of the Strategy class)
 		std::unique_ptr<Strategy> _strategy;
 
 		int _dataSetCount{ 0 };

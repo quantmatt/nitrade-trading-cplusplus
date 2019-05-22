@@ -78,5 +78,6 @@ namespace Nitrade {
 
 		virtual void onInit() {}; //these are setup by the child strategies
 		virtual void onBar() {};//these are setup by the child strategies
+		
 	};
 }

@@ -21,6 +21,14 @@ namespace Nitrade {
 		int volume{ 0 };
 	};
 
+	struct RunningPL {
+		char assetName[10]{ "" };
+		int variantId{ 0 };
+		long long timestamp{ 0 };
+		double realisedProfit{ 0 };
+		double unrealisedProfit{ 0 };
+	};
+
 	struct Trade {
 		int tradeId{ 0 };
 		int variantId{ 0 };

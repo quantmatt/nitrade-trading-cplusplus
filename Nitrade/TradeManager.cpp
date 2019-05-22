@@ -223,6 +223,25 @@ bool Nitrade::TradeManager::writeTradeDataToBinary(std::string filepath)
 	return _dataManager.toBinary(filepath);
 }
 
+bool Nitrade::TradeManager::writeRunningPLToBinary(std::string filepath)
+{
+	//writes all trades to binary from every asset and variant id as one bid trades file
+
+	//loop through every asset and variant id trade result set
+	std::vector<std::unique_ptr<RunningPL>> all;
+	for (auto& vec : _runningPL)
+	{
+		for (auto& day : vec.second)
+		{
+			//copy the trade object into a new variable
+			all.push_back(std::make_unique<RunningPL>(*day));
+		}
+	}
+
+	//write to binary file
+	return Utils::IOIterator::binary<RunningPL>(filepath, all);
+}
+
 void Nitrade::TradeManager::loadAssetDetails()
 {
 	//load all the asset details from the Assets.csv
@@ -247,5 +266,61 @@ Nitrade::IAsset* Nitrade::TradeManager::getAsset(std::string assetName)
 	//throw an error if the asset can't be found
 	std::string err = assetName + " does not exist in loaded Asset list.";
 	throw std::exception(err.c_str());
+}
+
+void Nitrade::TradeManager::onDay(long long timestamp)
+{
+	//keep a running PL of open and closed trades for each day 
+	//useful for calculating sharpe ratio ect. and comparing strategies on a daily pl basis
+	//note: this is useful during the backtest so that unrealsed daily pl can be captured as well
+	//which can't be done on closed trades alone. Useful for strategies that have trades open for long periods of time.
+	for (auto& vec : _closedTrades)
+	{
+		auto key = vec.first;
+		double realisedProfitTally = 0;
+		double unrealisedProfitTally = 0;
+
+		long long lastTimestamp = 0;
+		//add in the previous days closed tradePL
+		if (_runningPL[key].size() > 0)
+		{
+			realisedProfitTally = (*_runningPL[key].rbegin())->realisedProfit;
+			lastTimestamp = (*_runningPL[key].rbegin())->timestamp;
+		}
+
+
+		//start from the end of the list of the closed trades
+		for (auto it = vec.second.rbegin(); it != vec.second.rend(); ++it)
+		{
+			if ((*it)->closeTime < lastTimestamp)
+				break;
+			else if((*it)->closeTime < timestamp)
+				realisedProfitTally += (*it)->profit;
+		}
+
+		//also need to get the tally of the open trades with the same key
+		for (auto it = _openTrades[key].rbegin(); it != _openTrades[key].rend(); ++it)
+		{
+			unrealisedProfitTally += (*it)->profit;
+		}
+
+		
+
+		//set the running PL for this timestamp		
+		auto rpl = std::make_unique<RunningPL>();
+		//make sure the asset name is 10 characters
+		std::string assetName = std::get<0>(key);
+		assetName.resize(9, ' ');
+		//copy this into the char array
+		strcpy_s(rpl->assetName, assetName.c_str());
+		//set the other RunningPL variables
+		rpl->variantId = std::get<1>(key);
+		rpl->timestamp = timestamp;
+		rpl->realisedProfit = realisedProfitTally;
+		rpl->unrealisedProfit = unrealisedProfitTally;
+
+		//push to the runningPL map for this strategy variant
+		_runningPL[key].push_back(std::move(rpl));
+	}
 }
 
