@@ -31,7 +31,6 @@ namespace Nitrade {
 		virtual IAsset* getAsset(std::string assetName) = 0;
 
 		virtual void onDay(std::vector<std::unique_ptr<StrategyKey>>& keys, long long timestamp) = 0;
-
 	};
 
 
@@ -74,6 +73,7 @@ namespace Nitrade {
 		void loadAssetDetails();
 		IAsset* getAsset(std::string assetName);
 		void onDay(std::vector<std::unique_ptr<StrategyKey>>& keys, long long timestamp);
+
 
 	
 

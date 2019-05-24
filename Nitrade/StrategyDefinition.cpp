@@ -26,9 +26,9 @@ Nitrade::StrategyDefinition::StrategyDefinition()
 
 	_optimiseParameterCount = 3;
 	_optimiseParameters = std::make_unique<OptimiseParameter[]>(_optimiseParameterCount);
-	_optimiseParameters[0] = OptimiseParameter("Period1", 4, 8, 1, 6);
-	_optimiseParameters[1] = OptimiseParameter("Period2", 12, 18, 1, 16);
-	_optimiseParameters[2] = OptimiseParameter("JumpFactor", 1.1, 1.8, 0.1, 1);
+	_optimiseParameters[0] = OptimiseParameter("Period1", 4, 5, 1, 6);
+	_optimiseParameters[1] = OptimiseParameter("Period2", 14, 15, 1, 16);
+	_optimiseParameters[2] = OptimiseParameter("JumpFactor", 1.5, 1.6, 0.1, 1);
 
 
 

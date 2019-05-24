@@ -6,6 +6,9 @@ void Nitrade::TradeManager::updateOpenTrades(Bar* bar)
 {
 	for (auto& tradeSet : _openTrades)
 	{
+		if (tradeSet.second.size() == 0)
+			continue;
+
 		for (auto trade = tradeSet.second.begin(); trade != tradeSet.second.end();)
 		{
 			//update the current price level
@@ -348,4 +351,3 @@ void Nitrade::TradeManager::onDay(std::vector<std::unique_ptr<StrategyKey>>& key
 		_runningPL[key].push_back(std::move(rpl));
 	}
 }
-
