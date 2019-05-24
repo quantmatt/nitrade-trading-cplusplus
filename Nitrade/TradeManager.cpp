@@ -22,16 +22,16 @@ void Nitrade::TradeManager::updateOpenTrades(Bar* bar)
 			bool targetHit = false;			
 			if ((*trade)->direction == tradeDirection::Short)
 			{
-				if (bar->askLow <= (*trade)->takeProfitLevel)
+				if ((*trade)->takeProfit > 0 && bar->askLow <= (*trade)->takeProfitLevel)
 					targetHit = true;
-				else if (bar->askHigh >= (*trade)->stopLevel)
+				else if ((*trade)->stopLoss > 0 && bar->askHigh >= (*trade)->stopLevel)
 					stopHit = true;
 			}
 			else
 			{
-				if (bar->bidHigh >= (*trade)->takeProfitLevel)
+				if ((*trade)->takeProfit > 0 && bar->bidHigh >= (*trade)->takeProfitLevel)
 					targetHit = true;
-				else if (bar->bidLow <= (*trade)->stopLevel)
+				else if ((*trade)->stopLoss > 0 && bar->bidLow <= (*trade)->stopLevel)
 					stopHit = true;
 			}
 
@@ -97,6 +97,31 @@ void Nitrade::TradeManager::openTrade(std::unique_ptr<Trade> trade, std::map<std
 
 	//put opentrades in a map for fast referencing, key is asset and variantid
 	_openTrades[StrategyKey(trade->assetName, trade->variantId)].push_back(std::move(trade));
+}
+
+void Nitrade::TradeManager::closeTrades(std::string asset, int id, Bar* currentBar)
+{
+	//get the details from the asset needed to calculate profit
+	auto assetDetails = getAsset(asset);
+	float pip = assetDetails->getPip();
+	float pipCost = assetDetails->getPipCost();
+	float commission = assetDetails->getCommission();
+
+	//loop through all open trades and close any that match the passed direction
+	auto key = StrategyKey(asset, id);
+	for (auto trade = _openTrades[key].begin(); trade != _openTrades[key].end();)
+	{
+		//set the close level depending on the direction of the trade
+			//long trades need to sell at the bid and short trades need to buy at the ask to cover
+		if ((*trade)->direction == tradeDirection::Long)
+			(*trade)->closeLevel = currentBar->bidOpen;
+		else
+			(*trade)->closeLevel = currentBar->askOpen;
+
+		//closeCurrentTrade will update and return the next iterator
+		trade = closeCurrentTrade(trade, currentBar, key);
+
+	}
 }
 
 void Nitrade::TradeManager::closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar)

@@ -63,6 +63,11 @@ bool Nitrade::Strategy::closeTrade(int tradeId)
 	return false;
 }
 
+void Nitrade::Strategy::closeTrades()
+{
+	_tradeManager->closeTrades(getAssetName(), _variantId, (*_currentData)[0]);
+}
+
 void Nitrade::Strategy::closeTrades(tradeDirection direction)
 {
 	_tradeManager->closeTrades(getAssetName(), _variantId, direction, (*_currentData)[0]);
@@ -140,5 +145,8 @@ bool Nitrade::Strategy::setCurrentDataIfRequired(IPriceData* pd)
 	return false;
 	*/
 	_currentData = pd;
-	return true;
+	if (pd->getBarIndex() > 1)
+		return true;
+	else
+		return false;
 }

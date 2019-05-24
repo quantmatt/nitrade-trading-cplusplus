@@ -46,6 +46,7 @@ namespace Nitrade {
 		//trade functions
 		bool openTrade(tradeDirection direction, int size, float stopLoss = 0, float takeProfit = 0);
 		bool closeTrade(int tradeId);
+		void closeTrades();
 		void closeTrades(tradeDirection direction);
 		int getOpenTradeCount(std::string assetName, std::string strategyName);
 		int getOpenTradeCount();

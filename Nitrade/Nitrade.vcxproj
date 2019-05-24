@@ -41,6 +41,7 @@
     <ClInclude Include="TestStrategy.h" />
     <ClInclude Include="TradeDataManager.h" />
     <ClInclude Include="TradeManager.h" />
+    <ClInclude Include="YenSquared.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />

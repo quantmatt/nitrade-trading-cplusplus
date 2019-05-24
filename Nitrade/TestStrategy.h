@@ -19,7 +19,8 @@ namespace Nitrade {
 		void onInit() {
 			_features["SMA_Fast"] = std::make_unique<Utils::SeriesBuffer<double>>(2);
 			_features["SMA_Slow"] = std::make_unique<Utils::SeriesBuffer<double>>(2);
-			_features["ASK_CLOSE"] = std::make_unique<Utils::SeriesBuffer<double>>((int)_parameters["Period2"]);
+			int bufferSize = (int)std::fmax(_parameters["Period2"], _parameters["Period1"]);
+			_features["ASK_CLOSE"] = std::make_unique<Utils::SeriesBuffer<double>>(bufferSize);
 		};
 
 		void flip(tradeDirection openDirection, tradeDirection closeDirection)

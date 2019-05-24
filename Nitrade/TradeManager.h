@@ -17,6 +17,7 @@ namespace Nitrade {
 
 		virtual void updateOpenTrades(Bar* bar) = 0;
 		virtual void openTrade(std::unique_ptr<Trade> trade, std::map<std::string, double>& data) = 0;
+		virtual void closeTrades(std::string asset, int id, Bar* currentBar) = 0;
 		virtual void closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar) = 0;
 		virtual void closeTrade(std::string asset, int id, long long tradeId, Bar* currentBar) = 0;
 		virtual std::vector<std::unique_ptr<Trade>>::iterator closeCurrentTrade(std::vector<std::unique_ptr<Trade>>::iterator trade,
@@ -59,6 +60,7 @@ namespace Nitrade {
 
 		void updateOpenTrades(Bar* bar);
 		void openTrade(std::unique_ptr<Trade> trade, std::map<std::string, double>& data);
+		void closeTrades(std::string asset, int id, Bar* currentBar);
 		void closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar);
 		std::vector<std::unique_ptr<Trade>>::iterator closeCurrentTrade(std::vector<std::unique_ptr<Trade>>::iterator trade,
 			Bar* currentBar, std::tuple<std::string, int> key);
