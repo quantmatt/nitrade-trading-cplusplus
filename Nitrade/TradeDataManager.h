@@ -18,7 +18,7 @@ namespace Nitrade {
 		virtual ~TradeDataManager() = default;
 
 		void push_back(int tradeId, std::map<std::string, double>& data);
-		bool toBinary(std::string filepath);
+		bool toBinary(std::string filepath, int startTradeId = 0);
 
 
 	};

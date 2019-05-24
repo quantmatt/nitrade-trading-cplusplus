@@ -23,8 +23,8 @@ namespace Nitrade {
 		virtual std::vector<std::unique_ptr<Trade>>::iterator closeCurrentTrade(std::vector<std::unique_ptr<Trade>>::iterator trade,
 			Bar* currentBar, std::tuple<std::string, int> key) = 0;
 		virtual int getOpenTradeCount(std::string asset, int id) = 0;
-		virtual bool writeTradesToBinary(std::string filepath) = 0;
-		virtual bool writeTradeDataToBinary(std::string filepath) = 0;
+		virtual int writeTradesToBinary(std::string filepath, int startTradeId = 0) = 0;
+		virtual bool writeTradeDataToBinary(std::string filepath, int startTradeId = 0) = 0;
 		virtual bool writeRunningPLToBinary(std::string filepath) = 0;
 
 		virtual void loadAssetDetails() = 0;
@@ -66,8 +66,8 @@ namespace Nitrade {
 		void closeTrade(std::string asset, int id, long long tradeId, Bar* currentBar);
 		int getOpenTradeCount(std::string asset, int id);
 
-		bool writeTradesToBinary(std::string filepath);
-		bool writeTradeDataToBinary(std::string filepath);
+		int writeTradesToBinary(std::string filepath, int startTradeId = 0);
+		bool writeTradeDataToBinary(std::string filepath, int startTradeId = 0);
 		bool writeRunningPLToBinary(std::string filepath);
 
 		void loadAssetDetails();

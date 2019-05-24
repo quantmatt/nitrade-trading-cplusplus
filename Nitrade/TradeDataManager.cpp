@@ -12,7 +12,7 @@ void Nitrade::TradeDataManager::push_back(int tradeId, std::map<std::string, dou
 		_fieldNames[value.first] = true;
 }
 
-bool Nitrade::TradeDataManager::toBinary(std::string filepath)
+bool Nitrade::TradeDataManager::toBinary(std::string filepath, int startTradeId)
 {
 	//write meta data at the start of the file
 	//int - number of fields
@@ -25,7 +25,7 @@ bool Nitrade::TradeDataManager::toBinary(std::string filepath)
 	std::ofstream stream;
 
 	try {
-		stream.open(filepath, std::ios::binary | std::ios::out);
+		stream.open(filepath, std::ios::binary | std::ios::out | std::ios::app);
 	}
 	catch (std::exception e)
 	{
@@ -36,32 +36,34 @@ bool Nitrade::TradeDataManager::toBinary(std::string filepath)
 
 	try {
 
-
-		//write the number of fields
-		int fieldCount = _fieldNames.size();
-		stream.write((char*)&fieldCount, sizeof(int));
-
-		//write each field name
-		for (auto& val : _fieldNames)
+		if (startTradeId == 0) //only needs to be done for the first tradeManager write - others will append to this file
 		{
-			//need to make sure all strings are fixed length of 30 bytes
+			//write the number of fields
+			int fieldCount = _fieldNames.size();
+			stream.write((char*)& fieldCount, sizeof(int));
 
-			//copy the name of the field
-			std::string name = val.first;
+			//write each field name
+			for (auto& val : _fieldNames)
+			{
+				//need to make sure all strings are fixed length of 30 bytes
 
-			//resize it to a 30 char array in total
-			//fill the reset with white space
-			name.resize(30, ' ');
+				//copy the name of the field
+				std::string name = val.first;
 
-			//write the 30 byte string name
-			stream.write((char*)name.c_str(), 30);
+				//resize it to a 30 char array in total
+				//fill the reset with white space
+				name.resize(30, ' ');
+
+				//write the 30 byte string name
+				stream.write((char*)name.c_str(), 30);
+			}
 		}
 
 
 		for (auto& trade : _tradeData) {
 
 			auto& tradeData = trade.second;
-			int tradeId = trade.first;
+			int tradeId = trade.first + startTradeId;
 
 			//write the tradeId
 			stream.write((char*)& tradeId, sizeof(int));

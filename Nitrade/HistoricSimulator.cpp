@@ -67,11 +67,15 @@ void Nitrade::HistoricSimulator::optimise(int cpus, std::vector<std::string> ass
 	
 
 	//write all trades from all trade managers to the trade files using appending to file
+	bool includeHeader = true;
+	int startTradeId = 0;
 	for (auto& tm : _threadTradeManagers)
 	{		
 		//write all trades to a binary file
-		tm->writeTradesToBinary("trades.bin");
-		tm->writeTradeDataToBinary("trades_data.bin");
+		//the startTradeId allows the other trademanagers to update the tradeId's to carry on from the number of the last trademanager
+		tm->writeTradeDataToBinary("trades_data.bin", startTradeId);
+		startTradeId = tm->writeTradesToBinary("trades.bin", startTradeId);		
+		includeHeader = false;
 		if (runningPL)
 			tm->writeRunningPLToBinary("daily_returns.bin");
 		

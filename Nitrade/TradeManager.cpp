@@ -226,7 +226,7 @@ int Nitrade::TradeManager::getOpenTradeCount(std::string asset, int id)
 	return _openTrades[StrategyKey(asset, id)].size();
 }
 
-bool Nitrade::TradeManager::writeTradesToBinary(std::string filepath)
+int Nitrade::TradeManager::writeTradesToBinary(std::string filepath, int startTradeId)
 {
 	//writes all trades to binary from every asset and variant id as one bid trades file
 
@@ -237,18 +237,21 @@ bool Nitrade::TradeManager::writeTradesToBinary(std::string filepath)
 		for (auto& trade : vec.second)
 		{
 			//copy the trade object into a new variable
+			trade->tradeId += startTradeId; //update the tradeId in the case of multiple tradeManagers
 			allTrades.push_back(std::make_unique<Trade>(*trade));
 		}
 	}
 
 	//write to binary file
-	return Utils::IOIterator::binary<Trade>(filepath, allTrades);	
+	return Utils::IOIterator::binary<Trade>(filepath, allTrades, true);	
+
+	return allTrades.size() + startTradeId;
 }
 
-bool Nitrade::TradeManager::writeTradeDataToBinary(std::string filepath)
+bool Nitrade::TradeManager::writeTradeDataToBinary(std::string filepath, int tradeStartId)
 {
 	//writes the addition data that was recorded when each trade was open
-	return _dataManager.toBinary(filepath);
+	return _dataManager.toBinary(filepath, tradeStartId);
 }
 
 bool Nitrade::TradeManager::writeRunningPLToBinary(std::string filepath)
@@ -267,7 +270,7 @@ bool Nitrade::TradeManager::writeRunningPLToBinary(std::string filepath)
 	}
 
 	//write to binary file
-	return Utils::IOIterator::binary<RunningPL>(filepath, all);
+	return Utils::IOIterator::binary<RunningPL>(filepath, all, true);
 }
 
 void Nitrade::TradeManager::loadAssetDetails()
