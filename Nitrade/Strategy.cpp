@@ -35,7 +35,7 @@ const std::tuple<std::string, int, int>& Nitrade::Strategy::getDataSetParams(int
 
 int Nitrade::Strategy::getDataSetCount()
 {
-	return _dataSetCount;
+	return _dataSetParameters.size();
 }
 
 const Nitrade::OptimiseParameter& Nitrade::Strategy::getOptimiseParams(int index)
@@ -45,7 +45,7 @@ const Nitrade::OptimiseParameter& Nitrade::Strategy::getOptimiseParams(int index
 
 int Nitrade::Strategy::getOptimiseParameterCount()
 {
-	return _optimiseParameterCount;
+	return _optimiseParameters.size();
 }
 
 

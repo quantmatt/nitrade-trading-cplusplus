@@ -17,7 +17,7 @@ double Nitrade::Indicators::StdDev(int periods, Utils::ISeriesBuffer<double>* da
 	double tally = 0;
 
 	for (int i = 0; i < periods; i++)
-		tally += data->get(i);
+		tally += (*data)[i];
 
 	double mean = tally / periods;
 	
@@ -32,7 +32,7 @@ double Nitrade::Indicators::StdDev(int periods, Utils::ISeriesBuffer<double>* da
 	// differences with mean. 
 	double sqDiff = 0;
 	for (int i = 0; i < periods; i++)
-		sqDiff += (data->get(i) - mean) * (data->get(i) - mean);
+		sqDiff += ((*data)[i] - mean) * ((*data)[i] - mean);
 	double variance = sqDiff / periods;
 
 	//return the square root of variance
@@ -44,7 +44,7 @@ double Nitrade::Indicators::SMA(int periods, Utils::ISeriesBuffer<double>* data)
 	//calculate the sma
 	double tally = 0;
 	for (int i = 0; i < periods; i++)
-		tally += data->get(i);
+		tally += (*data)[i];
 
 	double sma = tally / periods;
 
@@ -53,8 +53,8 @@ double Nitrade::Indicators::SMA(int periods, Utils::ISeriesBuffer<double>* data)
 
 bool Nitrade::Indicators::CrossOver(Utils::ISeriesBuffer<double>* data1, Utils::ISeriesBuffer<double>* data2)
 {
-	if ((data1->get(0) > data2->get(0) && data1->get(1) < data2->get(1)) ||
-		(data2->get(0) > data1->get(0) && data2->get(1) < data1->get(1)))
+	if (((*data1)[0] > (*data2)[0] && (*data1)[1] < (*data2)[1]) ||
+		((*data2)[0] > (*data1)[0] && (*data2)[1] < (*data1)[1]))
 		return true;
 
 	return false;
@@ -66,9 +66,9 @@ double Nitrade::Indicators::ATR(int periods, Utils::ISeriesBuffer<double>* close
 
 	for (int i = 0; i < periods; i++)
 	{
-		double a = highData->get(i) - lowData->get(i);		
-		double b = std::abs(highData->get(i) - closeData->get(i+1));
-		double c = std::abs(lowData->get(i) - closeData->get(i + 1));
+		double a = (*highData)[i] - (*lowData)[i];
+		double b = std::abs((*highData)[i] - (*closeData)[i+1]);
+		double c = std::abs((*lowData)[i] - (*closeData)[i + 1]);
 
 		double max = std::fmax(a, std::fmax(b, c));
 
@@ -103,7 +103,7 @@ double Nitrade::Indicators::LogRelativeRangeStdDev(int periodsShort, int periods
 
 double Nitrade::Indicators::LogRelativeVolume(int periods, Utils::ISeriesBuffer<double>* volume)
 {
-	double volumeNow = volume->get(0);
+	double volumeNow = (*volume)[0];
 	if (volumeNow <= 0)
 		volumeNow = 0.000001;
 	double volumeSMA = SMA(periods, volume);

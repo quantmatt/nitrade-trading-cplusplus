@@ -32,7 +32,6 @@
     <ClInclude Include="NitradeLib.h" />
     <ClInclude Include="OptimiseParameter.h" />
     <ClInclude Include="PriceData.h" />
-    <ClInclude Include="SeriesBuffer.h" />
     <ClInclude Include="Strategy.h" />
     <ClInclude Include="StrategyDefinition.h" />
     <ClInclude Include="StrategySet.h" />
@@ -54,7 +53,6 @@
     <ClCompile Include="PriceData.cpp" />
     <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="StrategySet.cpp" />
-    <ClCompile Include="TestStrategy.cpp" />
     <ClCompile Include="TradeDataManager.cpp" />
     <ClCompile Include="TradeManager.cpp" />
   </ItemGroup>

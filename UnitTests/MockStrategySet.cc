@@ -13,4 +13,7 @@ class MockStrategySet : public IStrategySet {
 	MOCK_METHOD2(init, void(ITradeManager* tradeManager, IAssetData* assetData));
 	MOCK_METHOD0(getStrategyKeys, std::vector<std::unique_ptr<StrategyKey>>());
 
+	MOCK_METHOD1(bracketOp, Strategy* (int index));
+
+	Strategy* operator [](int index) override { return bracketOp(index); }
 };

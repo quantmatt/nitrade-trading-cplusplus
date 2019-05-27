@@ -20,6 +20,8 @@ namespace Nitrade{
 		void init(ITradeManager* tradeManager, IAssetData* assetData);
 		void run(IPriceData* dataSet);
 		std::vector<std::unique_ptr<StrategyKey>> getStrategyKeys();
+
+		Strategy* operator [](int index) { return _strategies[index].get(); }
 	};
 }
 

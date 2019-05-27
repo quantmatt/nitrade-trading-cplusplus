@@ -14,6 +14,8 @@ namespace Nitrade {
 		virtual void run(IPriceData* dataSet) = 0;
 		virtual void init(ITradeManager* tradeManager, IAssetData* assetData) = 0;
 		virtual std::vector<std::unique_ptr<StrategyKey>> getStrategyKeys() = 0;
+
+		virtual Strategy* operator [](int index) = 0;
 	};
 }
 

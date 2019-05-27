@@ -33,12 +33,10 @@ namespace Nitrade {
 		std::map<std::string, double> _data;
 
 		//an array holding the list of assets, lookback period and bar size of required data
-		std::unique_ptr<std::tuple<std::string, int, int>[]> _dataSetParameters;
-		int _dataSetCount{ 0 };
+		std::vector<std::tuple<std::string, int, int>> _dataSetParameters;
 
 		//parameters that can optimised for the strategy
-		std::unique_ptr<OptimiseParameter[]> _optimiseParameters;
-		int _optimiseParameterCount{ 0 };
+		std::vector<OptimiseParameter> _optimiseParameters;
 
 	public:
 		Strategy() = default;
