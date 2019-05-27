@@ -18,7 +18,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nitrade", "Nitrade\Nitrade.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntegrationTesting", "IntegrationTesting\IntegrationTesting.vcxproj", "{B41B77E6-C7F8-4750-AE94-41F3A5A8FFA0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utils", "..\Utils\Utils.vcxproj", "{35B99A34-ABB5-4F28-9211-62C61FE9C2BB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utils", "Utils\Utils.vcxproj", "{35B99A34-ABB5-4F28-9211-62C61FE9C2BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
