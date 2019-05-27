@@ -7,6 +7,9 @@
 
 namespace Nitrade {
 
+	///////////////////////
+	//NOT CURRENTLY USED
+	//////////////////////
 	class IDataManager
 	{
 	public:

@@ -4,8 +4,6 @@
 #include "OptimiseParameter.h"
 #include "BinaryChunkReader.h"
 #include "DataManager.h"
-#include "IStrategyDefinition.h"
-#include "StrategyDefinition.h"
 #include "HistoricSimulator.h"
 #include "IDataFactory.h"
 #include "IAssetData.h"

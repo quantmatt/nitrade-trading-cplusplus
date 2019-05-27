@@ -38,7 +38,7 @@ namespace Nitrade {
 	public:
 		PriceData() = default;
 		PriceData(int lookBack, int barSize);
-		PriceData(int lookBack, int barSize, Utils::ISeriesBuffer<Bar*>* mockSeriesBuffer);
+		PriceData(int lookBack, int barSize, Utils::ISeriesBuffer<Bar*>* seriesBuffer);
 		virtual ~PriceData();
 
 		bool updateCurrentBarFromBar(Nitrade::Bar* newInfo); //used update current bar from minute bar

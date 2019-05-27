@@ -27,6 +27,28 @@ double Nitrade::Strategy::getParameter(std::string name)
 	return _parameters[name];
 }
 
+
+const std::tuple<std::string, int, int>& Nitrade::Strategy::getDataSetParams(int index)
+{
+	return std::move(_dataSetParameters[index]);
+}
+
+int Nitrade::Strategy::getDataSetCount()
+{
+	return _dataSetCount;
+}
+
+const Nitrade::OptimiseParameter& Nitrade::Strategy::getOptimiseParams(int index)
+{
+	return _optimiseParameters[index];
+}
+
+int Nitrade::Strategy::getOptimiseParameterCount()
+{
+	return _optimiseParameterCount;
+}
+
+
 void Nitrade::Strategy::setAsset(Nitrade::IAsset* asset)
 {
 	_currentAsset = asset; 
@@ -37,6 +59,10 @@ bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, float stop
 	//this will be the current bar - ie. the one that has not closed yet so careful not to use any close price or volume info
 	//the open of the bar is essentially the first oportunity to open a trade based on calculations from the last bar
 	Bar* bar = (*_currentData)[0];
+
+	//built in spread filter
+	if ((bar->askOpen - bar->bidOpen) / getPip() > _spreadFilter)
+		return false;
 
 	auto trade = std::make_unique<Trade>();
 	trade->openTime = bar->timestamp;	

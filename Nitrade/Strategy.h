@@ -8,6 +8,8 @@
 #include "PriceData.h"
 #include "SeriesBuffer.h"
 #include "Indicators.h"
+#include "OptimiseParameter.h"
+
 
 namespace Nitrade {
 
@@ -21,11 +23,22 @@ namespace Nitrade {
 		IAsset* _currentAsset{nullptr};
 	
 	protected:
+		//a built in spread filter to reject trades if spreas is more than _spreadFilter in Pips
+		int _spreadFilter = 100;
+
 		std::map<std::string, double> _parameters;
 		int _variantId{ 0 }; //used to identify the strategy variant ie. different parameter values
 
 		std::map<std::string, std::unique_ptr<Utils::ISeriesBuffer<double>>> _features;
 		std::map<std::string, double> _data;
+
+		//an array holding the list of assets, lookback period and bar size of required data
+		std::unique_ptr<std::tuple<std::string, int, int>[]> _dataSetParameters;
+		int _dataSetCount{ 0 };
+
+		//parameters that can optimised for the strategy
+		std::unique_ptr<OptimiseParameter[]> _optimiseParameters;
+		int _optimiseParameterCount{ 0 };
 
 	public:
 		Strategy() = default;
@@ -35,11 +48,15 @@ namespace Nitrade {
 
 		void init(ITradeManager* tradeManager, IAssetData* assetData);
 
+		//setup functions
 		void setParameter(std::string name, double value);
 		double getParameter(std::string name);
-
 		void setVariantId(int id) { _variantId = id; }
 		int getVariantId() {return _variantId; }
+		const std::tuple<std::string, int, int>& getDataSetParams(int index);
+		int getDataSetCount();
+		const OptimiseParameter& getOptimiseParams(int index);
+		int getOptimiseParameterCount();
 		
 		
 

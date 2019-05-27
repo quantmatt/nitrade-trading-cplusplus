@@ -4,11 +4,14 @@
 #include <utility>
 #include <thread>
 #include <chrono>
-void Nitrade::HistoricSimulator::Setup(std::unique_ptr<IStrategyDefinition> strategyDef, 
+void Nitrade::HistoricSimulator::setup(std::unique_ptr<Strategy> strategy, 
 	std::unique_ptr<IDataFactory> dataFactory)
 {
+
+	//move ownership of the strategy to the historic tester
+	_strategy = std::move(strategy);
+
 	//setup the strategy definition and datafactory
-	_strategyDefinition = std::move(strategyDef);
 	if (dataFactory != nullptr)
 		_dataFactory = std::move(dataFactory);
 	else
@@ -122,11 +125,11 @@ void Nitrade::HistoricSimulator::optimiseAssets(ITradeManager* tradeManager, std
 
 		//A set of strategies generated with all possible values of the input variables
 		//for this particular asset
-		auto strategies = _dataFactory->getStrategySet(_strategyDefinition.get(), asset);
+		auto strategies = _dataFactory->getStrategySet(_strategy.get(), asset);
 
 		//create the price data arrays for this asset.
 		//these will be filled as we traverse through the binary data
-		auto assetData = _dataFactory->getAssetData(_strategyDefinition.get());
+		auto assetData = _dataFactory->getAssetData(_strategy.get());
 		int size = assetData->size();
 
 		//Create a binary chunk reader to read the binary price data in chunks

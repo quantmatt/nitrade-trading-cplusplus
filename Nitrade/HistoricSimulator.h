@@ -1,6 +1,7 @@
 #pragma once
-#include "IStrategyDefinition.h"
 #include "IDataFactory.h"
+#include "Strategy.h"
+#include "DataFactory.h"
 #include <memory>
 #include <iostream>
 
@@ -9,7 +10,7 @@ namespace Nitrade {
 	{
 	private:
 
-		std::unique_ptr<IStrategyDefinition> _strategyDefinition;
+		std::unique_ptr<Strategy> _strategy;
 		std::unique_ptr<IDataFactory> _dataFactory;
 		std::vector<std::unique_ptr<ITradeManager>> _threadTradeManagers;
 		
@@ -18,7 +19,7 @@ namespace Nitrade {
 		HistoricSimulator() = default;		
 		virtual ~HistoricSimulator() = default;
 
-		void Setup(std::unique_ptr<IStrategyDefinition> strategyDef,
+		void setup(std::unique_ptr<Strategy> strategy,
 			std::unique_ptr<IDataFactory> dataFactory = nullptr);
 
 		void optimise(int  cpus, std::vector<std::string> assets, bool runningPL=true);

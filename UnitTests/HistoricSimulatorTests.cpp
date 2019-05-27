@@ -2,7 +2,6 @@
 #include "gmock/gmock.h"
 
 #include "NitradeLib.h"
-#include "MockStrategyDefinition.cc"
 #include "MockDataFactory.cc"
 #include "MockAsset.cc"
 #include "MockBinaryChunkReader.cc"
@@ -19,8 +18,7 @@ using namespace testing;
 class HistoricSimulatorTests : public ::testing::Test
 {
 protected:
-
-	unique_ptr<MockStrategyDefinition> sd = make_unique<MockStrategyDefinition>();
+	unique_ptr<Strategy> s = make_unique<Strategy>();
 	unique_ptr<MockDataFactory> df = make_unique<MockDataFactory>();
 	unique_ptr<MockAsset> mockAsset = make_unique<MockAsset>();	
 	unique_ptr<MockStrategySet> mockStrategySet = make_unique<MockStrategySet>(); 
@@ -72,9 +70,9 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetFailAssetDetailsLoad) {
 	//set the mocks that datafactor produces
 	EXPECT_CALL(*df, getTradeManager()).WillRepeatedly(Return(ByMove(move(mockTradeManager))));	
 
-	hs.Setup(move(sd), move(df));
+	hs.setup(move(s), move(df));
 
-	EXPECT_THROW(hs.Optimise(""), exception);
+	EXPECT_THROW(hs.optimise(""), exception);
 }
 
 TEST_F(HistoricSimulatorTests, OptimiseWithAssetStrategySetFail) {
@@ -85,9 +83,9 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetStrategySetFail) {
 	//set the mocks that datafactor produces
 	EXPECT_CALL(*df, getTradeManager()).WillRepeatedly(Return(ByMove(move(mockTradeManager))));
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Throw(exception()));
-	hs.Setup(move(sd), move(df));
+	hs.setup(move(s), move(df));
 
-	EXPECT_THROW(hs.Optimise(""), exception);
+	EXPECT_THROW(hs.optimise(""), exception);
 }
 
 
@@ -101,9 +99,9 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetGetAssetDataFail) {
 	EXPECT_CALL(*df, getTradeManager()).WillRepeatedly(Return(ByMove(move(mockTradeManager))));
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Return(ByMove(move(mockStrategySet))));
 	EXPECT_CALL(*df, getAssetData(_)).WillRepeatedly(Throw(exception()));
-	hs.Setup(move(sd), move(df));
+	hs.setup(move(s), move(df));
 
-	EXPECT_THROW(hs.Optimise(""), exception);
+	EXPECT_THROW(hs.optimise(""), exception);
 }
 
 TEST_F(HistoricSimulatorTests, OptimiseWithAssetGetBinaryReaderFail) {
@@ -116,9 +114,9 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetGetBinaryReaderFail) {
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Return(ByMove(move(mockStrategySet))));
 	EXPECT_CALL(*df, getAssetData(_)).WillRepeatedly(Return(ByMove(move(mockAssetData))));
 	EXPECT_CALL(*df, getBinaryChunkReader(_)).WillRepeatedly(Throw(exception()));
-	hs.Setup(move(sd), move(df));
+	hs.setup(move(s), move(df));
 
-	EXPECT_THROW(hs.Optimise(""), exception);
+	EXPECT_THROW(hs.optimise(""), exception);
 }
 
 TEST_F(HistoricSimulatorTests, OptimiseWithAssetBinaryDataInvalid) {
@@ -137,9 +135,9 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetBinaryDataInvalid) {
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Return(ByMove(move(mockStrategySet))));
 	EXPECT_CALL(*df, getAssetData(_)).WillRepeatedly(Return(ByMove(move(mockAssetData))));
 	EXPECT_CALL(*df, getBinaryChunkReader(_)).WillRepeatedly(Return(ByMove(move(mockBinaryChunkReader))));
-	hs.Setup(move(sd), move(df));
+	hs.setup(move(s), move(df));
 
-	EXPECT_THROW(hs.Optimise(""), invalid_argument);
+	EXPECT_THROW(hs.optimise(""), invalid_argument);
 }
 
 TEST_F(HistoricSimulatorTests, OptimiseWithAssetWillSucceed) {
@@ -174,10 +172,10 @@ TEST_F(HistoricSimulatorTests, OptimiseWithAssetWillSucceed) {
 	EXPECT_CALL(*df, getStrategySet(_, _)).WillRepeatedly(Return(ByMove(move(mockStrategySet))));
 	EXPECT_CALL(*df, getAssetData(_)).WillRepeatedly(Return(ByMove(move(mockAssetData))));
 	EXPECT_CALL(*df, getBinaryChunkReader(_)).WillRepeatedly(Return(ByMove(move(mockBinaryChunkReader))));
-	hs.Setup(move(sd), move(df));
+	hs.setup(move(s), move(df));
 
 
 
 
-	hs.Optimise("");
+	hs.optimise("");
 }

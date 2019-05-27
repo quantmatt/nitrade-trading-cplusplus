@@ -11,9 +11,9 @@ Nitrade::PriceData::PriceData(int lookback, int barSize) : _barSize(barSize)
 	_pLookbackBars = new Utils::SeriesBuffer<Nitrade::Bar*>(lookback);	
 }
 
-Nitrade::PriceData::PriceData(int lookBack, int barSize, Utils::ISeriesBuffer<Bar*>* mockSeriesBuffer)
+Nitrade::PriceData::PriceData(int lookBack, int barSize, Utils::ISeriesBuffer<Bar*>* seriesBuffer)
 {
-	_pLookbackBars = mockSeriesBuffer;
+	_pLookbackBars = seriesBuffer;
 }
 
 Nitrade::PriceData::~PriceData()

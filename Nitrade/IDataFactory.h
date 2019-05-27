@@ -7,7 +7,6 @@
 #include "Asset.h"
 #include "AssetData.h"
 #include "StrategySet.h"
-#include "IStrategyDefinition.h"
 
 namespace Nitrade {
 	class IDataFactory
@@ -16,9 +15,9 @@ namespace Nitrade {
 		IDataFactory() = default;
 		virtual ~IDataFactory() = default;
 
-		virtual std::unique_ptr<IAssetData> getAssetData(IStrategyDefinition* strategyDefinition) = 0;
+		virtual std::unique_ptr<IAssetData> getAssetData(Strategy* strategy) = 0;
 		virtual std::unique_ptr<IBinaryChunkReader> getBinaryChunkReader(const std::string dataPath) = 0;
-		virtual std::unique_ptr<IStrategySet> getStrategySet(IStrategyDefinition* strategyDefinition, IAsset* asset) = 0;
+		virtual std::unique_ptr<IStrategySet> getStrategySet(Strategy* strategy, IAsset* asset) = 0;
 		virtual std::unique_ptr<ITradeManager> getTradeManager() = 0;
 	};
 

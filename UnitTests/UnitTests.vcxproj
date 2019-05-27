@@ -42,12 +42,12 @@
     <ClCompile Include="MockBinaryChunkReader.cc" />
     <ClCompile Include="MockDataFactory.cc" />
     <ClCompile Include="MockSeriesBuffer.cc" />
-    <ClCompile Include="MockStrategyDefinition.cc" />
     <ClCompile Include="MockPriceData.cc" />
     <ClCompile Include="MockTradeManager.cc" />
     <ClCompile Include="PriceDataTest.cpp" />
     <ClCompile Include="SeriesBufferTest.cpp" />
     <ClCompile Include="MockStrategySet.cc" />
+    <ClCompile Include="StrategySetTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nitrade\Nitrade.vcxproj">

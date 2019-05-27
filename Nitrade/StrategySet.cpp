@@ -12,23 +12,21 @@ Nitrade::StrategySet::~StrategySet()
 {
 }
 
-void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion,  Nitrade::IAsset* asset)
+void Nitrade::StrategySet::createFrom(Strategy* baseStrategy,  Nitrade::IAsset* asset)
 {
 	//Does a brute force calculation of all the possible strategy setups with the range of optimisable
 	//parameters. A parameter has a start value, step value and max value
 
 	//get the number of optimisable parameters for the given strategy
-	int paramCount = strategyDefintion->getOptimiseParameterCount();
+	int paramCount = baseStrategy->getOptimiseParameterCount();
 
-	//get the base strategy to use as a template
-	Strategy* baseStrategy = strategyDefintion->getStrategy();
-	baseStrategy->setAsset(asset);
 
 	//if no optimisiation just set the strategy set as a single variant.
 	if (paramCount == 0)
 	{
 		_strategies = std::vector<std::unique_ptr<Strategy>>(1);
 		_strategies[0] = std::move(baseStrategy->clone());
+		_strategies[0]->setAsset(asset);
 		_strategyCount = 1;
 		return;			
 	}
@@ -43,7 +41,7 @@ void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion,  N
 	//create an array of values for each optimise parameter
 	for (int i = 0; i < paramCount; i++)
 	{
-		OptimiseParameter op = strategyDefintion->getOptimiseParams(i);
+		OptimiseParameter op = baseStrategy->getOptimiseParams(i);
 		
 		paramValues[i] = op.getValues();
 		count = count * paramValues[i].size();
@@ -75,7 +73,7 @@ void Nitrade::StrategySet::createFrom(IStrategyDefinition* strategyDefintion,  N
 
 		for (int i = 0; i < paramCount; i++)
 		{
-			OptimiseParameter op = strategyDefintion->getOptimiseParams(i);
+			OptimiseParameter op = baseStrategy->getOptimiseParams(i);
 			std::string paramName = op.getName();
 			_strategies[sIndex]->setParameter(paramName, paramValues[i][indexArray[i]]);
 		}

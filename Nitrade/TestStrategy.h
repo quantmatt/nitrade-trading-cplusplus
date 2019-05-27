@@ -9,7 +9,7 @@ namespace Nitrade {
 		std::string _name{ "Strategy" };
 
 	public:
-		TestStrategy() = default;
+		TestStrategy();
 		virtual ~TestStrategy() = default;
 
 		std::unique_ptr<Strategy> clone() {

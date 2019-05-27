@@ -28,7 +28,6 @@
     <ClInclude Include="IAssetData.h" />
     <ClInclude Include="IDataFactory.h" />
     <ClInclude Include="Indicators.h" />
-    <ClInclude Include="IStrategyDefinition.h" />
     <ClInclude Include="IStrategySet.h" />
     <ClInclude Include="NitradeLib.h" />
     <ClInclude Include="OptimiseParameter.h" />
@@ -54,8 +53,8 @@
     <ClCompile Include="OptimiseParameter.cpp" />
     <ClCompile Include="PriceData.cpp" />
     <ClCompile Include="Strategy.cpp" />
-    <ClCompile Include="StrategyDefinition.cpp" />
     <ClCompile Include="StrategySet.cpp" />
+    <ClCompile Include="TestStrategy.cpp" />
     <ClCompile Include="TradeDataManager.cpp" />
     <ClCompile Include="TradeManager.cpp" />
   </ItemGroup>
