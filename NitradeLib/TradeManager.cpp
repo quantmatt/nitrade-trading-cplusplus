@@ -104,11 +104,6 @@ void Nitrade::TradeManager::openTrade(std::unique_ptr<Trade> trade, std::map<std
 
 void Nitrade::TradeManager::closeTrades(std::string asset, int id, Bar* currentBar)
 {
-	//get the details from the asset needed to calculate profit
-	auto assetDetails = getAsset(asset);
-	float pip = assetDetails->getPip();
-	float pipCost = assetDetails->getPipCost();
-	float commission = assetDetails->getCommission();
 
 	//loop through all open trades and close any that match the passed direction
 	auto key = StrategyKey(asset, id);
@@ -129,12 +124,6 @@ void Nitrade::TradeManager::closeTrades(std::string asset, int id, Bar* currentB
 
 void Nitrade::TradeManager::closeTrades(std::string asset, int id, tradeDirection direction, Bar* currentBar)
 {
-	
-	//get the details from the asset needed to calculate profit
-	auto assetDetails = getAsset(asset);
-	float pip = assetDetails->getPip();
-	float pipCost = assetDetails->getPipCost();
-	float commission = assetDetails->getCommission();
 
 	//loop through all open trades and close any that match the passed direction
 	auto key = StrategyKey(asset, id);	
