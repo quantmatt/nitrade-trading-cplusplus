@@ -1,0 +1,60 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+CPP_SRCS += \
+../Asset.cpp \
+../AssetData.cpp \
+../BinaryChunkReader.cpp \
+../DataFactory.cpp \
+../DataManager.cpp \
+../HistoricSimulator.cpp \
+../Indicators.cpp \
+../OptimiseParameter.cpp \
+../PriceData.cpp \
+../Strategy.cpp \
+../StrategySet.cpp \
+../TradeDataManager.cpp \
+../TradeManager.cpp 
+
+OBJS += \
+./Asset.o \
+./AssetData.o \
+./BinaryChunkReader.o \
+./DataFactory.o \
+./DataManager.o \
+./HistoricSimulator.o \
+./Indicators.o \
+./OptimiseParameter.o \
+./PriceData.o \
+./Strategy.o \
+./StrategySet.o \
+./TradeDataManager.o \
+./TradeManager.o 
+
+CPP_DEPS += \
+./Asset.d \
+./AssetData.d \
+./BinaryChunkReader.d \
+./DataFactory.d \
+./DataManager.d \
+./HistoricSimulator.d \
+./Indicators.d \
+./OptimiseParameter.d \
+./PriceData.d \
+./Strategy.d \
+./StrategySet.d \
+./TradeDataManager.d \
+./TradeManager.d 
+
+
+# Each subdirectory must supply rules for building sources it contributes
+%.o: ../%.cpp
+	@echo 'Building file: $<'
+	@echo 'Invoking: GCC C++ Compiler'
+	g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+
