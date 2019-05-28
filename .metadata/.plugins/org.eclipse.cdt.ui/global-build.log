@@ -1,0 +1,451 @@
+
+**** Build of configuration Debug for project NitradeLib ****
+
+make all 
+Building file: ../Asset.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"Asset.d" -MT"Asset.d" -o "Asset.o" "../Asset.cpp"
+Finished building: ../Asset.cpp
+ 
+Building file: ../AssetData.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"AssetData.d" -MT"AssetData.d" -o "AssetData.o" "../AssetData.cpp"
+Finished building: ../AssetData.cpp
+ 
+Building file: ../BinaryChunkReader.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"BinaryChunkReader.d" -MT"BinaryChunkReader.d" -o "BinaryChunkReader.o" "../BinaryChunkReader.cpp"
+In file included from ../BinaryChunkReader.cpp:1:0:
+../BinaryChunkReader.h:42:8: error: ‘unique_ptr’ in namespace ‘std’ does not name a template type
+   std::unique_ptr<char[]> _pBinData{};
+        ^~~~~~~~~~
+../BinaryChunkReader.cpp: In member function ‘virtual char* Nitrade::BinaryChunkReader::getChunk()’:
+../BinaryChunkReader.cpp:86:2: error: ‘_pBinData’ was not declared in this scope
+  _pBinData = std::make_unique<char[]>(_bufferSize);
+  ^~~~~~~~~
+../BinaryChunkReader.cpp:86:14: error: ‘make_unique’ is not a member of ‘std’
+subdir.mk:54: recipe for target 'BinaryChunkReader.o' failed
+  _pBinData = std::make_unique<char[]>(_bufferSize);
+              ^~~
+../BinaryChunkReader.cpp:86:31: error: expected primary-expression before ‘char’
+  _pBinData = std::make_unique<char[]>(_bufferSize);
+                               ^~~~
+make: *** [BinaryChunkReader.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project NitradeLib ****
+
+make all 
+Building file: ../BinaryChunkReader.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"BinaryChunkReader.d" -MT"BinaryChunkReader.d" -o "BinaryChunkReader.o" "../BinaryChunkReader.cpp"
+Finished building: ../BinaryChunkReader.cpp
+ 
+Building file: ../DataFactory.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"DataFactory.d" -MT"DataFactory.d" -o "DataFactory.o" "../DataFactory.cpp"
+In file included from ../TradeManager.h:10:0,
+                 from ../Strategy.h:6,
+                 from ../DataFactory.h:3,
+                 from ../DataFactory.cpp:1:
+../IOIterator.h: In static member function ‘static std::vector<std::unique_ptr<_Tp> > Utils::IOIterator::vectorFromBinary(std::__cxx11::string, int)’:
+../IOIterator.h:67:23: error: expected primary-expression before ‘;’ token
+     objSize = sizeof T;
+                       ^
+make: *** [DataFactory.o] Error 1
+subdir.mk:54: recipe for target 'DataFactory.o' failed
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project NitradeLib ****
+
+make all 
+Building file: ../DataFactory.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"DataFactory.d" -MT"DataFactory.d" -o "DataFactory.o" "../DataFactory.cpp"
+Finished building: ../DataFactory.cpp
+ 
+Building file: ../DataManager.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"DataManager.d" -MT"DataManager.d" -o "DataManager.o" "../DataManager.cpp"
+Finished building: ../DataManager.cpp
+ 
+Building file: ../HistoricSimulator.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"HistoricSimulator.d" -MT"HistoricSimulator.d" -o "HistoricSimulator.o" "../HistoricSimulator.cpp"
+Finished building: ../HistoricSimulator.cpp
+ 
+Building file: ../Indicators.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"Indicators.d" -MT"Indicators.d" -o "Indicators.o" "../Indicators.cpp"
+../Indicators.cpp: In static member function ‘static double Nitrade::Indicators::StdDev(int, Utils::ISeriesBuffer<double>*, double)’:
+../Indicators.cpp:39:9: error: ‘sqrt’ is not a member of ‘std’
+  return std::sqrt(variance);
+         ^~~
+../Indicators.cpp: In static member function ‘static double Nitrade::Indicators::ATR(int, Utils::ISeriesBuffer<double>*, Utils::ISeriesBuffer<double>*, Utils::ISeriesBuffer<double>*)’:
+subdir.mk:54: recipe for target 'Indicators.o' failed
+../Indicators.cpp:70:57: error: call of overloaded ‘abs(double)’ is ambiguous
+   double b = std::abs((*highData)[i] - (*closeData)[i+1]);
+                                                         ^
+In file included from /usr/include/c++/6/ext/string_conversions.h:41:0,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/c++/6/cstdlib:172:3: note: candidate: long int std::abs(long int)
+   abs(long __i) { return __builtin_labs(__i); }
+   ^~~
+In file included from /usr/include/c++/6/cstdlib:75:0,
+                 from /usr/include/c++/6/ext/string_conversions.h:41,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/stdlib.h:735:12: note: candidate: int abs(int)
+ extern int abs (int __x) __THROW __attribute__ ((__const__)) __wur;
+            ^~~
+In file included from /usr/include/c++/6/ext/string_conversions.h:41:0,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/c++/6/cstdlib:180:3: note: candidate: long long int std::abs(long long int)
+   abs(long long __x) { return __builtin_llabs (__x); }
+   ^~~
+../Indicators.cpp:71:58: error: call of overloaded ‘abs(double)’ is ambiguous
+   double c = std::abs((*lowData)[i] - (*closeData)[i + 1]);
+                                                          ^
+In file included from /usr/include/c++/6/ext/string_conversions.h:41:0,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/c++/6/cstdlib:172:3: note: candidate: long int std::abs(long int)
+   abs(long __i) { return __builtin_labs(__i); }
+   ^~~
+In file included from /usr/include/c++/6/cstdlib:75:0,
+                 from /usr/include/c++/6/ext/string_conversions.h:41,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/stdlib.h:735:12: note: candidate: int abs(int)
+ extern int abs (int __x) __THROW __attribute__ ((__const__)) __wur;
+            ^~~
+In file included from /usr/include/c++/6/ext/string_conversions.h:41:0,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/c++/6/cstdlib:180:3: note: candidate: long long int std::abs(long long int)
+   abs(long long __x) { return __builtin_llabs (__x); }
+   ^~~
+../Indicators.cpp:73:16: error: ‘fmax’ is not a member of ‘std’
+   double max = std::fmax(a, std::fmax(b, c));
+                ^~~
+../Indicators.cpp:73:29: error: ‘fmax’ is not a member of ‘std’
+   double max = std::fmax(a, std::fmax(b, c));
+                             ^~~
+../Indicators.cpp: In static member function ‘static double Nitrade::Indicators::LogRelativeRangeStdDev(int, int, Utils::ISeriesBuffer<double>*)’:
+../Indicators.cpp:99:10: error: ‘log’ is not a member of ‘std’
+   return std::log(relRange);
+          ^~~
+../Indicators.cpp:101:10: error: ‘log’ is not a member of ‘std’
+   return std::log(0.000001);
+          ^~~
+../Indicators.cpp: In static member function ‘static double Nitrade::Indicators::LogRelativeVolume(int, Utils::ISeriesBuffer<double>*)’:
+../Indicators.cpp:113:9: error: ‘log’ is not a member of ‘std’
+  return std::log(volumeNow) / std::log(volumeSMA);
+         ^~~
+../Indicators.cpp:113:31: error: ‘log’ is not a member of ‘std’
+  return std::log(volumeNow) / std::log(volumeSMA);
+                               ^~~
+make: *** [Indicators.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project NitradeLib ****
+
+make all 
+Building file: ../Indicators.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"Indicators.d" -MT"Indicators.d" -o "Indicators.o" "../Indicators.cpp"
+../Indicators.cpp: In static member function ‘static double Nitrade::Indicators::StdDev(int, Utils::ISeriesBuffer<double>*, double)’:
+../Indicators.cpp:39:9: error: ‘sqrt’ is not a member of ‘std’
+  return std::sqrt(variance);
+         ^~~
+../Indicators.cpp: In static member function ‘static double Nitrade::Indicators::ATR(int, Utils::ISeriesBuffer<double>*, Utils::ISeriesBuffer<double>*, Utils::ISeriesBuffer<double>*)’:
+subdir.mk:54: recipe for target 'Indicators.o' failed
+../Indicators.cpp:70:57: error: call of overloaded ‘abs(double)’ is ambiguous
+   double b = std::abs((*highData)[i] - (*closeData)[i+1]);
+                                                         ^
+In file included from /usr/include/c++/6/ext/string_conversions.h:41:0,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/c++/6/cstdlib:172:3: note: candidate: long int std::abs(long int)
+   abs(long __i) { return __builtin_labs(__i); }
+   ^~~
+In file included from /usr/include/c++/6/cstdlib:75:0,
+                 from /usr/include/c++/6/ext/string_conversions.h:41,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/stdlib.h:735:12: note: candidate: int abs(int)
+ extern int abs (int __x) __THROW __attribute__ ((__const__)) __wur;
+            ^~~
+In file included from /usr/include/c++/6/ext/string_conversions.h:41:0,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/c++/6/cstdlib:180:3: note: candidate: long long int std::abs(long long int)
+   abs(long long __x) { return __builtin_llabs (__x); }
+   ^~~
+../Indicators.cpp:71:58: error: call of overloaded ‘abs(double)’ is ambiguous
+   double c = std::abs((*lowData)[i] - (*closeData)[i + 1]);
+                                                          ^
+In file included from /usr/include/c++/6/ext/string_conversions.h:41:0,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/c++/6/cstdlib:172:3: note: candidate: long int std::abs(long int)
+   abs(long __i) { return __builtin_labs(__i); }
+   ^~~
+In file included from /usr/include/c++/6/cstdlib:75:0,
+                 from /usr/include/c++/6/ext/string_conversions.h:41,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/stdlib.h:735:12: note: candidate: int abs(int)
+ extern int abs (int __x) __THROW __attribute__ ((__const__)) __wur;
+            ^~~
+In file included from /usr/include/c++/6/ext/string_conversions.h:41:0,
+                 from /usr/include/c++/6/bits/basic_string.h:5417,
+                 from /usr/include/c++/6/string:52,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
+                 from /usr/include/c++/6/functional:55,
+                 from /usr/include/c++/6/memory:79,
+                 from ../Indicators.h:2,
+                 from ../Indicators.cpp:1:
+/usr/include/c++/6/cstdlib:180:3: note: candidate: long long int std::abs(long long int)
+   abs(long long __x) { return __builtin_llabs (__x); }
+   ^~~
+../Indicators.cpp:73:16: error: ‘fmax’ is not a member of ‘std’
+   double max = std::fmax(a, std::fmax(b, c));
+                ^~~
+../Indicators.cpp:73:29: error: ‘fmax’ is not a member of ‘std’
+   double max = std::fmax(a, std::fmax(b, c));
+                             ^~~
+../Indicators.cpp: In static member function ‘static double Nitrade::Indicators::LogRelativeRangeStdDev(int, int, Utils::ISeriesBuffer<double>*)’:
+../Indicators.cpp:99:10: error: ‘log’ is not a member of ‘std’
+   return std::log(relRange);
+          ^~~
+../Indicators.cpp:101:10: error: ‘log’ is not a member of ‘std’
+   return std::log(0.000001);
+          ^~~
+../Indicators.cpp: In static member function ‘static double Nitrade::Indicators::LogRelativeVolume(int, Utils::ISeriesBuffer<double>*)’:
+../Indicators.cpp:113:9: error: ‘log’ is not a member of ‘std’
+  return std::log(volumeNow) / std::log(volumeSMA);
+         ^~~
+../Indicators.cpp:113:31: error: ‘log’ is not a member of ‘std’
+  return std::log(volumeNow) / std::log(volumeSMA);
+                               ^~~
+make: *** [Indicators.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project NitradeLib ****
+
+make all 
+Building file: ../Indicators.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"Indicators.d" -MT"Indicators.d" -o "Indicators.o" "../Indicators.cpp"
+Finished building: ../Indicators.cpp
+ 
+Building file: ../OptimiseParameter.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"OptimiseParameter.d" -MT"OptimiseParameter.d" -o "OptimiseParameter.o" "../OptimiseParameter.cpp"
+Finished building: ../OptimiseParameter.cpp
+ 
+Building file: ../PriceData.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"PriceData.d" -MT"PriceData.d" -o "PriceData.o" "../PriceData.cpp"
+Finished building: ../PriceData.cpp
+ 
+Building file: ../Strategy.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"Strategy.d" -MT"Strategy.d" -o "Strategy.o" "../Strategy.cpp"
+Finished building: ../Strategy.cpp
+ 
+Building file: ../StrategySet.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"StrategySet.d" -MT"StrategySet.d" -o "StrategySet.o" "../StrategySet.cpp"
+Finished building: ../StrategySet.cpp
+ 
+Building file: ../TradeDataManager.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"TradeDataManager.d" -MT"TradeDataManager.d" -o "TradeDataManager.o" "../TradeDataManager.cpp"
+In file included from /usr/include/c++/6/map:61:0,
+                 from ../TradeDataManager.h:3,
+                 from ../TradeDataManager.cpp:1:
+/usr/include/c++/6/bits/stl_map.h: In member function ‘std::map<_Key, _Tp, _Compare, _Alloc>::mapped_type& std::map<_Key, _Tp, _Compare, _Alloc>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Tp = double; _Compare = std::less<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, double> >]’:
+/usr/include/c++/6/bits/stl_map.h:483:4: note: parameter passing for argument of type ‘std::_Rb_tree<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, double>, std::_Select1st<std::pair<const std::__cxx11::basic_string<char>, double> >, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, double> > >::const_iterator {aka std::_Rb_tree_const_iterator<std::pair<const std::__cxx11::basic_string<char>, double> >}’ will change in GCC 7.1
+Finished building: ../TradeDataManager.cpp
+    __i = _M_t._M_emplace_hint_unique(__i, std::piecewise_construct,
+    ^~~
+In file included from /usr/include/c++/6/map:60:0,
+                 from ../TradeDataManager.h:3,
+                 from ../TradeDataManager.cpp:1:
+ 
+/usr/include/c++/6/bits/stl_tree.h: In member function ‘std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::iterator std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_M_emplace_hint_unique(std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::const_iterator, _Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Key = std::__cxx11::basic_string<char>; _Val = std::pair<const std::__cxx11::basic_string<char>, double>; _KeyOfValue = std::_Select1st<std::pair<const std::__cxx11::basic_string<char>, double> >; _Compare = std::less<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, double> >]’:
+Building file: ../TradeManager.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"TradeManager.d" -MT"TradeManager.d" -o "TradeManager.o" "../TradeManager.cpp"
+/usr/include/c++/6/bits/stl_tree.h:2193:7: note: parameter passing for argument of type ‘std::_Rb_tree<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, double>, std::_Select1st<std::pair<const std::__cxx11::basic_string<char>, double> >, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, double> > >::const_iterator {aka std::_Rb_tree_const_iterator<std::pair<const std::__cxx11::basic_string<char>, double> >}’ will change in GCC 7.1
+       _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/6/bits/stl_tree.h: In member function ‘std::pair<std::_Rb_tree_node_base*, std::_Rb_tree_node_base*> std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_M_get_insert_hint_unique_pos(std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::const_iterator, const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Val = std::pair<const std::__cxx11::basic_string<char>, double>; _KeyOfValue = std::_Select1st<std::pair<const std::__cxx11::basic_string<char>, double> >; _Compare = std::less<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, double> >]’:
+Finished building: ../TradeManager.cpp
+/usr/include/c++/6/bits/stl_tree.h:1928:5: note: parameter passing for argument of type ‘std::_Rb_tree<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, double>, std::_Select1st<std::pair<const std::__cxx11::basic_string<char>, double> >, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, double> > >::const_iterator {aka std::_Rb_tree_const_iterator<std::pair<const std::__cxx11::basic_string<char>, double> >}’ will change in GCC 7.1
+     _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../TradeManager.cpp: In member function ‘virtual void Nitrade::TradeManager::closeTrades(std::__cxx11::string, int, Nitrade::Bar*)’:
+ 
+../TradeManager.cpp:109:8: warning: unused variable ‘pip’ [-Wunused-variable]
+Building target: libNitradeLib.a
+  float pip = assetDetails->getPip();
+        ^~~
+Invoking: GCC Archiver
+../TradeManager.cpp:110:8: warning: unused variable ‘pipCost’ [-Wunused-variable]
+  float pipCost = assetDetails->getPipCost();
+        ^~~~~~~
+ar -r  "libNitradeLib.a"  ./Asset.o ./AssetData.o ./BinaryChunkReader.o ./DataFactory.o ./DataManager.o ./HistoricSimulator.o ./Indicators.o ./OptimiseParameter.o ./PriceData.o ./Strategy.o ./StrategySet.o ./TradeDataManager.o ./TradeManager.o   
+../TradeManager.cpp:111:8: warning: unused variable ‘commission’ [-Wunused-variable]
+Finished building target: libNitradeLib.a
+ 
+  float commission = assetDetails->getCommission();
+        ^~~~~~~~~~
+../TradeManager.cpp: In member function ‘virtual void Nitrade::TradeManager::closeTrades(std::__cxx11::string, int, Nitrade::tradeDirection, Nitrade::Bar*)’:
+../TradeManager.cpp:135:8: warning: unused variable ‘pip’ [-Wunused-variable]
+  float pip = assetDetails->getPip();
+        ^~~
+../TradeManager.cpp:136:8: warning: unused variable ‘pipCost’ [-Wunused-variable]
+  float pipCost = assetDetails->getPipCost();
+        ^~~~~~~
+../TradeManager.cpp:137:8: warning: unused variable ‘commission’ [-Wunused-variable]
+  float commission = assetDetails->getCommission();
+        ^~~~~~~~~~
+../TradeManager.cpp: In member function ‘virtual std::vector<std::unique_ptr<Nitrade::Trade> >::iterator Nitrade::TradeManager::closeCurrentTrade(std::vector<std::unique_ptr<Nitrade::Trade> >::iterator, Nitrade::Bar*, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int>)’:
+../TradeManager.cpp:198:8: warning: unused variable ‘pip’ [-Wunused-variable]
+  float pip = assetDetails->getPip();
+        ^~~
+../TradeManager.cpp:199:8: warning: unused variable ‘pipCost’ [-Wunused-variable]
+  float pipCost = assetDetails->getPipCost();
+        ^~~~~~~
+ar: creating libNitradeLib.a
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project NitradeLib ****
+
+make all 
+Building file: ../TradeManager.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"TradeManager.d" -MT"TradeManager.d" -o "TradeManager.o" "../TradeManager.cpp"
+../TradeManager.cpp: In member function ‘virtual std::vector<std::unique_ptr<Nitrade::Trade> >::iterator Nitrade::TradeManager::closeCurrentTrade(std::vector<std::unique_ptr<Nitrade::Trade> >::iterator, Nitrade::Bar*, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int>)’:
+../TradeManager.cpp:187:8: warning: unused variable ‘pip’ [-Wunused-variable]
+  float pip = assetDetails->getPip();
+        ^~~
+../TradeManager.cpp:188:8: warning: unused variable ‘pipCost’ [-Wunused-variable]
+  float pipCost = assetDetails->getPipCost();
+        ^~~~~~~
+Finished building: ../TradeManager.cpp
+ 
+Building target: libNitradeLib.a
+Invoking: GCC Archiver
+ar -r  "libNitradeLib.a"  ./Asset.o ./AssetData.o ./BinaryChunkReader.o ./DataFactory.o ./DataManager.o ./HistoricSimulator.o ./Indicators.o ./OptimiseParameter.o ./PriceData.o ./Strategy.o ./StrategySet.o ./TradeDataManager.o ./TradeManager.o   
+ar: creating libNitradeLib.a
+Finished building target: libNitradeLib.a
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project NitradeLib ****
+
+make all 
+Building file: ../TradeManager.cpp
+Invoking: GCC C++ Compiler
+g++ -Im -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"TradeManager.d" -MT"TradeManager.d" -o "TradeManager.o" "../TradeManager.cpp"
+Finished building: ../TradeManager.cpp
+ 
+Building target: libNitradeLib.a
+Invoking: GCC Archiver
+ar -r  "libNitradeLib.a"  ./Asset.o ./AssetData.o ./BinaryChunkReader.o ./DataFactory.o ./DataManager.o ./HistoricSimulator.o ./Indicators.o ./OptimiseParameter.o ./PriceData.o ./Strategy.o ./StrategySet.o ./TradeDataManager.o ./TradeManager.o   
+ar: creating libNitradeLib.a
+Finished building target: libNitradeLib.a
+ 
+
+**** Build Finished ****

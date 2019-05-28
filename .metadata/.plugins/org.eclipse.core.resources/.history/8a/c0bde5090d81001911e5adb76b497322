@@ -184,6 +184,8 @@ std::vector<std::unique_ptr<Nitrade::Trade>>::iterator Nitrade::TradeManager::cl
 
 	//get the details from the asset needed to calculate profit
 	auto assetDetails = getAsset(std::get<0>(key));
+	float pip = assetDetails->getPip();
+	float pipCost = assetDetails->getPipCost();
 	float commission = assetDetails->getCommission();
 	
 	//set the close time
