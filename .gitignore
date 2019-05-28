@@ -11,4 +11,7 @@ NitradeApp/AssetData
 NitradeApp/Debug
 NitradeLib/Debug
 UnitTests/Debug
-*.bin
+trades.bin
+trades_data.bin
+trades.bin
+daily_pl.bin
