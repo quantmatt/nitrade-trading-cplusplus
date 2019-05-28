@@ -1,10 +1,10 @@
 #include "gtest/gtest.h"
-#include "NitradeLib.h"
 
 #include "MockAssetData.cc"
 #include "MockPriceData.cc"
 #include "MockAsset.cc"
 #include "MockTradeManager.cc"
+#include "NitradeLib.h"
 #include "TestStrategy.h"
 
 using namespace std;

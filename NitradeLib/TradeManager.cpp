@@ -1,5 +1,5 @@
 #include "TradeManager.h"
-#include <algorithm>
+
 
 
 void Nitrade::TradeManager::updateOpenTrades(Bar* bar)
@@ -296,7 +296,7 @@ Nitrade::IAsset* Nitrade::TradeManager::getAsset(std::string assetName)
 
 	//throw an error if the asset can't be found
 	std::string err = assetName + " does not exist in loaded Asset list.";
-	throw std::exception(err.c_str());
+	throw std::runtime_error(err.c_str());
 }
 
 void Nitrade::TradeManager::onDay(std::vector<std::unique_ptr<StrategyKey>>& keys, long long timestamp)
@@ -341,9 +341,8 @@ void Nitrade::TradeManager::onDay(std::vector<std::unique_ptr<StrategyKey>>& key
 		auto rpl = std::make_unique<RunningPL>();
 		//make sure the asset name is 10 characters
 		std::string assetName = std::get<0>(key);
-		assetName.resize(9, ' ');
 		//copy this into the char array
-		strcpy_s(rpl->assetName, assetName.c_str());
+		Utils::StringUtils::strcpy(rpl->assetName, assetName, 9);
 		//set the other RunningPL variables
 		rpl->variantId = std::get<1>(key);
 		rpl->timestamp = timestamp;

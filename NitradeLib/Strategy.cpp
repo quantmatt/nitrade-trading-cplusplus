@@ -1,6 +1,4 @@
 #include "Strategy.h"
-#include "TestStrategy.h"
-
 
 std::unique_ptr<Nitrade::Strategy> Nitrade::Strategy::clone()
 {
@@ -61,19 +59,19 @@ bool Nitrade::Strategy::openTrade(tradeDirection direction, int size, float stop
 	Bar* bar = (*_currentData)[0];
 
 	//built in spread filter
-	if ((bar->askOpen - bar->bidOpen) / getPip() > _spreadFilter)
+	if (((double)bar->askOpen - (double)bar->bidOpen) / getPip() > _spreadFilter)
 		return false;
 
 	auto trade = std::make_unique<Trade>();
 	trade->openTime = bar->timestamp;	
 	//copy max string length of 10 chars to the structs char array	
-	strcpy_s(trade->assetName, getAssetName().c_str());
+	Utils::StringUtils::strcpy(trade->assetName, getAssetName(), 9);
 	trade->variantId = _variantId;
 	trade->size = size;
 	trade->direction = direction;
 	trade->stopLoss = stopLoss;
 	trade->takeProfit = takeProfit;
-	trade->spread = (float)((bar->askOpen - bar->bidOpen) / getPip());
+	trade->spread = (float)(((double)bar->askOpen - (double)bar->bidOpen) / getPip());
 	if (direction == tradeDirection::Long)
 		trade->openLevel = bar->askOpen;
 	else

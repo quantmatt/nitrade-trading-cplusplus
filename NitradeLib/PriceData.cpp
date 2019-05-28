@@ -8,17 +8,12 @@
 Nitrade::PriceData::PriceData(int lookback, int barSize) : _barSize(barSize)
 {
 	//create a new series buffer
-	_pLookbackBars = new Utils::SeriesBuffer<Nitrade::Bar*>(lookback);	
+	_pLookbackBars = std::make_unique<Utils::SeriesBuffer<Bar>>(lookback);	
 }
 
-Nitrade::PriceData::PriceData(int lookBack, int barSize, Utils::ISeriesBuffer<Bar*>* seriesBuffer)
+Nitrade::PriceData::PriceData(int lookBack, int barSize, std::unique_ptr<Utils::ISeriesBuffer<Bar>> seriesBuffer)
 {
-	_pLookbackBars = seriesBuffer;
-}
-
-Nitrade::PriceData::~PriceData()
-{
-	delete[] _pLookbackBars;
+	_pLookbackBars = std::move(seriesBuffer);
 }
 
 bool Nitrade::PriceData::updateCurrentBarFromBar(Bar* newInfo)
@@ -29,7 +24,7 @@ bool Nitrade::PriceData::updateCurrentBarFromBar(Bar* newInfo)
 	long long peggedNanoseconds = newInfo->timestamp - (newInfo->timestamp % (_barSize * (long long)60000000000));
 
 	//current bar is the bar at index zero - ie. most recent bar
-	Bar* pCurrentBar = _pLookbackBars->get(0);
+	Bar* pCurrentBar = &_pLookbackBars->get(0);
 
 	//new bar if the pegged bar time is different to the current bar time
 	if (pCurrentBar == nullptr || peggedNanoseconds != pCurrentBar->timestamp)
@@ -37,7 +32,7 @@ bool Nitrade::PriceData::updateCurrentBarFromBar(Bar* newInfo)
 
 		//create a new bar for the higher timeframe using the pegged timestamp and the current bars bid/ask
 		//this will create a new pointer that is stored in the array						
-		Bar* newBar = new Bar{
+		Bar newBar = Bar{
 			peggedNanoseconds,
 			newInfo->bidOpen,
 			newInfo->bidClose,

@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "NitradeLib.h"
+
 using namespace std;
 using namespace Utils;
 

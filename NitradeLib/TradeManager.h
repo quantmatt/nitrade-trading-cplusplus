@@ -2,10 +2,14 @@
 #include <vector>
 #include <map>
 #include <iostream>
-#include "utils.h"
+#include <algorithm>
+#include <cstring>
 #include "Asset.h"
 #include "Structs.h"
 #include "TradeDataManager.h"
+#include "IOIterator.h"
+#include "Filepaths.h"
+#include "StringUtils.h"
 
 namespace Nitrade {
 

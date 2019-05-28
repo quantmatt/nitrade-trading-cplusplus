@@ -57,10 +57,7 @@ protected:
 	}
 
 };
-TEST_F(HistoricSimulatorTests, OptimiseWithThreads) {
 
-	//hs.Optimise(threadCount);
-}
 
 TEST_F(HistoricSimulatorTests, OptimiseWithAssetFailAssetDetailsLoad) {
 	

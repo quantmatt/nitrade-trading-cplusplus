@@ -1,7 +1,11 @@
 #pragma once
-#include "IDataFactory.h"
+#include "DataFactory.h"
 #include "Strategy.h"
 #include "DataFactory.h"
+#include "DataFactory.h"
+#include "Filepaths.h"
+#include <iostream>
+#include <thread>
 #include <memory>
 #include <iostream>
 

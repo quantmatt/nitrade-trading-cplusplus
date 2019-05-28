@@ -4,7 +4,7 @@
 #include <memory>
 #include <map>
 #include "TradeManager.h"
-#include "IAssetData.h"
+#include "AssetData.h"
 #include "PriceData.h"
 #include "SeriesBuffer.h"
 #include "Indicators.h"
@@ -72,8 +72,8 @@ namespace Nitrade {
 		//asset functions
 		void setAsset(IAsset* asset);
 	    std::string getAssetName() const { return _currentAsset->getName(); }
-		float getPip() const { return _currentAsset->getPip(); }
-		float getPoint() const { return _currentAsset->getPoint(); }
+		double getPip() const { return (double)_currentAsset->getPip(); }
+		double getPoint() const { return (double)_currentAsset->getPoint(); }
 
 		//functions to access the data - will always add 1 to the offset to get the data from the last closed bar
 		//data from the current incomplete bar should only be accessed in an ontick function

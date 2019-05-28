@@ -1,9 +1,20 @@
 #pragma once
-#include "IAssetData.h"
 #include "PriceData.h"
 #include <memory>
 
 namespace Nitrade {
+
+	class IAssetData
+	{
+	public:
+		IAssetData() = default;
+		virtual ~IAssetData() = default;
+
+		virtual int size() = 0;
+		virtual IPriceData* operator [](int pos) = 0;
+	};
+
+
 	class AssetData :
 		public IAssetData
 	{

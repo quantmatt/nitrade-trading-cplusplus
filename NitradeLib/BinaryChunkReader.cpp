@@ -1,6 +1,5 @@
-#include <fstream>
 #include "BinaryChunkReader.h"
-#include "Structs.h"
+
 
 using namespace std;
 

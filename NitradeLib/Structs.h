@@ -2,8 +2,7 @@
 
 
 namespace Nitrade {
-
-	const char DEFAULT_ASSET_DETAILS_CSV[] = "AssetData\\Assets.csv";
+	
 	enum tradeDirection { Long = 1, Short = -1 };
 	enum exitType { ByStrategy, StopLoss, TakeProfit };
 

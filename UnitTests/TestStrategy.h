@@ -1,5 +1,5 @@
 #pragma once
-#include "NitradeLib.h"
+#include "Strategy.h"
 
 
 using namespace Nitrade;

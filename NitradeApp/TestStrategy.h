@@ -1,5 +1,5 @@
 #pragma once
-#include "Strategy.h"
+#include "NitradeLib.h"
 
 namespace Nitrade {
 	class TestStrategy :
@@ -15,8 +15,8 @@ namespace Nitrade {
 			_dataSetParameters[0] = std::make_tuple("240min", 200, 240);
 
 			_optimiseParameters = std::vector<OptimiseParameter>(2);
-			_optimiseParameters[0] = OptimiseParameter("Period1", 5, 30, 2, 6);
-			_optimiseParameters[1] = OptimiseParameter("Period2", 20, 50, 3, 16);
+			_optimiseParameters[0] = OptimiseParameter("Period1", 5, 6, 1, 6);
+			_optimiseParameters[1] = OptimiseParameter("Period2", 20, 22, 1, 20);
 		}
 		virtual ~TestStrategy() = default;
 
@@ -33,7 +33,7 @@ namespace Nitrade {
 
 		void flip(tradeDirection openDirection, tradeDirection closeDirection)
 		{
-			float pip = getPip();
+			float pip = (float)getPip();
 
 			//record some data with the trade to use for analysis
 			_data["Last 4 bar Log Change"] = log(askClose() / askClose(3));
@@ -48,7 +48,7 @@ namespace Nitrade {
 		}
 
 		void onBar() {
-			
+
 			//only calculate when we have enough bars in the lookback
 			if (getBarIndex() <= _parameters["Period2"])
 				return;
@@ -65,7 +65,7 @@ namespace Nitrade {
 
 				if (Indicators::CrossOver(_features["SMA_Fast"].get(), _features["SMA_Slow"].get()))
 				{
-					
+
 
 					if (smaFast > smaSlow)
 					{
@@ -77,10 +77,11 @@ namespace Nitrade {
 					}
 				}
 			}
-			
+
 		};
 	};
 }
+
 
 
 

@@ -33,7 +33,7 @@ namespace  Utils {
 			{
 				std::ostringstream err;
 				err << "Could not open " << filepath << " for writing using IOIterator: ";
-				throw std::exception(err.str().c_str());
+				throw std::runtime_error(err.str().c_str());
 			}
 			
 			try {
@@ -50,7 +50,7 @@ namespace  Utils {
 				//clean up
 				stream.close();
 
-				throw std::exception("Could not write objects using IOIterator.");
+				throw std::runtime_error("Could not write objects using IOIterator.");
 			}
 
 			//clean up
@@ -76,7 +76,7 @@ namespace  Utils {
 			{
 				std::ostringstream err;
 				err << "Could not open " << filepath << " for reading using IOIterator: ";
-				throw std::exception(err.str().c_str());
+				throw std::runtime_error(err.str().c_str());
 			}
 
 			auto results = std::vector<std::unique_ptr<T>>();

@@ -1,5 +1,10 @@
 #pragma once
 #include <iostream>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <math.h>
+
 namespace Nitrade {
 
 	class IAsset
@@ -27,7 +32,7 @@ namespace Nitrade {
 		float _pipCost{ 0.0 };
 		int _digits{ 0 };
 		float _commission{ 0.0 };
-		std::string _name{ (9, ' ') };
+		std::string _name = std::string(9, ' ');
 		std::string _dataPath{""};
 
 		

@@ -31,7 +31,7 @@ bool Nitrade::TradeDataManager::toBinary(std::string filepath, int startTradeId)
 	{
 		std::ostringstream err;
 		err << "Could not open " << filepath << " for writing additional trade data: ";
-		throw std::exception(err.str().c_str());
+		throw std::runtime_error(err.str().c_str());
 	}
 
 	try {
@@ -89,7 +89,7 @@ bool Nitrade::TradeDataManager::toBinary(std::string filepath, int startTradeId)
 		//clean up
 		stream.close();
 
-		throw std::exception("Could not write Trade Data.");
+		throw std::runtime_error("Could not write Trade Data.");
 	}
 
 	//clean up

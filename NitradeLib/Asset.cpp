@@ -1,8 +1,6 @@
 #include "Asset.h"
 
-#include <string>
-#include <iostream>
-#include <sstream>
+
 
 Nitrade::Asset::Asset(std::string csv)
 {

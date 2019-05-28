@@ -1,12 +1,15 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 #include "PriceData.h"
 #include "Structs.h"
 #include "SeriesBuffer.h"
 
 namespace Nitrade {
 
+
+	
 	//interface for mocking
 	class IPriceData
 	{
@@ -33,20 +36,20 @@ namespace Nitrade {
 		int _barIndex{ 0 }; //number of bars in memory
 
 		//the array (as a series) of recent price data
-		Utils::ISeriesBuffer<Bar*>* _pLookbackBars{nullptr};
+		std::unique_ptr<Utils::ISeriesBuffer<Bar>> _pLookbackBars;
 
 	public:
 		PriceData() = default;
 		PriceData(int lookBack, int barSize);
-		PriceData(int lookBack, int barSize, Utils::ISeriesBuffer<Bar*>* seriesBuffer);
-		virtual ~PriceData();
+		PriceData(int lookBack, int barSize, std::unique_ptr<Utils::ISeriesBuffer<Bar>> seriesBuffer);
+		virtual ~PriceData() = default;
 
 		bool updateCurrentBarFromBar(Nitrade::Bar* newInfo); //used update current bar from minute bar
 		bool updateCurrentBarFromTick(float quote, bool isBid); //used to update current bar on a new tick 
 		std::string getName();
 		int getBarIndex();
 
-		Bar* operator [](int barOffset) { return _pLookbackBars->get(barOffset); }
+		Bar* operator [](int barOffset) { return &_pLookbackBars->get(barOffset); }
 
 	};
 }

@@ -50,15 +50,15 @@
     <ClCompile Include="StrategySetTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nitrade\Nitrade.vcxproj">
-      <Project>{927fe302-1006-4087-b8d8-039879b9610b}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestStrategy.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NitradeLib\NitradeLib.vcxproj">
+      <Project>{8210355b-e52a-4386-9437-3015fa810e4e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -75,11 +75,13 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>D:\CPlusPlusApps\NitradeTradeConsole\Nitrade;D:\CPlusPlusApps\NitradeTradeConsole\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\CPlusPlusApps\NitradeTradeConsole\NitradeLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>D:\CPlusPlusApps\NitradeTradeConsole\Debug;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>D:\CPlusPlusApps\NitradeTradeConsole\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
