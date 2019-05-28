@@ -64,7 +64,7 @@ namespace  Utils {
 		{
 
 			if (objSize == 0)
-				objSize = sizeof T;
+				objSize = sizeof(T);
 
 			//try to open the stream for reading
 			std::ifstream stream;
