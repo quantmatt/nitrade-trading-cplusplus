@@ -7,9 +7,8 @@
 using namespace Nitrade;
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-
 
 	clock_t t;
 	t = clock();
