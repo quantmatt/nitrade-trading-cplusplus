@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{23820124-A217-4350-BFE4-411E43E2766F}"
+	ProjectSection(SolutionItems) = preProject
+		TODO.txt = TODO.txt
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "UnitTests\UnitTests.vcxproj", "{E2139FAE-44AF-4E18-BFFD-8F4381F1F728}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NitradeApp", "NitradeApp\NitradeApp.vcxproj", "{967E5FFE-FA6D-47A8-823F-14C13FA11330}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NitradeLib", "NitradeLib\NitradeLib.vcxproj", "{8210355B-E52A-4386-9437-3015FA810E4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2139FAE-44AF-4E18-BFFD-8F4381F1F728}.Debug|x64.ActiveCfg = Debug|x64
+		{E2139FAE-44AF-4E18-BFFD-8F4381F1F728}.Debug|x64.Build.0 = Debug|x64
+		{E2139FAE-44AF-4E18-BFFD-8F4381F1F728}.Debug|x86.ActiveCfg = Debug|Win32
+		{E2139FAE-44AF-4E18-BFFD-8F4381F1F728}.Debug|x86.Build.0 = Debug|Win32
+		{E2139FAE-44AF-4E18-BFFD-8F4381F1F728}.Release|x64.ActiveCfg = Release|x64
+		{E2139FAE-44AF-4E18-BFFD-8F4381F1F728}.Release|x64.Build.0 = Release|x64
+		{E2139FAE-44AF-4E18-BFFD-8F4381F1F728}.Release|x86.ActiveCfg = Release|Win32
+		{E2139FAE-44AF-4E18-BFFD-8F4381F1F728}.Release|x86.Build.0 = Release|Win32
+		{967E5FFE-FA6D-47A8-823F-14C13FA11330}.Debug|x64.ActiveCfg = Debug|x64
+		{967E5FFE-FA6D-47A8-823F-14C13FA11330}.Debug|x64.Build.0 = Debug|x64
+		{967E5FFE-FA6D-47A8-823F-14C13FA11330}.Debug|x86.ActiveCfg = Debug|Win32
+		{967E5FFE-FA6D-47A8-823F-14C13FA11330}.Debug|x86.Build.0 = Debug|Win32
+		{967E5FFE-FA6D-47A8-823F-14C13FA11330}.Release|x64.ActiveCfg = Release|x64
+		{967E5FFE-FA6D-47A8-823F-14C13FA11330}.Release|x64.Build.0 = Release|x64
+		{967E5FFE-FA6D-47A8-823F-14C13FA11330}.Release|x86.ActiveCfg = Release|Win32
+		{967E5FFE-FA6D-47A8-823F-14C13FA11330}.Release|x86.Build.0 = Release|Win32
+		{8210355B-E52A-4386-9437-3015FA810E4E}.Debug|x64.ActiveCfg = Debug|x64
+		{8210355B-E52A-4386-9437-3015FA810E4E}.Debug|x64.Build.0 = Debug|x64
+		{8210355B-E52A-4386-9437-3015FA810E4E}.Debug|x86.ActiveCfg = Debug|Win32
+		{8210355B-E52A-4386-9437-3015FA810E4E}.Debug|x86.Build.0 = Debug|Win32
+		{8210355B-E52A-4386-9437-3015FA810E4E}.Release|x64.ActiveCfg = Release|x64
+		{8210355B-E52A-4386-9437-3015FA810E4E}.Release|x64.Build.0 = Release|x64
+		{8210355B-E52A-4386-9437-3015FA810E4E}.Release|x86.ActiveCfg = Release|Win32
+		{8210355B-E52A-4386-9437-3015FA810E4E}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {10212361-0C78-4A24-9136-9F16E6CD298C}
+	EndGlobalSection
+EndGlobal
